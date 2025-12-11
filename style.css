@@ -1,0 +1,446 @@
+/* Base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #f4f6f8;
+  --surface: #ffffff;
+  --text: #24292f;
+  --muted: #57606a;
+  --border: #e1e4e8;
+  --accent: #1976d2;
+  --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-2: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-3: 0 5px 15px rgba(0, 0, 0, 0.10);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+}
+
+body {
+  font-family: "Segoe UI", "Roboto", Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Cabeçalho */
+.main-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow-1);
+  z-index: 100;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-brand h1 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+}
+
+/* Botão do header */
+.header-btn {
+  text-decoration: none;
+  background: var(--surface);
+  border: 1px solid #d0d7de;
+  color: var(--text);
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.header-btn:hover {
+  background: #f3f4f6;
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.header-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Área principal do organograma
+   Ajuste este seletor conforme seu HTML:
+   - Se você não usar <main>, aplique no #org-container */
+#org-container {
+  flex: 1;
+  padding: 32px 20px 48px;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Estrutura do organograma */
+.org-chart {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 15px;
+  position: relative;
+}
+
+.group-container {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+  z-index: 2;
+  position: relative;
+  justify-content: center;
+}
+
+.group-container.vertical-layout {
+  flex-direction: column;
+}
+
+/* Cards */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-2);
+  padding: 14px 10px;
+  text-align: center;
+  width: 140px;
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-3);
+  border-color: #d0d7de;
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Avatar mini */
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 8px;
+  background: #c7cbd1;
+  overflow: hidden;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card h3 {
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.role-tag {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Cores por nível */
+.level-1 .card { border-top: 3px solid #283868; }
+.level-2 .card { border-top: 3px solid #d1af6e; }
+.level-3 .card { border-top: 3px solid #4683c4; }
+.level-4 .card { border-top: 3px solid #1e90ff; }
+.level-5 .card { border-top: 3px solid #4b6387; }
+
+/* ===== ORGANOGRAMA: LAYOUT + CONECTORES (BLOCO FINAL) ===== */
+
+/* Estrutura geral do gráfico */
+.org-chart {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Node não deve empurrar largura com margin lateral */
+.node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin: 0; /* importante para evitar linhas longas */
+}
+
+/* Agrupamento de pessoas no mesmo cargo */
+.group-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  position: relative;
+  z-index: 2;
+}
+
+.group-container.vertical-layout {
+  flex-direction: column;
+}
+
+/* --- Desativa completamente qualquer modelo antigo de linhas --- */
+.node::before,
+.node::after {
+  display: none !important;
+}
+
+/* Container dos filhos:
+   - inline-flex + fit/max-content para encolher exatamente ao conteúdo
+   - gap controla espaçamento horizontal entre nós filhos */
+.children {
+  display: inline-flex !important;
+  width: fit-content !important;
+  gap: 30px;
+  justify-content: center;
+  align-self: center;
+  position: relative;
+  padding-top: 36px; /* reserva espaço para linha horizontal */
+}
+
+@supports not (width: fit-content) {
+  .children {
+    width: max-content !important;
+  }
+}
+
+/* Linha vertical do pai até a linha horizontal */
+.children::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 18px;
+  border-left: 2px solid #ccc;
+}
+
+/* Linha horizontal que conecta os filhos
+   - inset reduz sobras visuais nas extremidades */
+.children::after {
+  content: "";
+  position: absolute;
+  top: 18px;
+  left: 12px;
+  right: 12px;
+  border-top: 2px solid #ccc;
+}
+
+/* Cada filho recebe sua linha vertical descendo da horizontal */
+.children > .node {
+  position: relative;
+  padding-top: 18px;
+}
+
+.children > .node::before {
+  content: "";
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 18px;
+  border-left: 2px solid #ccc;
+}
+
+/* Se houver apenas um filho:
+   - não desenha linha horizontal */
+.children.single-child::after {
+  display: none;
+}
+
+/* ===== FIM DO BLOCO FINAL ===== */
+
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(33, 37, 41, 0.6);
+  backdrop-filter: blur(3px);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s ease;
+  padding: 16px;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  background: var(--surface);
+  width: 380px;
+  max-width: 92vw;
+  max-height: 90vh;
+  overflow: auto;
+  padding: 28px;
+  border-radius: var(--radius-md);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  position: relative;
+  transform: scale(0.96);
+  transition: transform 0.25s ease;
+}
+
+.modal-overlay.active .modal-content {
+  transform: scale(1);
+}
+
+.close-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  font-size: 24px;
+  color: #9aa0a6;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.close-btn:hover {
+  color: #333;
+}
+
+/* Avatar do modal */
+.modal-avatar {
+  width: 140px;
+  height: 140px;
+  border-radius: 10px;
+  background: #f0f2f5;
+  margin: 0 auto 14px;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  color: #555;
+  font-weight: 700;
+  border: 3px solid #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.modal-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-header h2 {
+  margin: 0 0 6px;
+  font-size: 20px;
+  color: #222;
+}
+
+.modal-role-tag {
+  display: inline-block;
+  padding: 6px 16px;
+  background: #e3f2fd;
+  color: var(--accent);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.modal-divider {
+  height: 1px;
+  background: #eee;
+  margin: 18px 0;
+}
+
+.modal-body {
+  text-align: left;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px dashed #f0f0f0;
+  font-size: 14px;
+}
+
+.info-label {
+  color: #888;
+  font-weight: 500;
+}
+
+.info-value {
+  color: #333;
+  font-weight: 600;
+  text-align: right;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .org-chart {
+    justify-content: flex-start;
+  }
+
+  .group-container {
+    gap: 10px;
+  }
+
+  .card {
+    width: 125px;
+  }
+
+  .avatar {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .modal-overlay,
+  .modal-content,
+  .header-btn {
+    transition: none;
+  }
+}
