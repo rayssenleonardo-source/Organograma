@@ -275,7 +275,7 @@ const orgData = {
                     {
                   nome: "Atila Gabriel",
                   matricula: "001234",
-                  foto: "https://github.com/user-attachments/assets/11c70c12-c8ed-4348-a3e4-efd93770b838",
+                  foto: "https://github.com/user-attachments/assets/2e4c3c8c-9729-4a5d-b95d-34a59a017f5a",
                   email: "danilo.vinicius@brasfort.com",
                   telefone: "(61) 99999-9999",
                   nascimento: "26 anos",
