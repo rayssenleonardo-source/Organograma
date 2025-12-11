@@ -19,6 +19,43 @@
   --radius-md: 12px;
 }
 
+/* --- TELA DE CARREGAMENTO (SPLASH SCREEN) --- */
+#splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000814; /* Azul escuro profundo (cor da Brasfort) */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Fica acima de TUDO */
+    transition: opacity 0.8s ease, visibility 0.8s ease; /* Efeito de sumir suave */
+}
+
+/* Classe que esconde a tela */
+#splash-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none; /* Permite clicar no site depois que sumir */
+}
+
+/* Estilo da Imagem no Splash */
+#splash-screen img {
+    max-width: 100%; /* Tamanho da logo */
+    width: 100%;       /* Responsivo no celular */
+    height: auto;
+    animation: pulseLogo 2s infinite ease-in-out; /* Animação opcional */
+}
+
+/* Animação suave na logo (pulsar) */
+@keyframes pulseLogo {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.9; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
 body {
   font-family: "Segoe UI", "Roboto", Helvetica, Arial, sans-serif;
   background: var(--bg);
