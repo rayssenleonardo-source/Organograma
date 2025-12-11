@@ -1,5 +1,4 @@
 // --- DADOS DO ORGANOGRAMA ---
-// --- DADOS DO ORGANOGRAMA ---
 const orgData = {
   cargo: "Gerência",
   nomes: [
@@ -472,3 +471,20 @@ if (container) {
     container.innerHTML = '';
     container.appendChild(createNodeElement(orgData));
 }
+
+// --- LÓGICA DO SPLASH SCREEN ---
+document.addEventListener("DOMContentLoaded", () => {
+    // Define o tempo de espera (3000 milissegundos = 3 segundos)
+    setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        if(splash) {
+            // Adiciona a classe que faz o fade-out (sumir)
+            splash.classList.add('hidden');
+            
+            // (Opcional) Remove o elemento do HTML totalmente após a transição
+            setTimeout(() => {
+                splash.remove();
+            }, 1000); // Espera o tempo da transição CSS (0.8s) terminar
+        }
+    }, 3000);
+});
