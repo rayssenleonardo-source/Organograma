@@ -7,7 +7,8 @@ const orgData = {
       email: "glenda@brasfort.com.br",
       foto: "https://github.com/user-attachments/assets/5ecca86d-dd31-4f36-9cd2-d601f56ebba8",
       descricao:
-        "<br> Responsável por gerir estrategicamente toda a operação de segurança eletrônica, definindo políticas, diretrizes e metas do setor. Atua na coordenação de equipes, análise de resultados, planejamento de projetos, gestão de contratos e relacionamento com clientes, garantindo eficiência, inovação e alto desempenho operacional."
+        "<br> Responsável por gerir estrategicamente toda a operação de segurança eletrônica, definindo políticas, diretrizes e metas do setor. Atua na coordenação de equipes, análise de resultados, planejamento de projetos, gestão de contratos e relacionamento com clientes, garantindo eficiência, inovação e alto desempenho operacional.",
+      descricaoDetalhada: "<br> 1- Planejar, organizar e supervisionar todas as atividades técnicas, administrativas e operacionais do setor de segurança eletrônica.<br> 2- Definir metas, indicadores e estratégias de melhoria contínua para os processos internos.<br> 3- Gerenciar contratos, propostas e negociações com clientes e fornecedores. <br> 4- Acompanhar o desempenho das equipes, garantindo alinhamento com padrões de qualidade e prazos estabelecidos. <br> 5- Realizar auditorias internas em procedimentos técnicos e administrativos. <br> 6- Analisar relatórios de desempenho, custos operacionais e produtividade, propondo ações corretivas.  <br> 7- Aprovar projetos, planos de instalação, manutenção e expansões de sistemas.  <br> 8- Atuar no relacionamento direto com clientes estratégicos, participando de reuniões e acompanhando entregas.  <br> 9- Supervisionar o controle de estoque técnico, garantindo recursos necessários para as operações.  <br> 10- Desenvolver políticas de capacitação, treinamentos e qualificação técnica das equipes.  <br> 11- Acompanhar implementações de novas tecnologias e avaliar fornecedores e soluções.  <br> 12- Garantir conformidade com normas legais, técnicas e diretrizes internas de segurança.  <br> 13- Apoiar o corpo diretivo com análises, pareceres técnicos e estratégias operacionais.  <br> 14- Coordenar situações críticas e ocorrências que exigem tomada de decisão imediata.",
     }
   ],
   nivel: 1,
@@ -24,7 +25,8 @@ const orgData = {
           nascimento: "09-07-1984",
           admissao: "01/2021",
           descricao:
-            "<br> Responsável por coordenar as operações técnicas e administrativas do setor, liderando equipes, acompanhando serviços, garantindo qualidade e alinhamento com práticas de segurança, performance e eficiência."
+            "<br> Responsável por coordenar as operações técnicas e administrativas do setor, liderando equipes, acompanhando serviços, garantindo qualidade e alinhamento com práticas de segurança, performance e eficiência.",
+          descricaoDetalhada: "<br> 1- Liderar equipes técnicas e operacionais, distribuindo tarefas e acompanhando metas.<br> 2- Supervisionar serviços de instalação, manutenção, reparo e suporte técnico.<br> 3- Atendimento ao cliente, realizando follow-up e solucionando demandas. <br> 4- Gerenciar documentos técnicos e administrativos, como contratos, OS e relatórios.<br> 5- Controlar estoque de materiais e equipamentos, garantindo disponibilidade operacional.<br> 6- Elaborar análises e relatórios de desempenho, acompanhando indicadores.<br> 7- Assegurar conformidade com normas e boas práticas de segurança.<br> 8- Facilitar a comunicação entre áreas técnicas e administrativas.<br> 9- Coordenar execução de projetos técnicos e estudos de viabilidade.<br> 10- Realizar visitas técnicas e elaborar orçamentos e propostas comerciais.<br> 11- Negociar contratos e acompanhar aprovações.<br> 12- Atualizar-se sobre novas tecnologias e implementar melhorias."
         }
       ],
       nivel: 2,
@@ -41,7 +43,8 @@ const orgData = {
               nascimento: "09-05-1972",
               admissao: "03/2021",
               descricao:
-                "<br>Responsável por oferecer suporte administrativo às operações do setor de segurança eletrônica, organizando documentos, acompanhando ordens de serviço, auxiliando na gestão de estoque técnico e prestando atendimento aos clientes e à equipe de campo, com foco em agilidade, organização e conformidade."
+                "<br>Responsável por oferecer suporte administrativo às operações do setor de segurança eletrônica, organizando documentos, acompanhando ordens de serviço, auxiliando na gestão de estoque técnico e prestando atendimento aos clientes e à equipe de campo, com foco em agilidade, organização e conformidade.",
+              descricaoDetalhada: "<br> 1- Organizar documentos técnicos e administrativos, classificando e arquivando contratos, ordens de serviço, relatórios e projetos, garantindo fácil acesso e rastreabilidade das informações. <br> 2- Preparar propostas comerciais e orçamentos conforme as demandas recebidas, acompanhando o retorno dos clientes. <br> 3- Solicitar materiais e equipamentos para a equipe técnica, emitindo requisições e atualizando o controle administrativo de estoque.<br> 4- Registrar atendimentos e solicitações em sistema ou planilha, acompanhar o status das ordens e atualizar clientes e gestores.<br> 5- Agendar visitas técnicas, alinhando disponibilidade da equipe e organizando a agenda operacional.<br> 6- Atender clientes por telefone, e-mail ou sistema, esclarecendo dúvidas administrativas e direcionando questões técnicas para o setor responsável.<br> 7- Realizar follow-up dos atendimentos técnicos, coletando feedbacks e verificando a satisfação do cliente.<br> 8- Elaborar relatórios administrativos com dados de atendimento, incluindo volume de OS, prazos, desempenho da equipe e SLA.<br> 9- Auxiliar na organização do estoque técnico, registrando entradas e saídas, emitindo etiquetas e documentos necessários.<br> 10- Atualizar planilhas operacionais e apoiar na organização da agenda técnica.<br> 11- Controlar prazos de manutenções periódicas, avisando responsáveis técnicos e clientes para garantir a execução no tempo adequado."
             }
           ],
           nivel: 3,
@@ -58,7 +61,8 @@ const orgData = {
                   nascimento: "28-08-2008",
                   admissao: "03/2025",
                   descricao:
-                    "<br>Responsável por apoiar atividades administrativas e técnicas básicas no setor de segurança eletrônica, auxiliando na organização de documentos, no atendimento interno, no controle de materiais e no suporte simples a equipes de campo, desenvolvendo competências profissionais e conhecimento prático."
+                    "<br>Responsável por apoiar atividades administrativas e técnicas básicas no setor de segurança eletrônica, auxiliando na organização de documentos, no atendimento interno, no controle de materiais e no suporte simples a equipes de campo, desenvolvendo competências profissionais e conhecimento prático.",
+                  descricaoDetalhada: "<br> 1- Auxiliar na organização de documentos, contratos, ordens de serviço e planilhas internas. <br> 2- Apoiar o atendimento interno, repassando informações para equipes administrativas, técnicas e de monitoramento. <br> 3- Ajudar no controle básico de estoque, realizando conferências simples e registrando entradas e saídas. <br> 4- Auxiliar no agendamento de visitas, registrando informações e atualizando a agenda operacional. <br> 5- Acompanhar a equipe técnica em tarefas simples, como entrega de materiais, organização de ferramentas e observação de procedimentos. <br> 6- Auxiliar na montagem de kits de instalação e separação de equipamentos. <br> 7- Ajudar na atualização de cadastros e registros de atendimentos em sistemas ou planilhas. <br> 8- Apoiar checklists simples de equipamentos, garantindo que materiais estejam preparados para uso. <br> 9- Participar de treinamentos internos para desenvolvimento profissional e técnico. <br> 10- Manter o ambiente de trabalho organizado e auxiliar em atividades de rotina solicitadas pelo gestor ou coordenador."
                 },
                 {
                   nome: "Davi Gadioli",
@@ -69,7 +73,8 @@ const orgData = {
                   nascimento: "29-07-2008",
                   admissao: "06/2025",
                   descricao:
-                    "<br>Responsável por apoiar atividades administrativas e técnicas básicas no setor de segurança eletrônica, auxiliando na organização de documentos, no atendimento interno, no controle de materiais e no suporte simples a equipes de campo, desenvolvendo competências profissionais e conhecimento prático."
+                    "<br>Responsável por apoiar atividades administrativas e técnicas básicas no setor de segurança eletrônica, auxiliando na organização de documentos, no atendimento interno, no controle de materiais e no suporte simples a equipes de campo, desenvolvendo competências profissionais e conhecimento prático.",
+                  descricaoDetalhada: "<br> 1- Auxiliar na organização de documentos, contratos, ordens de serviço e planilhas internas. <br> 2- Apoiar o atendimento interno, repassando informações para equipes administrativas, técnicas e de monitoramento. <br> 3- Ajudar no controle básico de estoque, realizando conferências simples e registrando entradas e saídas. <br> 4- Auxiliar no agendamento de visitas, registrando informações e atualizando a agenda operacional. <br> 5- Acompanhar a equipe técnica em tarefas simples, como entrega de materiais, organização de ferramentas e observação de procedimentos. <br> 6- Auxiliar na montagem de kits de instalação e separação de equipamentos. <br> 7- Ajudar na atualização de cadastros e registros de atendimentos em sistemas ou planilhas. <br> 8- Apoiar checklists simples de equipamentos, garantindo que materiais estejam preparados para uso. <br> 9- Participar de treinamentos internos para desenvolvimento profissional e técnico. <br> 10- Manter o ambiente de trabalho organizado e auxiliar em atividades de rotina solicitadas pelo gestor ou coordenador."
                 },
                 {
                   nome: "Guilherme Alexandre",
@@ -80,7 +85,8 @@ const orgData = {
                   nascimento: "02-03-2008",
                   admissao: "09/2025",
                   descricao:
-                    "<br>Responsável por apoiar atividades administrativas e técnicas básicas no setor de segurança eletrônica, auxiliando na organização de documentos, no atendimento interno, no controle de materiais e no suporte simples a equipes de campo, desenvolvendo competências profissionais e conhecimento prático."
+                    "<br>Responsável por apoiar atividades administrativas e técnicas básicas no setor de segurança eletrônica, auxiliando na organização de documentos, no atendimento interno, no controle de materiais e no suporte simples a equipes de campo, desenvolvendo competências profissionais e conhecimento prático.",
+                  descricaoDetalhada: "<br> 1- Auxiliar na organização de documentos, contratos, ordens de serviço e planilhas internas. <br> 2- Apoiar o atendimento interno, repassando informações para equipes administrativas, técnicas e de monitoramento. <br> 3- Ajudar no controle básico de estoque, realizando conferências simples e registrando entradas e saídas. <br> 4- Auxiliar no agendamento de visitas, registrando informações e atualizando a agenda operacional. <br> 5- Acompanhar a equipe técnica em tarefas simples, como entrega de materiais, organização de ferramentas e observação de procedimentos. <br> 6- Auxiliar na montagem de kits de instalação e separação de equipamentos. <br> 7- Ajudar na atualização de cadastros e registros de atendimentos em sistemas ou planilhas. <br> 8- Apoiar checklists simples de equipamentos, garantindo que materiais estejam preparados para uso. <br> 9- Participar de treinamentos internos para desenvolvimento profissional e técnico. <br> 10- Manter o ambiente de trabalho organizado e auxiliar em atividades de rotina solicitadas pelo gestor ou coordenador."
                 },
                 {
                   nome: "Lucas Sales",
@@ -91,7 +97,8 @@ const orgData = {
                   nascimento: "26-03-2008",
                   admissao: "11/2025",
                   descricao:
-                    "<br>Responsável por apoiar atividades administrativas e técnicas básicas no setor de segurança eletrônica, auxiliando na organização de documentos, no atendimento interno, no controle de materiais e no suporte simples a equipes de campo, desenvolvendo competências profissionais e conhecimento prático.
+                    "<br>Responsável por apoiar atividades administrativas e técnicas básicas no setor de segurança eletrônica, auxiliando na organização de documentos, no atendimento interno, no controle de materiais e no suporte simples a equipes de campo, desenvolvendo competências profissionais e conhecimento prático.",
+                  descricaoDetalhada: "<br> 1- Auxiliar na organização de documentos, contratos, ordens de serviço e planilhas internas. <br> 2- Apoiar o atendimento interno, repassando informações para equipes administrativas, técnicas e de monitoramento. <br> 3- Ajudar no controle básico de estoque, realizando conferências simples e registrando entradas e saídas. <br> 4- Auxiliar no agendamento de visitas, registrando informações e atualizando a agenda operacional. <br> 5- Acompanhar a equipe técnica em tarefas simples, como entrega de materiais, organização de ferramentas e observação de procedimentos. <br> 6- Auxiliar na montagem de kits de instalação e separação de equipamentos. <br> 7- Ajudar na atualização de cadastros e registros de atendimentos em sistemas ou planilhas. <br> 8- Apoiar checklists simples de equipamentos, garantindo que materiais estejam preparados para uso. <br> 9- Participar de treinamentos internos para desenvolvimento profissional e técnico. <br> 10- Manter o ambiente de trabalho organizado e auxiliar em atividades de rotina solicitadas pelo gestor ou coordenador."
                 }
               ],
               nivel: 5,
@@ -111,7 +118,8 @@ const orgData = {
               nascimento: "06-05-2003",
               admissao: "03/2024",
               descricao:
-                "<br>Responsável por atendimentos técnicos remotos e presenciais, identificando e corrigindo falhas em sistemas de segurança eletrônica. Atua de forma analítica, orientando usuários, elaborando relatórios e apoiando projetos, garantindo disponibilidade e desempenho dos sistemas."
+                "<br>Responsável por atendimentos técnicos remotos e presenciais, identificando e corrigindo falhas em sistemas de segurança eletrônica. Atua de forma analítica, orientando usuários, elaborando relatórios e apoiando projetos, garantindo disponibilidade e desempenho dos sistemas.",
+              descricaoDetalhada: "<br> 1- Realizar atendimentos técnicos remotos e presenciais, diagnosticando falhas em sistemas de monitoramento, softwares e equipamentos de segurança. <br> 2- Executar manutenções corretivas e preventivas, minimizando tempo de inatividade e evitando reincidência de falhas.<br> 3- Orientar clientes e equipes internas sobre o uso correto dos sistemas, aplicando procedimentos padronizados.<br> 4- Documentar intervenções em relatórios técnicos, registrando diagnósticos, soluções e recomendações.<br> 5- Criar e acompanhar Ordens de Serviço, registrando ações executadas e pendências.<br> 6- Monitorar continuamente o desempenho dos sistemas instalados e sugerir melhorias.<br> 7- Realizar correções técnicas de hardware e software, substituindo componentes e ajustando configurações.<br> 8- Prestar suporte em situações críticas, avaliando gravidade e priorizando atendimentos.<br> 9- Apoiar projetos de instalação e melhoria de sistemas, realizando levantamentos técnicos e testes em campo.<br> 10- Analisar dados históricos para identificar padrões e prevenir falhas futuras."
             }
           ],
           nivel: 3,
@@ -128,7 +136,8 @@ const orgData = {
                   nascimento: "14-09-1999",
                   admissao: "03/2025",
                   descricao:
-                    "<br>Responsável por atendimentos técnicos remotos e presenciais, identificando e corrigindo falhas em sistemas de segurança eletrônica. Atua de forma analítica, orientando usuários, elaborando relatórios e apoiando projetos, garantindo disponibilidade e desempenho dos sistemas."
+                    "<br>Responsável por atendimentos técnicos remotos e presenciais, identificando e corrigindo falhas em sistemas de segurança eletrônica. Atua de forma analítica, orientando usuários, elaborando relatórios e apoiando projetos, garantindo disponibilidade e desempenho dos sistemas.",
+                  descricaoDetalhada: "<br> 1- Realizar atendimentos técnicos remotos e presenciais, diagnosticando falhas em sistemas de monitoramento, softwares e equipamentos de segurança. <br> 2- Executar manutenções corretivas e preventivas, minimizando tempo de inatividade e evitando reincidência de falhas.<br> 3- Orientar clientes e equipes internas sobre o uso correto dos sistemas, aplicando procedimentos padronizados.<br> 4- Documentar intervenções em relatórios técnicos, registrando diagnósticos, soluções e recomendações.<br> 5- Criar e acompanhar Ordens de Serviço, registrando ações executadas e pendências.<br> 6- Monitorar continuamente o desempenho dos sistemas instalados e sugerir melhorias.<br> 7- Realizar correções técnicas de hardware e software, substituindo componentes e ajustando configurações.<br> 8- Prestar suporte em situações críticas, avaliando gravidade e priorizando atendimentos.<br> 9- Apoiar projetos de instalação e melhoria de sistemas, realizando levantamentos técnicos e testes em campo.<br> 10- Analisar dados históricos para identificar padrões e prevenir falhas futuras."
                 },
                 {
                   nome: "Quedma Paula",
@@ -139,7 +148,8 @@ const orgData = {
                   nascimento: "12-04-1993",
                   admissao: "05/2025",
                   descricao:
-                    "<br>Responsável por atendimentos técnicos remotos e presenciais, identificando e corrigindo falhas em sistemas de segurança eletrônica. Atua de forma analítica, orientando usuários, elaborando relatórios e apoiando projetos, garantindo disponibilidade e desempenho dos sistemas."
+                    "<br>Responsável por atendimentos técnicos remotos e presenciais, identificando e corrigindo falhas em sistemas de segurança eletrônica. Atua de forma analítica, orientando usuários, elaborando relatórios e apoiando projetos, garantindo disponibilidade e desempenho dos sistemas.",
+                  descricaoDetalhada: "<br> 1- Realizar atendimentos técnicos remotos e presenciais, diagnosticando falhas em sistemas de monitoramento, softwares e equipamentos de segurança. <br> 2- Executar manutenções corretivas e preventivas, minimizando tempo de inatividade e evitando reincidência de falhas.<br> 3- Orientar clientes e equipes internas sobre o uso correto dos sistemas, aplicando procedimentos padronizados.<br> 4- Documentar intervenções em relatórios técnicos, registrando diagnósticos, soluções e recomendações.<br> 5- Criar e acompanhar Ordens de Serviço, registrando ações executadas e pendências.<br> 6- Monitorar continuamente o desempenho dos sistemas instalados e sugerir melhorias.<br> 7- Realizar correções técnicas de hardware e software, substituindo componentes e ajustando configurações.<br> 8- Prestar suporte em situações críticas, avaliando gravidade e priorizando atendimentos.<br> 9- Apoiar projetos de instalação e melhoria de sistemas, realizando levantamentos técnicos e testes em campo.<br> 10- Analisar dados históricos para identificar padrões e prevenir falhas futuras."
                 }
               ],
               nivel: 3,
@@ -157,7 +167,8 @@ const orgData = {
                       nascimento: "29-11-1998",
                       admissao: "07/2024",
                       descricao:
-                        "<br>Responsável pelo monitoramento remoto de sistemas de segurança eletrônica, atendendo ocorrências, executando rondas virtuais, checklists e prestando suporte técnico e administrativo. Atua como ponto central na detecção de incidentes e resposta rápida a riscos."
+                        "<br>Responsável pelo monitoramento remoto de sistemas de segurança eletrônica, atendendo ocorrências, executando rondas virtuais, checklists e prestando suporte técnico e administrativo. Atua como ponto central na detecção de incidentes e resposta rápida a riscos.",
+                      descricaoDetalhada: "<br> 1- Monitorar câmeras e alarmes em plataformas como SIM Next, Sigma Image e Sigma Cloud. <br> 2- Realizar checklists diários, registrando falhas e comunicando a equipe responsável.<br> 3- Verificar status individual das câmeras e informar o grupo técnico sobre falhas.<br> 4- Responder a disparos de alarme, contatando clientes, fiscais de ronda e órgãos competentes.<br> 5- Criar e alterar senhas, incluindo senhas de coação, nos sistemas internos.<br> 6- Atualizar cadastros e abrir Ordens de Serviço conforme necessidade.<br> 7- Executar arme e desarme das centrais de alarme conforme solicitações oficiais."
                     },
                     {
                       nome: "Luiz Gabriel",
@@ -168,7 +179,8 @@ const orgData = {
                       nascimento: "01-05-2001",
                       admissao: "04/2025",
                       descricao:
-                        "<br>Responsável pelo monitoramento remoto de sistemas de segurança eletrônica, atendendo ocorrências, executando rondas virtuais, checklists e prestando suporte técnico e administrativo. Atua como ponto central na detecção de incidentes e resposta rápida a riscos."
+                        "<br>Responsável pelo monitoramento remoto de sistemas de segurança eletrônica, atendendo ocorrências, executando rondas virtuais, checklists e prestando suporte técnico e administrativo. Atua como ponto central na detecção de incidentes e resposta rápida a riscos.",
+                      descricaoDetalhada: "<br> 1- Monitorar câmeras e alarmes em plataformas como SIM Next, Sigma Image e Sigma Cloud. <br> 2- Realizar checklists diários, registrando falhas e comunicando a equipe responsável.<br> 3- Verificar status individual das câmeras e informar o grupo técnico sobre falhas.<br> 4- Responder a disparos de alarme, contatando clientes, fiscais de ronda e órgãos competentes.<br> 5- Criar e alterar senhas, incluindo senhas de coação, nos sistemas internos.<br> 6- Atualizar cadastros e abrir Ordens de Serviço conforme necessidade.<br> 7- Executar arme e desarme das centrais de alarme conforme solicitações oficiais."
                     },
                     {
                       nome: "David Alves",
@@ -179,7 +191,8 @@ const orgData = {
                       nascimento: "14-07-1997",
                       admissao: "08/2024",
                       descricao:
-                        "<br>Responsável pelo monitoramento remoto de sistemas de segurança eletrônica, atendendo ocorrências, executando rondas virtuais, checklists e prestando suporte técnico e administrativo. Atua como ponto central na detecção de incidentes e resposta rápida a riscos."
+                        "<br>Responsável pelo monitoramento remoto de sistemas de segurança eletrônica, atendendo ocorrências, executando rondas virtuais, checklists e prestando suporte técnico e administrativo. Atua como ponto central na detecção de incidentes e resposta rápida a riscos.",
+                      descricaoDetalhada: "<br> 1- Monitorar câmeras e alarmes em plataformas como SIM Next, Sigma Image e Sigma Cloud. <br> 2- Realizar checklists diários, registrando falhas e comunicando a equipe responsável.<br> 3- Verificar status individual das câmeras e informar o grupo técnico sobre falhas.<br> 4- Responder a disparos de alarme, contatando clientes, fiscais de ronda e órgãos competentes.<br> 5- Criar e alterar senhas, incluindo senhas de coação, nos sistemas internos.<br> 6- Atualizar cadastros e abrir Ordens de Serviço conforme necessidade.<br> 7- Executar arme e desarme das centrais de alarme conforme solicitações oficiais."
                     },
                     {
                       nome: "Fabricio Forte",
@@ -190,7 +203,8 @@ const orgData = {
                       nascimento: "16-11-1996",
                       admissao: "08/2025",
                       descricao:
-                        "<br>Responsável pelo monitoramento remoto de sistemas de segurança eletrônica, atendendo ocorrências, executando rondas virtuais, checklists e prestando suporte técnico e administrativo. Atua como ponto central na detecção de incidentes e resposta rápida a riscos."
+                        "<br>Responsável pelo monitoramento remoto de sistemas de segurança eletrônica, atendendo ocorrências, executando rondas virtuais, checklists e prestando suporte técnico e administrativo. Atua como ponto central na detecção de incidentes e resposta rápida a riscos.",
+                      descricaoDetalhada: "<br> 1- Monitorar câmeras e alarmes em plataformas como SIM Next, Sigma Image e Sigma Cloud. <br> 2- Realizar checklists diários, registrando falhas e comunicando a equipe responsável.<br> 3- Verificar status individual das câmeras e informar o grupo técnico sobre falhas.<br> 4- Responder a disparos de alarme, contatando clientes, fiscais de ronda e órgãos competentes.<br> 5- Criar e alterar senhas, incluindo senhas de coação, nos sistemas internos.<br> 6- Atualizar cadastros e abrir Ordens de Serviço conforme necessidade.<br> 7- Executar arme e desarme das centrais de alarme conforme solicitações oficiais."
                     }
                   ],
                   nivel: 5,
@@ -212,7 +226,8 @@ const orgData = {
               nascimento: "06-04-2003",
               admissao: "02/2021",
               descricao:
-                "<br>Responsável por instalar, configurar e manter sistemas de segurança eletrônica, garantindo funcionamento adequado de alarmes, CFTV, cercas elétricas e controles de acesso, atuando diretamente em campo com precisão técnica e conformidade."
+                "<br>Responsável por instalar, configurar e manter sistemas de segurança eletrônica, garantindo funcionamento adequado de alarmes, CFTV, cercas elétricas e controles de acesso, atuando diretamente em campo com precisão técnica e conformidade.",
+              descricaoDetalhada: "<br> 1- Instalar sistemas de alarmes, CFTV, sensores, cercas elétricas e portões automáticos, realizando conexões elétricas e integrações com redes. <br> 2- Realizar inspeções e testes operacionais, identificando falhas e efetuando reparos. <br> 3- Prestar apoio na configuração de sistemas remotos, orientando usuários e ajustes via acesso remoto ou presencial. <br> 4- Testar sistemas instalados ou reparados, garantindo operação correta de todos os componentes. <br> 5- Elaborar relatórios técnicos detalhados de instalação, manutenção e diagnósticos. <br> 6- Seguir normas técnicas e protocolos de segurança, utilizando EPI e prevenindo riscos."
             },
             {
               nome: "Thiago Alves",
@@ -223,7 +238,8 @@ const orgData = {
               nascimento: "29-07-1985",
               admissao: "10/2025",
               descricao:
-                "<br>Responsável por instalar, configurar e manter sistemas de segurança eletrônica, garantindo funcionamento adequado de alarmes, CFTV, cercas elétricas e controles de acesso, atuando diretamente em campo com precisão técnica e conformidade."
+                "<br>Responsável por instalar, configurar e manter sistemas de segurança eletrônica, garantindo funcionamento adequado de alarmes, CFTV, cercas elétricas e controles de acesso, atuando diretamente em campo com precisão técnica e conformidade.",
+              descricaoDetalhada: "<br> 1- Instalar sistemas de alarmes, CFTV, sensores, cercas elétricas e portões automáticos, realizando conexões elétricas e integrações com redes. <br> 2- Realizar inspeções e testes operacionais, identificando falhas e efetuando reparos. <br> 3- Prestar apoio na configuração de sistemas remotos, orientando usuários e ajustes via acesso remoto ou presencial. <br> 4- Testar sistemas instalados ou reparados, garantindo operação correta de todos os componentes. <br> 5- Elaborar relatórios técnicos detalhados de instalação, manutenção e diagnósticos. <br> 6- Seguir normas técnicas e protocolos de segurança, utilizando EPI e prevenindo riscos."
             }
           ],
           nivel: 3,
@@ -241,8 +257,8 @@ const orgData = {
                   nascimento: "26-09-2003",
                   admissao: "10/03/2023",
                   descricao:
-                    "<br>Responsável por oferecer suporte administrativo às operações do setor de segurança eletrônica, organizando documentos, acompanhando ordens de serviço, auxiliando na gestão de estoque técnico e prestando atendimento aos clientes e à equipe de campo, com foco em agilidade, organização e conformidade."
-                },
+                    "<br>Responsável por apoiar técnicos na instalação e manutenção de sistemas de segurança eletrônica, executando tarefas operacionais sob supervisão e desenvolvendo conhecimento técnico de forma contínua.",
+                  descricaoDetalhada: "<br> 1- Auxiliar na instalação de câmeras, alarmes, sensores e controle de acesso, realizando passagem de cabos e fixação de dispositivos.<br> 2- Apoiar manutenções com tarefas simples como limpeza, substituição de peças e testes básicos.<br> 3- Organizar ferramentas, materiais e equipamentos utilizados pela equipe técnica.<br> 4- Auxiliar em testes preliminares de sistemas e realizar configurações simples.<br> 5- Preencher fichas e relatórios básicos quando solicitado.<br> 6- Orientar clientes sobre dúvidas simples e redirecionar demandas mais complexas.<br> 7- Manter ambiente de trabalho organizado e apoiar desmontagens de sistemas antigos.<br> 8- Participar de treinamentos e acompanhar técnicos em demandas mais complexas."                },
                 {
                   nome: "Eduardo Gonçalves",
                   matricula: "52031",
@@ -252,7 +268,8 @@ const orgData = {
                   nascimento: "08-04-2003",
                   admissao: "03/2025",
                   descricao:
-                    "<br>Responsável por apoiar técnicos na instalação e manutenção de sistemas de segurança eletrônica, executando tarefas operacionais sob supervisão e desenvolvendo conhecimento técnico de forma contínua."
+                    "<br>Responsável por apoiar técnicos na instalação e manutenção de sistemas de segurança eletrônica, executando tarefas operacionais sob supervisão e desenvolvendo conhecimento técnico de forma contínua.",
+                  descricaoDetalhada: "<br> 1- Auxiliar na instalação de câmeras, alarmes, sensores e controle de acesso, realizando passagem de cabos e fixação de dispositivos.<br> 2- Apoiar manutenções com tarefas simples como limpeza, substituição de peças e testes básicos.<br> 3- Organizar ferramentas, materiais e equipamentos utilizados pela equipe técnica.<br> 4- Auxiliar em testes preliminares de sistemas e realizar configurações simples.<br> 5- Preencher fichas e relatórios básicos quando solicitado.<br> 6- Orientar clientes sobre dúvidas simples e redirecionar demandas mais complexas.<br> 7- Manter ambiente de trabalho organizado e apoiar desmontagens de sistemas antigos.<br> 8- Participar de treinamentos e acompanhar técnicos em demandas mais complexas."
                 },
                 {
                   nome: "Cauã Carvalho",
@@ -263,7 +280,8 @@ const orgData = {
                   nascimento: "16-10-2003",
                   admissao: "10/2025",
                   descricao:
-                    "<br>Responsável por apoiar técnicos na instalação e manutenção de sistemas de segurança eletrônica, executando tarefas operacionais sob supervisão e desenvolvendo conhecimento técnico de forma contínua."
+                    "<br>Responsável por apoiar técnicos na instalação e manutenção de sistemas de segurança eletrônica, executando tarefas operacionais sob supervisão e desenvolvendo conhecimento técnico de forma contínua.",
+                  descricaoDetalhada: "<br> 1- Auxiliar na instalação de câmeras, alarmes, sensores e controle de acesso, realizando passagem de cabos e fixação de dispositivos.<br> 2- Apoiar manutenções com tarefas simples como limpeza, substituição de peças e testes básicos.<br> 3- Organizar ferramentas, materiais e equipamentos utilizados pela equipe técnica.<br> 4- Auxiliar em testes preliminares de sistemas e realizar configurações simples.<br> 5- Preencher fichas e relatórios básicos quando solicitado.<br> 6- Orientar clientes sobre dúvidas simples e redirecionar demandas mais complexas.<br> 7- Manter ambiente de trabalho organizado e apoiar desmontagens de sistemas antigos.<br> 8- Participar de treinamentos e acompanhar técnicos em demandas mais complexas."
                 },
               ],
               nivel: 4,
@@ -280,7 +298,8 @@ const orgData = {
                   telefone: "(61) 98130-3575",
                   nascimento: "15-08-2024",
                   descricao:
-                    "<br>Responsável por apoiar técnicos na instalação e manutenção de sistemas de segurança eletrônica, executando tarefas operacionais sob supervisão e desenvolvendo conhecimento técnico de forma contínua."
+                    "<br>Responsável por apoiar técnicos na instalação e manutenção de sistemas de segurança eletrônica, executando tarefas operacionais sob supervisão e desenvolvendo conhecimento técnico de forma contínua.",
+                      descricaoDetalhada: "<br> 1- Auxiliar na instalação de câmeras, alarmes, sensores e controle de acesso, realizando passagem de cabos e fixação de dispositivos.<br> 2- Apoiar manutenções com tarefas simples como limpeza, substituição de peças e testes básicos.<br> 3- Organizar ferramentas, materiais e equipamentos utilizados pela equipe técnica.<br> 4- Auxiliar em testes preliminares de sistemas e realizar configurações simples.<br> 5- Preencher fichas e relatórios básicos quando solicitado.<br> 6- Orientar clientes sobre dúvidas simples e redirecionar demandas mais complexas.<br> 7- Manter ambiente de trabalho organizado e apoiar desmontagens de sistemas antigos.<br> 8- Participar de treinamentos e acompanhar técnicos em demandas mais complexas."
                 }, 
                     {
                       nome: "Matheus Guerra",
@@ -290,7 +309,8 @@ const orgData = {
                       telefone: "(61) 98145-4582",
                       nascimento: "26-11-2003",
                       descricao:
-                        "<br>Responsável por apoiar técnicos na instalação e manutenção de sistemas de segurança eletrônica, executando tarefas operacionais sob supervisão e desenvolvendo conhecimento técnico de forma contínua."
+                        "<br>Responsável por apoiar técnicos na instalação e manutenção de sistemas de segurança eletrônica, executando tarefas operacionais sob supervisão e desenvolvendo conhecimento técnico de forma contínua.",
+                      descricaoDetalhada: "<br> 1- Auxiliar na instalação de câmeras, alarmes, sensores e controle de acesso, realizando passagem de cabos e fixação de dispositivos.<br> 2- Apoiar manutenções com tarefas simples como limpeza, substituição de peças e testes básicos.<br> 3- Organizar ferramentas, materiais e equipamentos utilizados pela equipe técnica.<br> 4- Auxiliar em testes preliminares de sistemas e realizar configurações simples.<br> 5- Preencher fichas e relatórios básicos quando solicitado.<br> 6- Orientar clientes sobre dúvidas simples e redirecionar demandas mais complexas.<br> 7- Manter ambiente de trabalho organizado e apoiar desmontagens de sistemas antigos.<br> 8- Participar de treinamentos e acompanhar técnicos em demandas mais complexas."
                     },
                     {
                       nome: "Vinicius Borges",
@@ -300,7 +320,8 @@ const orgData = {
                       telefone: "(61) 99848-7550",
                       nascimento: "02-06-1998",
                       descricao:
-                        "<br>Responsável por apoiar técnicos na instalação e manutenção de sistemas de segurança eletrônica, executando tarefas operacionais sob supervisão e desenvolvendo conhecimento técnico de forma contínua."
+                        "<br>Responsável por apoiar técnicos na instalação e manutenção de sistemas de segurança eletrônica, executando tarefas operacionais sob supervisão e desenvolvendo conhecimento técnico de forma contínua.",
+                      descricaoDetalhada: "<br> 1- Auxiliar na instalação de câmeras, alarmes, sensores e controle de acesso, realizando passagem de cabos e fixação de dispositivos.<br> 2- Apoiar manutenções com tarefas simples como limpeza, substituição de peças e testes básicos.<br> 3- Organizar ferramentas, materiais e equipamentos utilizados pela equipe técnica.<br> 4- Auxiliar em testes preliminares de sistemas e realizar configurações simples.<br> 5- Preencher fichas e relatórios básicos quando solicitado.<br> 6- Orientar clientes sobre dúvidas simples e redirecionar demandas mais complexas.<br> 7- Manter ambiente de trabalho organizado e apoiar desmontagens de sistemas antigos.<br> 8- Participar de treinamentos e acompanhar técnicos em demandas mais complexas."
                     }
                   ],
                   nivel: 4,
@@ -338,76 +359,105 @@ const modalBody = document.getElementById('modal-body');
 
 
 function openModal(pessoaDados, cargoTitulo) {
-    // 1. Limpa dados anteriores
-    modalBody.innerHTML = '';
-    modalAvatar.innerHTML = '';
+  // 1. Limpa dados anteriores
+  modalBody.innerHTML = '';
+  modalAvatar.innerHTML = '';
 
-    // 2. Cabeçalho
-    modalName.innerText = pessoaDados.nome || '';
+  // 2. Cabeçalho
+  modalName.innerText = pessoaDados.nome || '';
 
-    const cargoFinal = pessoaDados.cargo || cargoTitulo || '';
-    modalRole.innerText = cargoFinal;
+  const cargoFinal = pessoaDados.cargo || cargoTitulo || '';
+  modalRole.innerText = cargoFinal;
 
-    // 3. Avatar (foto ou iniciais)
-    if (pessoaDados.foto) {
-        const img = document.createElement('img');
-        img.src = pessoaDados.foto;
-        img.onerror = () => { 
-            modalAvatar.innerText = getInitials(pessoaDados.nome); 
-        };
-        modalAvatar.appendChild(img);
+  // 3. Avatar (foto ou iniciais)
+  if (pessoaDados.foto) {
+    const img = document.createElement('img');
+    img.src = pessoaDados.foto;
+    img.onerror = () => {
+      modalAvatar.innerText = getInitials(pessoaDados.nome);
+    };
+    modalAvatar.appendChild(img);
+  } else {
+    modalAvatar.innerText = getInitials(pessoaDados.nome);
+  }
+
+  // 4. Campos simples (matrícula, e-mail, telefone, etc. + descrição "curta")
+  const campos = [
+    { key: 'matricula', label: 'Matrícula' },
+    { key: 'email', label: 'E-mail' },
+    { key: 'telefone', label: 'Telefone' },
+    { key: 'nascimento', label: 'Data de Nascimento' },
+    { key: 'admissao', label: 'Data de Admissão' },
+    { key: 'descricao', label: 'Descrição' } // resumo
+  ];
+
+  let hasInfo = false;
+
+  campos.forEach(campo => {
+    const valor = pessoaDados[campo.key];
+    if (!valor) return;
+
+    hasInfo = true;
+    const row = document.createElement('div');
+    row.className = 'info-row';
+
+    if (campo.key === 'descricao') {
+      // linha especial para descrição (parágrafo justificado)
+      row.classList.add('info-row-descricao');
+
+      const textoDescricao = String(valor).replace(/^<br\s*\/?>/i, '');
+
+      row.innerHTML = `
+        <span class="info-label">${campo.label}</span>
+        <p class="info-value descricao-text">${textoDescricao}</p>
+      `;
     } else {
-        modalAvatar.innerText = getInitials(pessoaDados.nome);
+      row.innerHTML = `
+        <span class="info-label">${campo.label}</span>
+        <span class="info-value">${valor}</span>
+      `;
     }
 
-    // 4. Preenche Corpo (Informações extras)
-    const campos = [
-        { key: 'matricula', label: 'Matrícula' },
-        { key: 'email',    label: 'E-mail' },
-        { key: 'telefone', label: 'Telefone' },
-        { key: 'nascimento', label: 'Data de Nascimento' },
-        { key: 'admissao',   label: 'Data de Admissão' },
-        { key: 'descricao',  label: 'Descrição' }
-    ];
+    modalBody.appendChild(row);
+  });
 
-    let hasInfo = false;
+  // 5. Botão + card de descrição detalhada (se existir)
+  if (pessoaDados.descricaoDetalhada) {
+    hasInfo = true;
 
-    campos.forEach(campo => {
-        const valor = pessoaDados[campo.key];
-        if (!valor) return;
+    const wrapper = document.createElement('div');
+    wrapper.className = 'descricao-detalhada-wrapper';
 
-        hasInfo = true;
-        const row = document.createElement('div');
-        row.className = 'info-row';
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'btn-detalhes-descricao';
+    btn.textContent = 'Ver descrição detalhada';
 
-        if (campo.key === 'descricao') {
-            // Linha especial para DESCRIÇÃO (parágrafo justificado)
-            row.classList.add('info-row-descricao');
+    const detailCard = document.createElement('div');
+    detailCard.className = 'descricao-detalhada-card hidden';
 
-            // Remove <br> inicial se existir (opcional)
-            const textoDescricao = String(valor).replace(/^<br\s*\/?>/i, '');
+    const textoLongo = String(pessoaDados.descricaoDetalhada).replace(/^<br\s*\/?>/i, '');
+    detailCard.innerHTML = `<p>${textoLongo}</p>`;
 
-            row.innerHTML = `
-                <span class="info-label">${campo.label}</span>
-                <p class="info-value descricao-text">${textoDescricao}</p>
-            `;
-        } else {
-            // Demais campos (matrícula, e-mail, etc.)
-            row.innerHTML = `
-                <span class="info-label">${campo.label}</span>
-                <span class="info-value">${valor}</span>
-            `;
-        }
-
-        modalBody.appendChild(row);
+    btn.addEventListener('click', () => {
+      const isHidden = detailCard.classList.contains('hidden');
+      detailCard.classList.toggle('hidden', !isHidden);
+      btn.textContent = isHidden
+        ? 'Ocultar descrição detalhada'
+        : 'Ver descrição detalhada';
     });
 
-    if (!hasInfo) {
-        modalBody.innerHTML = '<p style="color:#999; font-style:italic;">Nenhuma informação adicional cadastrada.</p>';
-    }
+    wrapper.appendChild(btn);
+    wrapper.appendChild(detailCard);
+    modalBody.appendChild(wrapper);
+  }
 
-    // 5. Mostra o Modal
-    modalOverlay.classList.add('active');
+  if (!hasInfo) {
+    modalBody.innerHTML = '<p style="color:#999; font-style:italic;">Nenhuma informação adicional cadastrada.</p>';
+  }
+
+  // 6. Mostra o Modal
+  modalOverlay.classList.add('active');
 }
 
 // Fechar Modal
