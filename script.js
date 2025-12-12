@@ -24,7 +24,7 @@ const orgData = {
           nascimento: "09-07-1984",
           admissao: "01/2021",
           descricao:
-            "<br> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+            "<br> Responsável por coordenar as operações técnicas e administrativas do setor, liderando equipes, acompanhando serviços, garantindo qualidade e alinhamento com práticas de segurança, performance e eficiência.."
         }
       ],
       nivel: 2,
@@ -41,7 +41,7 @@ const orgData = {
               nascimento: "09-05-1972",
               admissao: "03/2021",
               descricao:
-                "<br>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+                "<br>Responsável por oferecer suporte administrativo às operações do setor de segurança eletrônica, organizando documentos, acompanhando ordens de serviço, auxiliando na gestão de estoque técnico e prestando atendimento aos clientes e à equipe de campo, com foco em agilidade, organização e conformidade."
             }
           ],
           nivel: 3,
@@ -111,7 +111,7 @@ const orgData = {
               nascimento: "06-05-2003",
               admissao: "03/2024",
               descricao:
-                "<br>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+                "<br>Responsável por atendimentos técnicos remotos e presenciais, identificando e corrigindo falhas em sistemas de segurança eletrônica. Atua de forma analítica, orientando usuários, elaborando relatórios e apoiando projetos, garantindo disponibilidade e desempenho dos sistemas.."
             }
           ],
           nivel: 3,
@@ -128,7 +128,7 @@ const orgData = {
                   nascimento: "14-09-1999",
                   admissao: "03/2025",
                   descricao:
-                    "<br>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+                    "<br>Responsável por atendimentos técnicos remotos e presenciais, identificando e corrigindo falhas em sistemas de segurança eletrônica. Atua de forma analítica, orientando usuários, elaborando relatórios e apoiando projetos, garantindo disponibilidade e desempenho dos sistemas.."
                 },
                 {
                   nome: "Quedma Paula",
@@ -139,7 +139,7 @@ const orgData = {
                   nascimento: "",
                   admissao: "10/03/2025",
                   descricao:
-                    "<br>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+                    "<br>Responsável por atendimentos técnicos remotos e presenciais, identificando e corrigindo falhas em sistemas de segurança eletrônica. Atua de forma analítica, orientando usuários, elaborando relatórios e apoiando projetos, garantindo disponibilidade e desempenho dos sistemas.."
                 }
               ],
               nivel: 3,
@@ -157,7 +157,7 @@ const orgData = {
                       nascimento: "26 anos",
                       admissao: "10/03/2025",
                       descricao:
-                        "<br>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+                        "<br>Responsável pelo monitoramento remoto de sistemas de segurança eletrônica, atendendo ocorrências, executando rondas virtuais, checklists e prestando suporte técnico e administrativo. Atua como ponto central na detecção de incidentes e resposta rápida a riscos."
                     },
                     {
                       nome: "Luis Gabriel",
@@ -168,7 +168,7 @@ const orgData = {
                       nascimento: "26 anos",
                       admissao: "10/03/2025",
                       descricao:
-                        "<br>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+                        "<br>Responsável pelo monitoramento remoto de sistemas de segurança eletrônica, atendendo ocorrências, executando rondas virtuais, checklists e prestando suporte técnico e administrativo. Atua como ponto central na detecção de incidentes e resposta rápida a riscos."
                     },
                     {
                       nome: "David Alves",
@@ -190,7 +190,7 @@ const orgData = {
                       nascimento: "26 anos",
                       admissao: "10/03/2025",
                       descricao:
-                        "<br>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+                        "<br>Responsável pelo monitoramento remoto de sistemas de segurança eletrônica, atendendo ocorrências, executando rondas virtuais, checklists e prestando suporte técnico e administrativo. Atua como ponto central na detecção de incidentes e resposta rápida a riscos."
                     }
                   ],
                   nivel: 5,
@@ -212,7 +212,7 @@ const orgData = {
               nascimento: "06-04-2003",
               admissao: "02/2021",
               descricao:
-                "<br>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+                "<br>Responsável por instalar, configurar e manter sistemas de segurança eletrônica, garantindo funcionamento adequado de alarmes, CFTV, cercas elétricas e controles de acesso, atuando diretamente em campo com precisão técnica e conformidade.."
             },
             {
               nome: "Thiago Alves",
@@ -223,7 +223,7 @@ const orgData = {
               nascimento: "29-07-1985",
               admissao: "10/2025",
               descricao:
-                "<br>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+                "<br>Responsável por instalar, configurar e manter sistemas de segurança eletrônica, garantindo funcionamento adequado de alarmes, CFTV, cercas elétricas e controles de acesso, atuando diretamente em campo com precisão técnica e conformidade.."
             }
           ],
           nivel: 3,
@@ -241,7 +241,7 @@ const orgData = {
                   nascimento: "26 anos",
                   admissao: "10/03/2025",
                   descricao:
-                    "<br>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+                    "<br>Responsável por oferecer suporte administrativo às operações do setor de segurança eletrônica, organizando documentos, acompanhando ordens de serviço, auxiliando na gestão de estoque técnico e prestando atendimento aos clientes e à equipe de campo, com foco em agilidade, organização e conformidade."
                 },
                 {
                   nome: "Eduardo Gonçalves",
@@ -252,7 +252,7 @@ const orgData = {
                   nascimento: "08-04-2003",
                   admissao: "03/2025",
                   descricao:
-                    "<br>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+                    "<br>Responsável por oferecer suporte administrativo às operações do setor de segurança eletrônica, organizando documentos, acompanhando ordens de serviço, auxiliando na gestão de estoque técnico e prestando atendimento aos clientes e à equipe de campo, com foco em agilidade, organização e conformidade."
                 },
                 {
                   nome: "Cauã Carvalho",
@@ -263,7 +263,7 @@ const orgData = {
                   nascimento: "16-10-2003",
                   admissao: "10/2025",
                   descricao:
-                    "<br>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+                    "<br>Responsável por oferecer suporte administrativo às operações do setor de segurança eletrônica, organizando documentos, acompanhando ordens de serviço, auxiliando na gestão de estoque técnico e prestando atendimento aos clientes e à equipe de campo, com foco em agilidade, organização e conformidade."
                 },
               ],
               nivel: 4,
@@ -280,7 +280,7 @@ const orgData = {
                   telefone: "(61) 99999-9999",
                   nascimento: "26 anos",
                   descricao:
-                    "<br>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+                    "<br>Responsável por oferecer suporte administrativo às operações do setor de segurança eletrônica, organizando documentos, acompanhando ordens de serviço, auxiliando na gestão de estoque técnico e prestando atendimento aos clientes e à equipe de campo, com foco em agilidade, organização e conformidade."
                 }, 
                     {
                       nome: "Matheus Guerra",
@@ -290,7 +290,7 @@ const orgData = {
                       telefone: "(61) 99999-9999",
                       nascimento: "26 anos",
                       descricao:
-                        "<br>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+                        "<br>Responsável por oferecer suporte administrativo às operações do setor de segurança eletrônica, organizando documentos, acompanhando ordens de serviço, auxiliando na gestão de estoque técnico e prestando atendimento aos clientes e à equipe de campo, com foco em agilidade, organização e conformidade."
                     },
                     {
                       nome: "Vinicius Borges",
@@ -300,7 +300,7 @@ const orgData = {
                       telefone: "(61) 99999-9999",
                       nascimento: "26 anos",
                       descricao:
-                        "<br>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+                        "<br>Responsável por oferecer suporte administrativo às operações do setor de segurança eletrônica, organizando documentos, acompanhando ordens de serviço, auxiliando na gestão de estoque técnico e prestando atendimento aos clientes e à equipe de campo, com foco em agilidade, organização e conformidade."
                     }
                   ],
                   nivel: 4,
