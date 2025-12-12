@@ -26,8 +26,8 @@ Lucas Sales
 <img width="409" height="409" alt="Lucas Sales" src="https://github.com/user-attachments/assets/75b5cd83-0968-4051-b758-255d0a39fbdf" />
 Luciano
 <img width="633" height="640" alt="Luciano" src="https://github.com/user-attachments/assets/98982e04-790a-4fd7-be29-29217af7ca32" />
-Luis
-<img width="409" height="409" alt="Luis" src="https://github.com/user-attachments/assets/c067ede5-5d77-4317-b58a-ed03349e5793" />
+Luiz
+<img width="409" height="409" alt="Luiz" src="https://github.com/user-attachments/assets/774cdc60-9407-49a2-963d-c96971cd0c26" />
 Matheus
 <img width="410" height="409" alt="Matheus" src="https://github.com/user-attachments/assets/1e911aef-c71e-4a84-a844-a739bbd5c6c5" />
 Quedma Oliveira
