@@ -556,3 +556,56 @@ body {
   text-align: justify;
   line-height: 1.55;
 }
+/* Wrapper do botão + card de descrição detalhada */
+.descricao-detalhada-wrapper {
+  margin-top: 12px;
+}
+
+/* Botão dentro do modal para abrir a descrição detalhada */
+.btn-detalhes-descricao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+  color: #111827;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-detalhes-descricao:hover {
+  background: #eef2ff;
+  border-color: #4f46e5;
+  transform: translateY(-1px);
+}
+
+.btn-detalhes-descricao:active {
+  transform: translateY(0);
+}
+
+/* Card com o texto detalhado */
+.descricao-detalhada-card {
+  margin-top: 10px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+.descricao-detalhada-card p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: justify;
+  color: #111827;
+}
+
+/* Classe utilitária para esconder/mostrar */
+.hidden {
+  display: none !important;
+}
