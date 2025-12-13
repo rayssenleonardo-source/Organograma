@@ -13,14 +13,20 @@ const btnSaveJson = document.getElementById('btn-save-json');
 const btnAddChild = document.getElementById('btn-add-child');
 const btnDelete = document.getElementById('btn-delete');
 
+// Usamos o link RAW para garantir que estamos editando a versão que está online
+const DATA_URL = 'https://raw.githubusercontent.com/segurancaeletronicabrasfort/Organograma/main/dados.json';
+
 // --- 1. CARREGAR DADOS ---
-fetch('dados.json')
+fetch(DATA_URL)
     .then(r => r.json())
     .then(data => {
         globalData = data;
         renderTree();
     })
-    .catch(err => alert("Erro ao carregar dados.json. Certifique-se de estar rodando em um servidor local (Live Server)."));
+    .catch(err => {
+        console.error(err);
+        alert("Erro ao buscar dados do GitHub. O arquivo pode não existir ainda ou você está sem internet.");
+    });
 
 // --- 2. RENDERIZAR ÁRVORE ---
 function renderTree() {
