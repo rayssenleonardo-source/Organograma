@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - Organograma</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+</head>
+<body>
+
+    <header class="admin-header">
+        <div class="brand">
+            <span class="material-icons-round">admin_panel_settings</span>
+            <h1>Editor do Organograma</h1>
+        </div>
+        <div class="actions">
+            <button id="btn-save-json" class="btn-primary">
+                <span class="material-icons-round">download</span>
+                Baixar JSON Atualizado
+            </button>
+            <a href="index.html" class="btn-secondary" target="_blank">Ver Organograma</a>
+        </div>
+    </header>
+
+    <div class="admin-container">
+        <aside class="sidebar">
+            <h3>Estrutura Hierárquica</h3>
+            <div id="tree-view" class="tree-view">
+                </div>
+        </aside>
+
+        <main class="editor-area">
+            <div id="editor-placeholder" class="editor-placeholder">
+                <span class="material-icons-round">touch_app</span>
+                <p>Selecione alguém na lista ao lado para editar ou adicionar subordinados.</p>
+            </div>
+
+            <form id="edit-form" class="edit-form hidden">
+                <div class="form-header">
+                    <h2 id="form-title">Editando Colaborador</h2>
+                    <div class="form-actions-top">
+                        <button type="button" id="btn-delete" class="btn-danger" title="Excluir este colaborador">
+                            <span class="material-icons-round">delete</span>
+                        </button>
+                        <button type="button" id="btn-add-child" class="btn-success" title="Adicionar Subordinado">
+                            <span class="material-icons-round">person_add</span> Adicionar Subordinado
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Nome Completo</label>
+                        <input type="text" name="nome" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Cargo (Exibido no Card)</label>
+                        <input type="text" name="cargo_display" placeholder="Se vazio, usa o cargo do grupo">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Foto (URL)</label>
+                        <input type="text" name="foto">
+                        <small>Link do GitHub ou pasta img/</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>E-mail</label>
+                        <input type="email" name="email">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Matrícula</label>
+                        <input type="text" name="matricula">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Telefone</label>
+                        <input type="text" name="telefone">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Data de Nascimento</label>
+                        <input type="text" name="nascimento">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Data de Admissão</label>
+                        <input type="text" name="admissao">
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Descrição Curta</label>
+                    <textarea name="descricao" rows="3"></textarea>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Descrição Detalhada (Tópicos)</label>
+                    <textarea name="descricaoDetalhada" rows="6"></textarea>
+                    <small>Use &lt;br&gt; para pular linhas.</small>
+                </div>
+
+                <div class="form-footer">
+                    <button type="submit" class="btn-save">Salvar Alterações na Memória</button>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
