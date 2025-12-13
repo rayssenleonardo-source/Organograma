@@ -122,6 +122,38 @@ body {
   display: block;
 }
 
+/* Agrupa os itens da direita (Botão + Logo) */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espaço entre o cadeado e a logo */
+}
+
+/* Botão de Admin */
+.btn-admin {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #64748b; /* Cinza discreto */
+    transition: all 0.2s ease;
+}
+
+.btn-admin:hover {
+    background-color: #f1f5f9;
+    color: #1976d2; /* Azul ao passar o mouse */
+    border-color: #e2e8f0;
+}
+
+.btn-admin .material-icons-round {
+    font-size: 20px;
+}
+
 /* ===================== ÁREA PRINCIPAL DO ORGANOGRAMA ===================== */
 #org-container {
   flex: 1;
