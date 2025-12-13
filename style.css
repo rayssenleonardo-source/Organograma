@@ -47,17 +47,16 @@
 #splash-screen img {
   width: 100%;
   height: 100%;       /* Força a imagem a ocupar 100% da altura da tela */
-  object-fit: cover;  /* Preenche tudo, cortando excessos sem distorcer */
+  object-fit: cover;  /* A MÁGICA: Preenche tudo, cortando excessos sem distorcer */
   object-position: center; /* Mantém o centro da imagem visível */
   animation: pulseLogo 2s infinite ease-in-out;
 }
 
 @keyframes pulseLogo {
   0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.02); opacity: 0.95; } /* Reduz o pulso para não cortar demais */
+  50% { transform: scale(1.02); opacity: 0.95; } /* Reduzi o pulso para não cortar demais */
   100% { transform: scale(1); opacity: 1; }
 }
-
 /* ===================== BODY / LAYOUT ===================== */
 body {
   /* Alterado para Barlow */
@@ -180,7 +179,7 @@ body {
   transition: 0.2s ease;
 }
 
-.card::before {
+/*.card::before {
   content: "";
   position: absolute;
   top: 0;
@@ -190,7 +189,7 @@ body {
   border-radius: 999px;
   background: #d1d5db;
   opacity: 0.8;
-}
+}*/
 
 .card:hover {
   transform: translateY(-3px);
@@ -236,7 +235,9 @@ body {
 .role-tag {
   font-size: 11px;
   color: var(--muted);
-  background: #f3f4f6;
+  background: rgba(0, 0, 0, 0.20);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   padding: 3px 8px;
   border-radius: 999px;
   text-transform: uppercase;
@@ -267,6 +268,8 @@ body {
 .level-1 .avatar {
   border: 2px solid rgba(255,255,255,0.6);
 }
+.level-1 .card { border-top: 3px solid #ffffffb3; }
+.level-1.card::before { background: #ffffffb3; }
 
 .level-2 .card { border-top: 3px solid #d1af6e; }
 .level-2 .card::before { background: #d1af6e; }
@@ -345,16 +348,16 @@ body {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(33, 37, 41, 0.6);
-  backdrop-filter: blur(3px);
+  background: rgba(15, 23, 42, 0.65); /* Fundo um pouco mais escuro e azulado */
+  backdrop-filter: blur(6px); /* Desfoque mais forte no fundo */
   z-index: 1000;
   display: flex;
   justify-content: center;
   align-items: center;
   opacity: 0;
   visibility: hidden;
-  transition: 0.3s ease;
-  padding: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 20px;
 }
 
 .modal-overlay.active {
@@ -363,52 +366,90 @@ body {
 }
 
 .modal-content {
-  background: var(--surface);
-  width: 380px;
-  max-width: 92vw;
-  max-height: 90vh;
-  overflow: auto;
-  padding: 28px;
-  border-radius: var(--radius-md);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  background: #ffffff;
+  width: 420px; /* Um pouco mais largo */
+  max-width: 95vw;
+  max-height: 85vh; /* Altura máxima para garantir que caiba na tela */
+  overflow-y: auto; /* Permite rolar se o conteúdo for grande */
+  padding: 0; /* Padding controlado internamente */
+  border-radius: 20px; /* Bordas bem arredondadas */
+  box-shadow: 
+    0 20px 25px -5px rgba(0, 0, 0, 0.1), 
+    0 10px 10px -5px rgba(0, 0, 0, 0.04),
+    0 0 0 1px rgba(0,0,0,0.02); /* Borda sutil */
   text-align: center;
   position: relative;
-  transform: scale(0.96);
-  transition: transform 0.25s ease;
+  transform: scale(0.95) translateY(10px);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); /* Efeito elástico sutil ao abrir */
+}
+
+/* Personalização da Barra de Rolagem (Scrollbar) */
+.modal-content::-webkit-scrollbar {
+  width: 6px;
+}
+.modal-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  margin: 10px 0; /* Margem nas pontas */
+  border-radius: 10px;
+}
+.modal-content::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background: #bbb;
 }
 
 .modal-overlay.active .modal-content {
-  transform: scale(1);
+  transform: scale(1) translateY(0);
 }
 
+/* Botão Fechar */
 .close-btn {
   position: absolute;
-  top: 14px;
-  right: 14px;
-  font-size: 24px;
-  color: #9aa0a6;
+  top: 15px;
+  right: 15px;
+  width: 32px;
+  height: 32px;
+  background: #f3f4f6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #64748b;
   cursor: pointer;
-  line-height: 1;
+  transition: all 0.2s ease;
+  z-index: 10;
 }
 
 .close-btn:hover {
-  color: #333;
+  background: #e2e8f0;
+  color: #ef4444; /* Vermelho ao passar o mouse */
+  transform: rotate(90deg);
 }
 
-/* Avatar grande do modal */
+/* Cabeçalho do Modal (Fundo sutil) */
+.modal-header {
+  background: linear-gradient(to bottom, #f8fafc, #ffffff);
+  padding: 30px 20px 20px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+/* Avatar Grande */
 .modal-avatar {
-  width: 140px;
-  height: 140px;
-  border-radius: 10px;
-  background: #f0f2f5;
-  margin: 0 auto 14px;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  margin: 0 auto 15px;
   display: grid;
   place-items: center;
-  font-size: 32px;
-  color: #555;
-  font-weight: 700; /* Barlow Bold */
-  border: 3px solid #fff;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  font-size: 36px;
+  color: #64748b;
+  font-weight: 700;
+  border: 4px solid #ffffff;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
   overflow: hidden;
 }
 
@@ -419,10 +460,11 @@ body {
 }
 
 .modal-header h2 {
-  margin: 0 0 6px;
-  font-size: 22px;
-  font-weight: 700; /* Barlow Bold */
-  color: #222;
+  margin: 5px 0 8px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  letter-spacing: -0.5px;
 }
 
 .modal-role-tag {
@@ -437,119 +479,150 @@ body {
   letter-spacing: 0.5px;
 }
 
-.modal-divider {
-  height: 1px;
-  background: #eee;
-  margin: 18px 0;
-}
-
+/* Corpo do Modal */
 .modal-body {
+  padding: 20px 30px 30px; /* Mais espaço nas laterais */
   text-align: left;
 }
 
-/* Linhas de informação */
+/* Linhas de Informação */
 .info-row {
   display: flex;
   justify-content: space-between;
-  gap: 12px;
-  padding: 8px 0;
-  border-bottom: 1px dashed #f0f0f0;
-  font-size: 15px; /* Levemente maior para Barlow */
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #f1f5f9; /* Linha sólida e suave */
+  font-size: 15px;
 }
 
-.info-label {
-  color: #4b5563;
-  font-weight: 400; /* Barlow Regular */
-}
-
-.info-value {
-  color: #111827;
-  font-weight: 700; /* Barlow Bold */
-  text-align: right;
-}
-
-/* Descrição justificada */
-.info-row-descricao {
-  flex-direction: column;
-  align-items: flex-start;
+.info-row:last-child {
   border-bottom: none;
 }
 
+.info-label {
+  color: #64748b; /* Cinza médio */
+  font-weight: 500;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.info-value {
+  color: #0f172a; /* Quase preto */
+  font-weight: 600;
+  text-align: right;
+}
+
+/* Descrição */
+.info-row-descricao {
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 10px;
+  border-bottom: none;
+  background: #f8fafc;
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
 .info-row-descricao .info-label {
-  margin-bottom: 6px;
-  font-weight: 700; /* Destaque para o título "Descrição" */
+  margin-bottom: 8px;
+  color: #334155;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.5px;
 }
 
 .info-row-descricao .descricao-text {
   width: 100%;
   text-align: justify;
-  font-weight: 400; /* Barlow Regular */
+  font-weight: 400;
   line-height: 1.6;
-  background: #f9fafb;
-  padding: 10px 12px;
-  border-radius: 6px;
-  color: #111827;
+  color: #334155;
+  background: transparent;
+  padding: 0;
+  font-size: 14px;
 }
 
-/* Wrapper do botão + card de descrição detalhada */
+/* Botão e Área Detalhada */
 .descricao-detalhada-wrapper {
-  margin-top: 12px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .btn-detalhes-descricao {
-  display: inline-flex;
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  color: #475569;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 16px;
-  border-radius: 999px;
-  border: 1px solid #d1d5db;
-  background: #f9fafb;
-  color: #111827;
-  font-size: 14px;
-  font-family: "Barlow", sans-serif; /* Garante que o botão use a fonte */
-  font-weight: 700; /* Barlow Bold */
-  cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+  gap: 8px;
 }
 
 .btn-detalhes-descricao:hover {
-  background: #eef2ff;
-  border-color: #4f46e5;
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #1e293b;
   transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
 .btn-detalhes-descricao:active {
   transform: translateY(0);
+  background: #f1f5f9;
 }
 
 .descricao-detalhada-card {
-  margin-top: 10px;
-  padding: 14px 16px;
-  border-radius: 8px;
-  background: #f3f4f6;
-  border: 1px solid #e5e7eb;
+  margin-top: 12px;
+  padding: 16px;
+  border-radius: 12px;
+  background: #eff6ff; /* Fundo levemente azulado para destacar */
+  border: 1px solid #dbeafe;
   text-align: left;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .descricao-detalhada-card p {
   margin: 0;
-  font-size: 15px;
-  line-height: 1.6;
-  text-align: justify;
-  color: #111827;
-  font-weight: 400; /* Barlow Regular */
+  font-size: 14px;
+  line-height: 1.7;
+  color: #1e293b;
+  font-weight: 400;
 }
 
-/* Classe utilitária para esconder/mostrar */
 .hidden {
   display: none !important;
 }
 
-.level-1 .role-tag {
-  background: rgba(0, 0, 0, 0.28);
-  color: #f9fafb;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  font-weight: 700; /* Barlow Bold */
+/* Responsividade do Modal */
+@media (max-width: 480px) {
+  .modal-content {
+    width: 100%;
+    height: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+  .close-btn {
+    top: 10px;
+    right: 10px;
+  }
 }
 
 /* ===================== RESPONSIVIDADE ===================== */
