@@ -122,38 +122,6 @@ body {
   display: block;
 }
 
-/* Agrupa os itens da direita (Botão + Logo) */
-.header-actions {
-    display: flex;
-    align-items: center;
-    gap: 15px; /* Espaço entre o cadeado e a logo */
-}
-
-/* Botão de Admin */
-.btn-admin {
-    background: transparent;
-    border: 1px solid transparent;
-    border-radius: 8px;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: #64748b; /* Cinza discreto */
-    transition: all 0.2s ease;
-}
-
-.btn-admin:hover {
-    background-color: #f1f5f9;
-    color: #1976d2; /* Azul ao passar o mouse */
-    border-color: #e2e8f0;
-}
-
-.btn-admin .material-icons-round {
-    font-size: 20px;
-}
-
 /* ===================== ÁREA PRINCIPAL DO ORGANOGRAMA ===================== */
 #org-container {
   flex: 1;
@@ -315,66 +283,95 @@ body {
 .level-5 .card { border-top: 3px solid #4b6387; }
 .level-5 .card::before { background: #4b6387; }
 
-/* ===================== CONECTORES DO ORGANOGRAMA ===================== */
-.node::before,
-.node::after {
-  display: none !important;
+/* ===================== CONECTORES DO ORGANOGRAMA (VERSÃO DEFINITIVA) ===================== */
+
+/* 1. Limpa estilos antigos para garantir que nada interfira */
+.node::before, .node::after, .children::before, .children::after {
+  content: none;
+  display: none;
 }
 
+/* 2. Container dos Filhos */
 .children {
-  display: inline-flex !important;
-  width: fit-content !important;
-  gap: 30px;
+  display: flex !important;
   justify-content: center;
-  align-self: center;
+  padding-top: 20px; /* Espaço para a linha vertical que vem do PAI */
   position: relative;
-  padding-top: 36px;
+  gap: 30px;
 }
 
-@supports not (width: fit-content) {
-  .children {
-    width: max-content !important;
-  }
-}
-
+/* Linha Vertical MESTRA (Sai do Pai e desce até os filhos) */
 .children::before {
-  content: "";
+  content: '';
+  display: block;
   position: absolute;
   top: 0;
   left: 50%;
+  width: 2px; /* Espessura da linha */
+  height: 20px; /* Altura da descida */
+  background-color: #cbd5e1; /* Cor da linha */
   transform: translateX(-50%);
-  height: 18px;
-  border-left: 2px solid rgba(40, 56, 104, 0.25);
+  z-index: 1;
 }
 
-.children::after {
-  content: "";
-  position: absolute;
-  top: 18px;
-  left: 12px;
-  right: 12px;
-  border-top: 2px solid rgba(40, 56, 104, 0.25);
-  border-radius: 999px;
-}
-
-.children > .node {
+/* 3. Configuração de CADA NÓ (Filho) */
+.node {
   position: relative;
-  padding-top: 18px;
+  padding-top: 20px; /* Espaço para a linha chegar no cartão */
 }
 
-.children > .node::before {
-  content: "";
+/* --- LINHAS INDIVIDUAIS --- */
+
+/* Linha HORIZONTAL (Barra que conecta os irmãos) */
+.node::before {
+  content: '';
   position: absolute;
-  top: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-  height: 18px;
-  border-left: 2px solid rgba(40, 56, 104, 0.25);
+  top: 0;
+  left: 0;
+  width: 100%; /* Por padrão, ocupa toda a largura do nó */
+  height: 2px;
+  background-color: #cbd5e1;
+  display: block;
 }
 
-.children.single-child::after {
+/* Linha VERTICAL (Do conector para o Card) */
+.node::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 2px;
+  height: 20px;
+  background-color: #cbd5e1;
+  transform: translateX(-50%);
+  display: block;
+}
+
+/* --- CORREÇÕES PARA PONTAS (PRIMEIRO E ÚLTIMO) --- */
+
+/* 1. Primeiro Filho: A linha horizontal deve começar do meio e ir para a direita */
+/* (Removemos a metade esquerda da linha) */
+.node:first-child::before {
+  left: 50%;
+  width: 55%;
+}
+
+/* 2. Último Filho: A linha horizontal deve começar na esquerda e parar no meio */
+/* (Removemos a metade direita da linha) */
+.node:last-child::before {
+  right: 50%;
+  width: 60%;
+  left: auto; /* Importante para anular o left:0 padrão */
+}
+
+/* 3. Filho Único: Se só tem um, não precisa de linha horizontal, apenas a vertical */
+.node:only-child::before {
   display: none;
 }
+
+/* (Opcional) Arredondar os cantos das linhas nas pontas para ficar mais bonito */
+.node:first-child::before { border-top-left-radius: 4px; }
+.node:last-child::before { border-top-right-radius: 4px; }
 
 /* ===================== MODAL ===================== */
 .modal-overlay {
