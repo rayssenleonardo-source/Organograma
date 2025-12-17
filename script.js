@@ -248,7 +248,7 @@ if (btnAdmin) {
     btnAdmin.addEventListener('click', () => {
         const senha = prompt("Digite a senha de administrador:");
         if (senha === "123497") {
-            window.location.href = "admin.html";
+            window.location.href = "Admin/admin.html";
         } else if (senha !== null) {
             alert("Senha incorreta!");
         }
