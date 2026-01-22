@@ -67,14 +67,14 @@
               {
                 "cargo": "Técnico de Suporte",
                 "nomes": [
-                  {
-                    "nome": "Danilo Vinícius",
-                    "foto": "https://github.com/user-attachments/assets/96e7e204-d6c9-494c-8dbf-46b8f7fbdb9c",
-                    "matricula": "52029",
-                    "email": "danilo.vinicius@brasfort.com.br",
-                    "telefone": "(61) 98485-3715",
-                    "nascimento": "14/09/1999",
-                    "admissao": "03/2025",
+                {
+                    "nome": "vaga em aberto",
+                    "foto": "",
+                    "matricula": "",
+                    "email": "",
+                    "telefone": "",
+                    "nascimento": "",
+                    "admissao": "",
                     "descricao": "<br>Responsável por atendimentos técnicos remotos e presenciais, identificando e corrigindo falhas em sistemas de segurança eletrônica. Atua de forma analítica, orientando usuários, elaborando relatórios e apoiando projetos, garantindo disponibilidade e desempenho dos sistemas.",
                     "descricaoDetalhada": "<br> 1- Realizar atendimentos técnicos remotos e presenciais, diagnosticando falhas em sistemas de monitoramento, softwares e equipamentos de segurança. <br> 2- Executar manutenções corretivas e preventivas, minimizando tempo de inatividade e evitando reincidência de falhas.<br> 3- Orientar clientes e equipes internas sobre o uso correto dos sistemas, aplicando procedimentos padronizados.<br> 4- Documentar intervenções em relatórios técnicos, registrando diagnósticos, soluções e recomendações.<br> 5- Criar e acompanhar Ordens de Serviço, registrando ações executadas e pendências.<br> 6- Monitorar continuamente o desempenho dos sistemas instalados e sugerir melhorias.<br> 7- Realizar correções técnicas de hardware e software, substituindo componentes e ajustando configurações.<br> 8- Prestar suporte em situações críticas, avaliando gravidade e priorizando atendimentos.<br> 9- Apoiar projetos de instalação e melhoria de sistemas, realizando levantamentos técnicos e testes em campo.<br> 10- Analisar dados históricos para identificar padrões e prevenir falhas futuras."
                   },
@@ -118,6 +118,18 @@
                         "descricao": "<br>Responsável pelo monitoramento remoto de sistemas de segurança eletrônica, atendendo ocorrências, executando rondas virtuais, checklists e prestando suporte técnico e administrativo. Atua como ponto central na detecção de incidentes e resposta rápida a riscos.",
                         "descricaoDetalhada": "<br> 1- Monitorar câmeras e alarmes em plataformas como SIM Next, Sigma Image e Sigma Cloud. <br> 2- Realizar checklists diários, registrando falhas e comunicando a equipe responsável.<br> 3- Verificar status individual das câmeras e informar o grupo técnico sobre falhas.<br> 4- Responder a disparos de alarme, contatando clientes, fiscais de ronda e órgãos competentes.<br> 5- Criar e alterar senhas, incluindo senhas de coação, nos sistemas internos.<br> 6- Atualizar cadastros e abrir Ordens de Serviço conforme necessidade.<br> 7- Executar arme e desarme das centrais de alarme conforme solicitações oficiais."
                       },
+                       {
+                        "nome": "David Alves",
+                        "matricula": "52102",
+                        "foto": "https://github.com/user-attachments/assets/7763c7c1-2630-45ed-879e-863e66c854f4",
+                        "email": "davidalveez@gmail.com",
+                        "telefone": "(61) 99875-5738",
+                        "nascimento": "14/07/1997",
+                        "admissao": "15/04/2025",
+                        "descricao": "<br>Responsável pelo monitoramento remoto de sistemas de segurança eletrônica, atendendo ocorrências, executando rondas virtuais, checklists e prestando suporte técnico e administrativo. Atua como ponto central na detecção de incidentes e resposta rápida a riscos.",
+                        "descricaoDetalhada": "<br> 1- Monitorar câmeras e alarmes em plataformas como SIM Next, Sigma Image e Sigma Cloud. <br> 2- Realizar checklists diários, registrando falhas e comunicando a equipe responsável.<br> 3- Verificar status individual das câmeras e informar o grupo técnico sobre falhas.<br> 4- Responder a disparos de alarme, contatando clientes, fiscais de ronda e órgãos competentes.<br> 5- Criar e alterar senhas, incluindo senhas de coação, nos sistemas internos.<br> 6- Atualizar cadastros e abrir Ordens de Serviço conforme necessidade.<br> 7- Executar arme e desarme das centrais de alarme conforme solicitações oficiais."
+                      },
+
                       {
                         "nome": "Fabricio Forte",
                         "matricula": "52702",
@@ -159,6 +171,17 @@
                 "telefone": "(61) 99903-7261",
                 "nascimento": "29/07/1985",
                 "admissao": "10/2025",
+                "descricao": "<br>Responsável por instalar, configurar e manter sistemas de segurança eletrônica, garantindo funcionamento adequado de alarmes, CFTV, cercas elétricas e controles de acesso, atuando diretamente em campo com precisão técnica e conformidade.",
+                "descricaoDetalhada": "<br> 1- Instalar sistemas de alarmes, CFTV, sensores, cercas elétricas e portões automáticos, realizando conexões elétricas e integrações com redes. <br> 2- Realizar inspeções e testes operacionais, identificando falhas e efetuando reparos. <br> 3- Prestar apoio na configuração de sistemas remotos, orientando usuários e ajustes via acesso remoto ou presencial. <br> 4- Testar sistemas instalados ou reparados, garantindo operação correta de todos os componentes. <br> 5- Elaborar relatórios técnicos detalhados de instalação, manutenção e diagnósticos. <br> 6- Seguir normas técnicas e protocolos de segurança, utilizando EPI e prevenindo riscos."
+              },
+              {
+                "nome": "Cirlei Silva",
+                "matricula": "53529",
+                "foto": "https://github.com/user-attachments/assets/77723fb4-2ee2-4638-adcf-1a120abcd8ac",
+                "email": "cirlei.silva@brasfort.com.br",
+                "telefone": "(61) 992847852",
+                "nascimento": "08/01/1991",
+                "admissao": "01/2026",
                 "descricao": "<br>Responsável por instalar, configurar e manter sistemas de segurança eletrônica, garantindo funcionamento adequado de alarmes, CFTV, cercas elétricas e controles de acesso, atuando diretamente em campo com precisão técnica e conformidade.",
                 "descricaoDetalhada": "<br> 1- Instalar sistemas de alarmes, CFTV, sensores, cercas elétricas e portões automáticos, realizando conexões elétricas e integrações com redes. <br> 2- Realizar inspeções e testes operacionais, identificando falhas e efetuando reparos. <br> 3- Prestar apoio na configuração de sistemas remotos, orientando usuários e ajustes via acesso remoto ou presencial. <br> 4- Testar sistemas instalados ou reparados, garantindo operação correta de todos os componentes. <br> 5- Elaborar relatórios técnicos detalhados de instalação, manutenção e diagnósticos. <br> 6- Seguir normas técnicas e protocolos de segurança, utilizando EPI e prevenindo riscos."
               }
@@ -205,46 +228,7 @@
                 ],
                 "nivel": 4,
                 "filhos": [
-                  {
-                    "cargo": "Auxiliar Técnico (Intermitente)",
-                    "layout": "vertical",
-                    "nomes": [
-                      {
-                        "nome": "Atila Gabriel",
-                        "matricula": "52191",
-                        "foto": "https://github.com/user-attachments/assets/2e4c3c8c-9729-4a5d-b95d-34a59a017f5a",
-                        "email": "atilagabriel62@gmail.com",
-                        "telefone": "(61) 98130-3575",
-                        "nascimento": "15/08/2005",
-                        "descricao": "<br>Responsável por apoiar técnicos na instalação e manutenção de sistemas de segurança eletrônica, executando tarefas operacionais sob supervisão e desenvolvendo conhecimento técnico de forma contínua.",
-                        "descricaoDetalhada": "<br> 1- Auxiliar na instalação de câmeras, alarmes, sensores e controle de acesso, realizando passagem de cabos e fixação de dispositivos.<br> 2- Apoiar manutenções com tarefas simples como limpeza, substituição de peças e testes básicos.<br> 3- Organizar ferramentas, materiais e equipamentos utilizados pela equipe técnica.<br> 4- Auxiliar em testes preliminares de sistemas e realizar configurações simples.<br> 5- Preencher fichas e relatórios básicos quando solicitado.<br> 6- Orientar clientes sobre dúvidas simples e redirecionar demandas mais complexas.<br> 7- Manter ambiente de trabalho organizado e apoiar desmontagens de sistemas antigos.<br> 8- Participar de treinamentos e acompanhar técnicos em demandas mais complexas."
-                      },
-                      {
-                        "nome": "Matheus Guerra",
-                        "matricula": "52597",
-                        "foto": "https://github.com/user-attachments/assets/1e911aef-c71e-4a84-a844-a739bbd5c6c5",
-                        "email": "matheusguerrapariz@gmail.com",
-                        "telefone": "(61) 98145-4582",
-                        "nascimento": "27/11/2003",
-                        "admissao": "03/07/2025",
-                        "descricao": "<br>Responsável por apoiar técnicos na instalação e manutenção de sistemas de segurança eletrônica, executando tarefas operacionais sob supervisão e desenvolvendo conhecimento técnico de forma contínua.",
-                        "descricaoDetalhada": "<br> 1- Auxiliar na instalação de câmeras, alarmes, sensores e controle de acesso, realizando passagem de cabos e fixação de dispositivos.<br> 2- Apoiar manutenções com tarefas simples como limpeza, substituição de peças e testes básicos.<br> 3- Organizar ferramentas, materiais e equipamentos utilizados pela equipe técnica.<br> 4- Auxiliar em testes preliminares de sistemas e realizar configurações simples.<br> 5- Preencher fichas e relatórios básicos quando solicitado.<br> 6- Orientar clientes sobre dúvidas simples e redirecionar demandas mais complexas.<br> 7- Manter ambiente de trabalho organizado e apoiar desmontagens de sistemas antigos.<br> 8- Participar de treinamentos e acompanhar técnicos em demandas mais complexas."
-                      },
-                      {
-                        "nome": "Vinicius Borges",
-                        "matricula": "52944",
-                        "foto": "https://github.com/user-attachments/assets/e9038a7d-dccb-4025-a41b-fd29594982e3",
-                        "email": "vinicius.-25@hotmail.com",
-                        "telefone": "(61) 99848-7550",
-                        "nascimento": "02/07/1998",
-                        "admissao": "18/08/2025",
-                        "descricao": "<br>Responsável por apoiar técnicos na instalação e manutenção de sistemas de segurança eletrônica, executando tarefas operacionais sob supervisão e desenvolvendo conhecimento técnico de forma contínua.",
-                        "descricaoDetalhada": "<br> 1- Auxiliar na instalação de câmeras, alarmes, sensores e controle de acesso, realizando passagem de cabos e fixação de dispositivos.<br> 2- Apoiar manutenções com tarefas simples como limpeza, substituição de peças e testes básicos.<br> 3- Organizar ferramentas, materiais e equipamentos utilizados pela equipe técnica.<br> 4- Auxiliar em testes preliminares de sistemas e realizar configurações simples.<br> 5- Preencher fichas e relatórios básicos quando solicitado.<br> 6- Orientar clientes sobre dúvidas simples e redirecionar demandas mais complexas.<br> 7- Manter ambiente de trabalho organizado e apoiar desmontagens de sistemas antigos.<br> 8- Participar de treinamentos e acompanhar técnicos em demandas mais complexas."
-                      }
-                    ],
-                    "nivel": 4,
-                    "filhos": []
-                  }
+                  
                 ]
               }
             ]
@@ -268,7 +252,16 @@
           "admissao": "03/2025",
           "descricao": "<br>Responsável por apoiar atividades administrativas e técnicas básicas no setor de segurança eletrônica, auxiliando na organização de documentos, no atendimento interno, no controle de materiais e no suporte simples a equipes de campo, desenvolvendo competências profissionais e conhecimento prático."
         },
-        
+        {
+          "nome": "vaga em aberto",
+          "matricula": "",
+          "foto": "",
+          "email": "",
+          "telefone": "",
+          "nascimento": "",
+          "admissao": "",
+          "descricao": "<br>Responsável por apoiar atividades administrativas e técnicas básicas no setor de segurança eletrônica, auxiliando na organização de documentos, no atendimento interno, no controle de materiais e no suporte simples a equipes de campo, desenvolvendo competências profissionais e conhecimento prático."
+        },
         {
           "nome": "Guilherme Alexandre",
           "matricula": "53097",
