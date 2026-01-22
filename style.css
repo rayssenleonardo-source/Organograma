@@ -9,14 +9,14 @@
 }
 
 :root {
-  --bg: #f4f6f8;
+  --bg: #eef1f4;
   --surface: #ffffff;
   --text: #24292f;
   --muted: #57606a;
   --border: #e1e4e8;
   --accent: #1976d2;
   --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.05);
-  --shadow-2: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-2: 0 2px 8px rgba(15, 23, 42, 0.12);
   --shadow-3: 0 5px 15px rgba(0, 0, 0, 0.10);
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -73,7 +73,7 @@ body {
 /* ===================== HEADER ===================== */
 .main-header {
   background-color: #ffffff;
-  border-bottom: 1px solid #e1e4e8;
+  border-bottom: 1px solid #dde3ea;
   padding: 0 24px;
   height: 60px;
   display: flex;
@@ -130,7 +130,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  background: #f4f5f7;
+  background: var(--bg);
 }
 
 /* ===================== ESTRUTURA DO ORGANOGRAMA ===================== */
@@ -166,7 +166,7 @@ body {
   position: relative;
   padding-top: 18px;
   background: var(--surface);
-  border-radius: var(--radius-sm);
+  border-radius: var(--line-soft);
   box-shadow: var(--shadow-2);
   padding: 14px 10px;
   text-align: center;
@@ -192,7 +192,7 @@ body {
 }*/
 
 .card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-3);
   border-color: #d0d7de;
 }
@@ -213,7 +213,7 @@ body {
   font-weight: 700; /* Barlow Bold */
   font-size: 16px;
   margin-bottom: 8px;
-  background: #c7cbd1;
+  background-color: rgba(148,163,184,0.6);
   overflow: hidden;
 }
 
@@ -235,9 +235,10 @@ body {
 .role-tag {
   font-size: 11px;
   color: var(--muted);
-  background: rgba(0, 0, 0, 0.20);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.35);
+  box-shadow: none;
+  backdrop-filter: blur(4px);
   padding: 3px 8px;
   border-radius: 999px;
   text-transform: uppercase;
@@ -247,7 +248,12 @@ body {
 
 /* ===================== CORES POR NÍVEL ===================== */
 .level-1 .card {
-  background: linear-gradient(135deg, #283868 0%, #324a86 60%, #ffffff 100%);
+background: linear-gradient(
+  135deg,
+  #283868 0%,
+  #324a86 70%,
+  #3a5798 100%
+);
   color: #ffffff;
   border-color: transparent;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
@@ -460,7 +466,7 @@ body {
 
 /* Cabeçalho do Modal (Fundo sutil) */
 .modal-header {
-  background: linear-gradient(to bottom, #f8fafc, #ffffff);
+  background: linear-gradient(to bottom, var(--bg-soft), #ffffff);
   padding: 30px 20px 20px;
   border-bottom: 1px solid #f1f5f9;
 }
@@ -697,7 +703,7 @@ body {
 }
 
 .section-divider span {
-    background: #f4f5f7; /* Mesma cor do fundo da main */
+    background: var(--bg);
     padding: 0 15px;
 }
 
