@@ -42,3 +42,5 @@ Thiago Alves
 <img width="409" height="409" alt="Thiago Alves" src="https://github.com/user-attachments/assets/3cfeee29-c8b6-470f-8ae0-2088fcd0febb" />
 Vinicius
 <img width="409" height="409" alt="Vinicius" src="https://github.com/user-attachments/assets/e9038a7d-dccb-4025-a41b-fd29594982e3" />
+Cirlei
+<img width="409" height="409" alt="foto_cirlei" src="https://github.com/user-attachments/assets/c3436931-fb8d-486d-9c6a-ad2e33e4d667" />
