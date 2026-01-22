@@ -98,6 +98,7 @@
                     "nomes": [
                       {
                         "nome": "Adriel Rego",
+                        "turno": "Dia",
                         "matricula": "50275",
                         "foto": "https://github.com/user-attachments/assets/11c70c12-c8ed-4348-a3e4-efd93770b838",
                         "email": "adriel.estuda25@gmail.com",
@@ -109,6 +110,7 @@
                       },
                       {
                         "nome": "Luiz Gabriel",
+                        "turno": "Dia",
                         "matricula": "52290",
                         "foto": "https://github.com/user-attachments/assets/774cdc60-9407-49a2-963d-c96971cd0c26",
                         "email": "luiz.tavares@brasfort.com.br",
@@ -118,8 +120,21 @@
                         "descricao": "<br>Responsável pelo monitoramento remoto de sistemas de segurança eletrônica, atendendo ocorrências, executando rondas virtuais, checklists e prestando suporte técnico e administrativo. Atua como ponto central na detecção de incidentes e resposta rápida a riscos.",
                         "descricaoDetalhada": "<br> 1- Monitorar câmeras e alarmes em plataformas como SIM Next, Sigma Image e Sigma Cloud. <br> 2- Realizar checklists diários, registrando falhas e comunicando a equipe responsável.<br> 3- Verificar status individual das câmeras e informar o grupo técnico sobre falhas.<br> 4- Responder a disparos de alarme, contatando clientes, fiscais de ronda e órgãos competentes.<br> 5- Criar e alterar senhas, incluindo senhas de coação, nos sistemas internos.<br> 6- Atualizar cadastros e abrir Ordens de Serviço conforme necessidade.<br> 7- Executar arme e desarme das centrais de alarme conforme solicitações oficiais."
                       },
+                      {
+                        "nome": "Renier Müller Cunha da Silva",
+                        "turno": "Dia",
+                        "matricula": "53567",
+                        "foto": "",
+                        "email": "renier.silva@brasfort.com.br",
+                        "telefone": "",
+                        "nascimento": "",
+                        "admissao": "01/2026",
+                        "descricao": "<br>Responsável pelo monitoramento remoto de sistemas de segurança eletrônica, atendendo ocorrências, executando rondas virtuais, checklists e prestando suporte técnico e administrativo. Atua como ponto central na detecção de incidentes e resposta rápida a riscos.",
+                        "descricaoDetalhada": "<br> 1- Monitorar câmeras e alarmes em plataformas como SIM Next, Sigma Image e Sigma Cloud. <br> 2- Realizar checklists diários, registrando falhas e comunicando a equipe responsável.<br> 3- Verificar status individual das câmeras e informar o grupo técnico sobre falhas.<br> 4- Responder a disparos de alarme, contatando clientes, fiscais de ronda e órgãos competentes.<br> 5- Criar e alterar senhas, incluindo senhas de coação, nos sistemas internos.<br> 6- Atualizar cadastros e abrir Ordens de Serviço conforme necessidade.<br> 7- Executar arme e desarme das centrais de alarme conforme solicitações oficiais."
+                      },
                        {
                         "nome": "David Alves",
+                        "turno": "Noite",
                         "matricula": "52102",
                         "foto": "https://github.com/user-attachments/assets/7763c7c1-2630-45ed-879e-863e66c854f4",
                         "email": "davidalveez@gmail.com",
@@ -132,12 +147,25 @@
 
                       {
                         "nome": "Fabricio Forte",
+                        "turno": "Noite",
                         "matricula": "52702",
                         "foto": "https://github.com/user-attachments/assets/952337c8-42b4-4436-ae4a-f5d08cd9e33f",
-                        "email": "danilo.vinicius@brasfort.com.br",
+                        "email": "fabricio.forte@brasfort.com.br",
                         "telefone": "(61) 99585-7316",
                         "nascimento": "16/11/1996",
                         "admissao": "08/2025",
+                        "descricao": "<br>Responsável pelo monitoramento remoto de sistemas de segurança eletrônica, atendendo ocorrências, executando rondas virtuais, checklists e prestando suporte técnico e administrativo. Atua como ponto central na detecção de incidentes e resposta rápida a riscos.",
+                        "descricaoDetalhada": "<br> 1- Monitorar câmeras e alarmes em plataformas como SIM Next, Sigma Image e Sigma Cloud. <br> 2- Realizar checklists diários, registrando falhas e comunicando a equipe responsável.<br> 3- Verificar status individual das câmeras e informar o grupo técnico sobre falhas.<br> 4- Responder a disparos de alarme, contatando clientes, fiscais de ronda e órgãos competentes.<br> 5- Criar e alterar senhas, incluindo senhas de coação, nos sistemas internos.<br> 6- Atualizar cadastros e abrir Ordens de Serviço conforme necessidade.<br> 7- Executar arme e desarme das centrais de alarme conforme solicitações oficiais."
+                      },
+                      {
+                        "nome": "Marcos Vinicius Maia",
+                        "turno": "Noite",
+                        "matricula": "53539",
+                        "foto": "",
+                        "email": "marcos.maia@brasfort.com.br",
+                        "telefone": "(61) 981013307",
+                        "nascimento": "",
+                        "admissao": "01/2026",
                         "descricao": "<br>Responsável pelo monitoramento remoto de sistemas de segurança eletrônica, atendendo ocorrências, executando rondas virtuais, checklists e prestando suporte técnico e administrativo. Atua como ponto central na detecção de incidentes e resposta rápida a riscos.",
                         "descricaoDetalhada": "<br> 1- Monitorar câmeras e alarmes em plataformas como SIM Next, Sigma Image e Sigma Cloud. <br> 2- Realizar checklists diários, registrando falhas e comunicando a equipe responsável.<br> 3- Verificar status individual das câmeras e informar o grupo técnico sobre falhas.<br> 4- Responder a disparos de alarme, contatando clientes, fiscais de ronda e órgãos competentes.<br> 5- Criar e alterar senhas, incluindo senhas de coação, nos sistemas internos.<br> 6- Atualizar cadastros e abrir Ordens de Serviço conforme necessidade.<br> 7- Executar arme e desarme das centrais de alarme conforme solicitações oficiais."
                       }
