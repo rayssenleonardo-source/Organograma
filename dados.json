@@ -119,17 +119,6 @@
                         "descricaoDetalhada": "<br> 1- Monitorar câmeras e alarmes em plataformas como SIM Next, Sigma Image e Sigma Cloud. <br> 2- Realizar checklists diários, registrando falhas e comunicando a equipe responsável.<br> 3- Verificar status individual das câmeras e informar o grupo técnico sobre falhas.<br> 4- Responder a disparos de alarme, contatando clientes, fiscais de ronda e órgãos competentes.<br> 5- Criar e alterar senhas, incluindo senhas de coação, nos sistemas internos.<br> 6- Atualizar cadastros e abrir Ordens de Serviço conforme necessidade.<br> 7- Executar arme e desarme das centrais de alarme conforme solicitações oficiais."
                       },
                       {
-                        "nome": "David Alves",
-                        "matricula": "52102",
-                        "foto": "https://github.com/user-attachments/assets/7763c7c1-2630-45ed-879e-863e66c854f4",
-                        "email": "davidalveez@gmail.com",
-                        "telefone": "(61) 99875-5738",
-                        "nascimento": "14/07/1997",
-                        "admissao": "15/04/2025",
-                        "descricao": "<br>Responsável pelo monitoramento remoto de sistemas de segurança eletrônica, atendendo ocorrências, executando rondas virtuais, checklists e prestando suporte técnico e administrativo. Atua como ponto central na detecção de incidentes e resposta rápida a riscos.",
-                        "descricaoDetalhada": "<br> 1- Monitorar câmeras e alarmes em plataformas como SIM Next, Sigma Image e Sigma Cloud. <br> 2- Realizar checklists diários, registrando falhas e comunicando a equipe responsável.<br> 3- Verificar status individual das câmeras e informar o grupo técnico sobre falhas.<br> 4- Responder a disparos de alarme, contatando clientes, fiscais de ronda e órgãos competentes.<br> 5- Criar e alterar senhas, incluindo senhas de coação, nos sistemas internos.<br> 6- Atualizar cadastros e abrir Ordens de Serviço conforme necessidade.<br> 7- Executar arme e desarme das centrais de alarme conforme solicitações oficiais."
-                      },
-                      {
                         "nome": "Fabricio Forte",
                         "matricula": "52702",
                         "foto": "https://github.com/user-attachments/assets/952337c8-42b4-4436-ae4a-f5d08cd9e33f",
@@ -279,16 +268,7 @@
           "admissao": "03/2025",
           "descricao": "<br>Responsável por apoiar atividades administrativas e técnicas básicas no setor de segurança eletrônica, auxiliando na organização de documentos, no atendimento interno, no controle de materiais e no suporte simples a equipes de campo, desenvolvendo competências profissionais e conhecimento prático."
         },
-        {
-          "nome": "Davi Gadiolli",
-          "matricula": "53085",
-          "foto": "https://github.com/user-attachments/assets/0c105ea1-3fe7-44b5-8ead-b53247698363",
-          "email": "gadioldavi024@gmail.com",
-          "telefone": "(61) 98655-8705",
-          "nascimento": "29/07/2008",
-          "admissao": "15/07/2025",
-          "descricao": "<br>Responsável por apoiar atividades administrativas e técnicas básicas no setor de segurança eletrônica, auxiliando na organização de documentos, no atendimento interno, no controle de materiais e no suporte simples a equipes de campo, desenvolvendo competências profissionais e conhecimento prático."
-        },
+        
         {
           "nome": "Guilherme Alexandre",
           "matricula": "53097",
