@@ -209,7 +209,7 @@ function renderSupportGroups(grupos) {
 const mainContainer = document.getElementById('org-container');
 const DATA_URL = 'https://raw.githubusercontent.com/segurancaeletronicabrasfort/Organograma/refs/heads/main/dados.json';
 
-fetch(DATA_URL)
+fetch('dados.json', { cache: 'no-store' })
   .then(response => response.json())
   .then(data => {
       // Verifica se o JSON tem a estrutura nova (principal/apoio) ou antiga
@@ -247,7 +247,7 @@ const btnAdmin = document.getElementById('btn-admin-access');
 if (btnAdmin) {
     btnAdmin.addEventListener('click', () => {
         const senha = prompt("Digite a senha de administrador:");
-        if (senha === "123497") {
+        if (senha === "123") {
             window.location.href = "Admin/admin.html";
         } else if (senha !== null) {
             alert("Senha incorreta!");
