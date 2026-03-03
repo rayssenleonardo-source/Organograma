@@ -109,35 +109,90 @@ function createNodeElement(data) {
 
     const groupDiv = document.createElement('div');
     groupDiv.className = 'group-container';
-    if (data.layout === "vertical") groupDiv.classList.add("vertical-layout");
+    const cargoNormalizado = String(data.cargo || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .trim()
+        .toLowerCase();
+    const isAuxiliarTecnico = cargoNormalizado === 'auxiliar tecnico';
+    if (data.layout === "vertical" || isAuxiliarTecnico) {
+        groupDiv.classList.add("vertical-layout");
+    }
 
-    if (data.nomes && data.nomes.length > 0) {
-        data.nomes.forEach(pessoa => {
-            let dados = (typeof pessoa === 'object') ? pessoa : { nome: pessoa };
-            const card = document.createElement('div');
-            card.className = 'card';
+    const appendPersonCard = (pessoa, target) => {
+        const dados = (typeof pessoa === 'object') ? pessoa : { nome: pessoa };
+        const card = document.createElement('div');
+        card.className = 'card';
 
-            const avatarMini = document.createElement('div');
-            avatarMini.className = 'avatar';
-            if (dados.foto) {
-                const img = document.createElement('img');
-                img.src = dados.foto;
-                avatarMini.appendChild(img);
-            } else {
-                avatarMini.innerText = getInitials(dados.nome);
+        const avatarMini = document.createElement('div');
+        avatarMini.className = 'avatar';
+        if (dados.foto) {
+            const img = document.createElement('img');
+            img.src = dados.foto;
+            avatarMini.appendChild(img);
+        } else {
+            avatarMini.innerText = getInitials(dados.nome);
+        }
+
+        const nameEl = document.createElement('h3');
+        nameEl.innerText = dados.nome;
+        const roleEl = document.createElement('div');
+        roleEl.className = 'role-tag';
+        roleEl.innerText = data.cargo;
+
+        card.appendChild(avatarMini);
+        card.appendChild(nameEl);
+        card.appendChild(roleEl);
+        card.addEventListener('click', () => openModal(dados, data.cargo));
+        target.appendChild(card);
+    };
+
+    if (data.cargo === 'Op. Monitoramento' && Array.isArray(data.nomes) && data.nomes.length > 0) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'monitoramento-columns monitoramento-turnos';
+
+        const colManha = document.createElement('div');
+        colManha.className = 'monitoramento-col';
+        colManha.innerHTML = '<h4>Operadores - Dia</h4>';
+
+        const colNoite = document.createElement('div');
+        colNoite.className = 'monitoramento-col';
+        colNoite.innerHTML = '<h4>Operadores - Noite</h4>';
+
+        data.nomes.forEach((pessoa, index) => {
+            const dados = (typeof pessoa === 'object') ? pessoa : { nome: pessoa };
+            const turno = String(dados.turno || '').trim().toLowerCase();
+            const isNoite = turno.includes('noite');
+            if (!turno) {
+                appendPersonCard(dados, index % 2 === 0 ? colManha : colNoite);
+                return;
             }
+            appendPersonCard(dados, isNoite ? colNoite : colManha);
+        });
 
-            const nameEl = document.createElement('h3');
-            nameEl.innerText = dados.nome;
-            const roleEl = document.createElement('div');
-            roleEl.className = 'role-tag';
-            roleEl.innerText = data.cargo;
+        wrapper.appendChild(colManha);
+        wrapper.appendChild(colNoite);
+        groupDiv.appendChild(wrapper);
+    } else if (data.cargo === 'Técnico de Suporte' && Array.isArray(data.nomes) && data.nomes.length > 1) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'monitoramento-columns suporte-columns';
 
-            card.appendChild(avatarMini);
-            card.appendChild(nameEl);
-            card.appendChild(roleEl);
-            card.addEventListener('click', () => openModal(dados, data.cargo));
-            groupDiv.appendChild(card);
+        const colEsquerda = document.createElement('div');
+        colEsquerda.className = 'monitoramento-col';
+
+        const colDireita = document.createElement('div');
+        colDireita.className = 'monitoramento-col';
+
+        data.nomes.forEach((pessoa, index) => {
+            appendPersonCard(pessoa, index % 2 === 0 ? colEsquerda : colDireita);
+        });
+
+        wrapper.appendChild(colEsquerda);
+        wrapper.appendChild(colDireita);
+        groupDiv.appendChild(wrapper);
+    } else if (data.nomes && data.nomes.length > 0) {
+        data.nomes.forEach(pessoa => {
+            appendPersonCard(pessoa, groupDiv);
         });
     }
     nodeDiv.appendChild(groupDiv);
@@ -207,28 +262,52 @@ function renderSupportGroups(grupos) {
 // 5. CARREGAMENTO DOS DADOS (JSON)
 // ============================================================================
 const mainContainer = document.getElementById('org-container');
-const DATA_URL = 'https://raw.githubusercontent.com/segurancaeletronicabrasfort/Organograma/refs/heads/main/dados.json';
+const DATA_SOURCES = [
+    '/api/dados',
+    'http://127.0.0.1:5000/api/dados',
+    'http://localhost:5000/api/dados',
+    'dados.json'
+];
 
-fetch('dados.json', { cache: 'no-store' })
-  .then(response => response.json())
-  .then(data => {
-      // Verifica se o JSON tem a estrutura nova (principal/apoio) ou antiga
-      const arvorePrincipal = data.principal ? data.principal : data;
+function fetchWithTimeout(url, timeoutMs = 2000) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
 
-      if (mainContainer && arvorePrincipal) {
-          mainContainer.innerHTML = '';
-          mainContainer.appendChild(createNodeElement(arvorePrincipal));
-      }
+    return fetch(url, { cache: 'no-store', signal: controller.signal })
+        .finally(() => clearTimeout(timer));
+}
 
-      // Se tiver a parte de apoio, renderiza embaixo
-      if (data.apoio) {
-          renderSupportGroups(data.apoio);
-      }
-  })
-  .catch(error => {
-      console.error('Erro ao carregar o JSON:', error);
-      if(mainContainer) mainContainer.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar dados.json</p>';
-  });
+async function loadData() {
+    for (const source of DATA_SOURCES) {
+        try {
+            const response = await fetchWithTimeout(source);
+            if (!response.ok) continue;
+            return await response.json();
+        } catch (error) {
+            console.debug(`Falha ao carregar ${source}:`, error?.message || error);
+        }
+    }
+
+    throw new Error('Nenhuma fonte de dados disponivel.');
+}
+
+loadData()
+    .then(data => {
+        const arvorePrincipal = data.principal ? data.principal : data;
+
+        if (mainContainer && arvorePrincipal) {
+            mainContainer.innerHTML = '';
+            mainContainer.appendChild(createNodeElement(arvorePrincipal));
+        }
+
+        if (data.apoio) {
+            renderSupportGroups(data.apoio);
+        }
+    })
+    .catch(error => {
+        console.error('Erro ao carregar o JSON:', error);
+        if (mainContainer) mainContainer.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar dados.</p>';
+    });
 
 // ============================================================================
 // 6. SPLASH SCREEN & ADMIN
@@ -246,11 +325,6 @@ document.addEventListener("DOMContentLoaded", () => {
 const btnAdmin = document.getElementById('btn-admin-access');
 if (btnAdmin) {
     btnAdmin.addEventListener('click', () => {
-        const senha = prompt("Digite a senha de administrador:");
-        if (senha === "123") {
-            window.location.href = "Admin/admin.html";
-        } else if (senha !== null) {
-            alert("Senha incorreta!");
-        }
+        window.location.href = "Admin/login.html";
     });
 }

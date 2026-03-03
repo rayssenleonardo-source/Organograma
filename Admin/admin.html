@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Administrativo - Organograma</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="admin.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 </head>
@@ -16,17 +16,25 @@
             <h1>Editor do Organograma</h1>
         </div>
         <div class="actions">
-            <button id="btn-save-json" class="btn-primary">
-                <span class="material-icons-round">download</span>
-                Baixar JSON Atualizado
+            <button id="btn-clear-draft" class="btn-secondary" type="button">
+                <span class="material-icons-round">delete_sweep</span>
+                Limpar Rascunho
             </button>
-            <a href="https://segurancaeletronicabrasfort.github.io/Organograma/" class="btn-secondary" target="_blank">Ver Organograma</a>
+            <button id="btn-logout" class="btn-secondary" type="button">
+                <span class="material-icons-round">logout</span>
+                Sair
+            </button>
+            <a href="../index.html" class="btn-secondary" target="_blank">Ver Organograma</a>
         </div>
     </header>
 
     <div class="admin-container">
         <aside class="sidebar">
             <h3>Estrutura Hierárquica</h3>
+            <div class="sidebar-search">
+                <span class="material-icons-round">search</span>
+                <input id="tree-search" type="search" placeholder="Buscar colaborador ou cargo">
+            </div>
             <div id="tree-view" class="tree-view">
                 </div>
         </aside>
@@ -45,11 +53,17 @@
                             <span class="material-icons-round">delete</span>
                         </button>
                         <button type="button" id="btn-add-child" class="btn-success" title="Adicionar Subordinado">
-                            <span class="material-icons-round">person_add</span> Adicionar Subordinado
+                            <span class="material-icons-round">person_add</span> Criar Usuario
                         </button>
                     </div>
                 </div>
 
+                <div class="editor-tabs">
+                    <button type="button" class="editor-tab active" data-tab-target="tab-edit">Editar Perfil</button>
+                    <button type="button" class="editor-tab" data-tab-target="tab-create">Criar Usuario</button>
+                </div>
+
+                <div id="tab-edit" class="tab-panel active">
                 <div class="form-grid">
                     <div class="form-group">
                         <label>Nome Completo</label>
@@ -62,9 +76,33 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Foto (URL)</label>
-                        <input type="text" name="foto">
-                        <small>Link do GitHub ou pasta img/</small>
+                        <label>Nivel Hierarquico</label>
+                        <input type="number" name="nivel_display" min="1" max="5" step="1" required>
+                        <small id="level-range-hint">Permitido: 1 a 5.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Turno (Monitoramento)</label>
+                        <select name="turno">
+                            <option value="">Nao informado</option>
+                            <option value="Dia">Dia</option>
+                            <option value="Noite">Noite</option>
+                        </select>
+                        <small>Usado para separar operadores entre Manha e Noite.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Foto (URL ou Arquivo)</label>
+                        <input type="text" name="foto" id="foto-url" placeholder="https://...">
+                        <input type="file" id="foto-file" accept="image/*">
+                        <div class="photo-actions">
+                            <button type="button" id="btn-remove-photo" class="btn-danger btn-mini">
+                                <span class="material-icons-round">delete</span>
+                                Remover Foto
+                            </button>
+                        </div>
+                        <img id="photo-preview" class="photo-preview hidden" alt="Previa da foto">
+                        <small>Upload vira base64 no JSON. Para remover, use o botao acima.</small>
                     </div>
 
                     <div class="form-group">
@@ -105,7 +143,45 @@
                 </div>
 
                 <div class="form-footer">
-                    <button type="submit" class="btn-save">Salvar Alterações na Memória</button>
+                    <button type="submit" class="btn-save">Salvar</button>
+                    <p id="save-status" class="save-status hidden"></p>
+                </div>
+                </div>
+
+                <div id="tab-create" class="tab-panel hidden">
+                    <div class="create-card">
+                        <h3>Novo Subordinado</h3>
+                        <p class="create-help">Crie um novo usuario no no selecionado, com nivel e turno definidos.</p>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Nome</label>
+                                <input type="text" id="create-nome" placeholder="Nome do colaborador">
+                            </div>
+                            <div class="form-group">
+                                <label>Cargo</label>
+                                <input type="text" id="create-cargo" placeholder="Cargo do setor">
+                            </div>
+                            <div class="form-group">
+                                <label>Nivel</label>
+                                <input type="number" id="create-nivel" min="1" max="5" step="1">
+                                <small id="create-level-hint">Permitido: 1 a 5.</small>
+                            </div>
+                            <div class="form-group">
+                                <label>Turno</label>
+                                <select id="create-turno">
+                                    <option value="">Nao informado</option>
+                                    <option value="Dia">Dia</option>
+                                    <option value="Noite">Noite</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-footer">
+                            <button type="button" id="btn-create-user" class="btn-save">Criar Usuario</button>
+                            <p id="create-user-status" class="save-status hidden"></p>
+                        </div>
+                    </div>
                 </div>
             </form>
         </main>

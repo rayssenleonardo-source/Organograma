@@ -152,7 +152,7 @@ body {
   display: flex;
   justify-content: center;
   gap: 15px;
-  margin-bottom: 30px;
+  margin-bottom: 0;
   position: relative;
   z-index: 2;
 }
@@ -215,6 +215,7 @@ body {
   margin-bottom: 8px;
   background-color: rgba(148,163,184,0.6);
   overflow: hidden;
+  align-self: center;
 }
 
 .avatar img {
@@ -230,6 +231,7 @@ body {
   font-weight: 700; /* Barlow Bold */
   color: var(--text);
   line-height: 1.2;
+  text-align: center;
 }
 
 .role-tag {
@@ -274,9 +276,6 @@ background: linear-gradient(
 .level-1 .avatar {
   border: 2px solid rgba(255,255,255,0.6);
 }
-.level-1 .card { border-top: 3px solid #ffffffb3; }
-.level-1.card::before { background: #ffffffb3; }
-
 .level-2 .card { border-top: 3px solid #d1af6e; }
 .level-2 .card::before { background: #d1af6e; }
 
@@ -301,9 +300,12 @@ background: linear-gradient(
 .children {
   display: flex !important;
   justify-content: center;
+  --connector-gap: 30px;
+  --parent-children-gap: 30px;
   padding-top: 20px; /* Espaço para a linha vertical que vem do PAI */
+  margin-top: var(--parent-children-gap);
   position: relative;
-  gap: 30px;
+  gap: var(--connector-gap);
 }
 
 /* Linha Vertical MESTRA (Sai do Pai e desce até os filhos) */
@@ -311,10 +313,10 @@ background: linear-gradient(
   content: '';
   display: block;
   position: absolute;
-  top: 0;
+  top: calc(-1 * var(--parent-children-gap));
   left: 50%;
   width: 2px; /* Espessura da linha */
-  height: 20px; /* Altura da descida */
+  height: calc(20px + var(--parent-children-gap)); /* Cobre o vão entre card pai e filhos */
   background-color: #cbd5e1; /* Cor da linha */
   transform: translateX(-50%);
   z-index: 1;
@@ -333,8 +335,8 @@ background: linear-gradient(
   content: '';
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%; /* Por padrão, ocupa toda a largura do nó */
+  left: calc(var(--connector-gap) * -0.5);
+  width: calc(100% + var(--connector-gap)); /* Cobre o gap para não criar buracos */
   height: 2px;
   background-color: #cbd5e1;
   display: block;
@@ -359,15 +361,14 @@ background: linear-gradient(
 /* (Removemos a metade esquerda da linha) */
 .node:first-child::before {
   left: 50%;
-  width: 70%;
+  width: calc(50% + (var(--connector-gap) * 0.5));
 }
 
 /* 2. Último Filho: A linha horizontal deve começar na esquerda e parar no meio */
 /* (Removemos a metade direita da linha) */
 .node:last-child::before {
-  right: 50%;
-  width: 70%;
-  left: auto; /* Importante para anular o left:0 padrão */
+  left: calc(var(--connector-gap) * -0.5);
+  width: calc(50% + (var(--connector-gap) * 0.5));
 }
 
 /* 3. Filho Único: Se só tem um, não precisa de linha horizontal, apenas a vertical */
@@ -736,7 +737,34 @@ background: linear-gradient(
 .monitoramento-columns {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  --split-column-gap: 16px;
+  gap: var(--split-column-gap);
+  position: relative;
+  padding-top: calc(var(--split-trunk) + var(--split-branch));
+  --split-color: #cbd5e1;
+  --split-trunk: 12px;
+  --split-branch: 12px;
+}
+
+.monitoramento-columns::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 2px;
+  height: var(--split-trunk);
+  background-color: var(--split-color);
+  transform: translateX(-50%);
+}
+
+.monitoramento-columns::after {
+  content: "";
+  position: absolute;
+  top: var(--split-trunk);
+  left: calc(25% - (var(--split-column-gap) / 4) - 1px);
+  width: calc(50% + (var(--split-column-gap) / 2) + 2px);
+  height: 2px;
+  background-color: var(--split-color);
 }
 
 .monitoramento-col h4 {
@@ -744,11 +772,39 @@ background: linear-gradient(
   font-size: 13px;
   font-weight: 600;
   color: #475569;
+  margin-top: 0;
   margin-bottom: 8px;
 }
 
 .monitoramento-col {
+  position: relative;
   display: flex;
   flex-direction: column;
+  padding-top: 0;
   gap: 10px;
+}
+
+.monitoramento-col::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--split-branch) * -1);
+  left: 50%;
+  width: 2px;
+  height: var(--split-branch);
+  background-color: var(--split-color);
+  transform: translateX(-50%);
+}
+
+.monitoramento-turnos .monitoramento-col h4 {
+  margin: 0 0 12px;
+  font-weight: 700;
+  display: block;
+  width: 100%;
+  padding: 8px 10px;
+  text-align: center;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  color: #334155;
+  letter-spacing: 0.3px;
 }

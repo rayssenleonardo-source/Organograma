@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Admin - Organograma</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="login.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+</head>
+<body class="admin-login-body">
+    <main class="login-wrapper">
+        <section class="login-card">
+            <div class="login-brand">
+                <span class="material-icons-round">admin_panel_settings</span>
+                <h1>Acesso Administrativo</h1>
+            </div>
+
+            <p class="login-subtitle">Entre com a senha para editar o organograma.</p>
+
+            <form id="admin-login-form" class="login-form">
+                <label for="admin-password">Senha</label>
+                <input id="admin-password" name="password" type="password" autocomplete="current-password" required>
+                <button type="submit" class="btn-save">Entrar</button>
+                <p id="login-status" class="login-status hidden"></p>
+            </form>
+
+            <a href="../index.html" class="btn-secondary login-back">Voltar ao Organograma</a>
+        </section>
+    </main>
+
+    <script src="login.js"></script>
+</body>
+</html>
