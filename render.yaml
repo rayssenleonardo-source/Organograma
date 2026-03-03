@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: organograma
+    runtime: python
+    plan: free
+    buildCommand: pip install --upgrade pip && pip install -r backend/requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 60 backend.app:app
+    healthCheckPath: /api/health
+    envVars:
+      - key: FLASK_DEBUG
+        value: "false"
+      - key: DATA_FILE
+        value: /var/data/dados.json
+      - key: UPLOADS_DIR
+        value: /var/data/uploads
+    disk:
+      name: organograma-data
+      mountPath: /var/data
+      sizeGB: 1

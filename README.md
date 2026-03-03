@@ -55,3 +55,29 @@ Aplicacao: `http://localhost:5000`
 
 - O `dados.json` e a pasta `uploads/` ficam montados do host para o container.
 - Alteracoes feitas no Admin com backend ativo sao persistidas sem baixar JSON manualmente.
+
+## Deploy no Render
+
+Este repositório ja inclui `render.yaml` para subir como Web Service Python.
+
+### Opcao 1 (recomendada): Blueprint
+1. No Render, clique em `New +` > `Blueprint`.
+2. Conecte este repositório.
+3. Confirme a criacao do servico `organograma` usando o `render.yaml`.
+
+### Opcao 2: Configuracao manual
+- Runtime: `Python`
+- Build Command: `pip install --upgrade pip && pip install -r backend/requirements.txt`
+- Start Command: `gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 60 backend.app:app`
+- Health Check Path: `/api/health`
+
+### Variaveis de ambiente
+- `FLASK_DEBUG=false`
+- `DATA_FILE=/var/data/dados.json`
+- `UPLOADS_DIR=/var/data/uploads`
+
+### Disco persistente (obrigatorio para salvar alteracoes)
+- Mount Path: `/var/data`
+- Tamanho sugerido: `1 GB` ou mais
+
+Sem disco persistente, dados do `dados.json` e imagens em `uploads/` podem ser perdidos em restart/redeploy.

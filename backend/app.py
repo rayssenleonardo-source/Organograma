@@ -12,9 +12,9 @@ from flask import Flask, jsonify, request, send_from_directory
 from werkzeug.utils import secure_filename
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
-DATA_FILE = ROOT_DIR / "dados.json"
-UPLOADS_DIR = ROOT_DIR / "uploads"
-UPLOADS_DIR.mkdir(parents=True, exist_ok=True)
+DEFAULT_DATA_FILE = ROOT_DIR / "dados.json"
+DATA_FILE = Path(os.getenv("DATA_FILE", str(DEFAULT_DATA_FILE))).expanduser()
+UPLOADS_DIR = Path(os.getenv("UPLOADS_DIR", str(ROOT_DIR / "uploads"))).expanduser()
 
 ALLOWED_EXTENSIONS = {
     ".png",
@@ -28,6 +28,30 @@ ALLOWED_EXTENSIONS = {
 
 app = Flask(__name__, static_folder=str(ROOT_DIR), static_url_path="")
 app.config["MAX_CONTENT_LENGTH"] = 8 * 1024 * 1024
+
+
+def initialize_storage() -> None:
+    UPLOADS_DIR.mkdir(parents=True, exist_ok=True)
+    DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
+
+    if DATA_FILE.exists():
+        return
+
+    if DEFAULT_DATA_FILE.exists():
+        DATA_FILE.write_text(DEFAULT_DATA_FILE.read_text(encoding="utf-8"), encoding="utf-8")
+        return
+
+    with DATA_FILE.open("w", encoding="utf-8") as handle:
+        json.dump(
+            {
+                "principal": {"cargo": "Organograma", "nomes": [], "filhos": []},
+                "apoio": [],
+            },
+            handle,
+            ensure_ascii=False,
+            indent=2,
+        )
+        handle.write("\n")
 
 
 def read_data() -> dict:
@@ -50,13 +74,17 @@ def normalize_upload_url(raw_url: str) -> Path:
     if not clean_path.startswith("/uploads/"):
         raise ValueError("A URL precisa apontar para /uploads/.")
 
-    target = (ROOT_DIR / clean_path.lstrip("/")).resolve()
+    upload_relative_path = clean_path.removeprefix("/uploads/")
+    target = (UPLOADS_DIR / upload_relative_path).resolve()
     uploads_root = UPLOADS_DIR.resolve()
 
-    if uploads_root not in target.parents:
+    if target == uploads_root or uploads_root not in target.parents:
         raise ValueError("Caminho de upload invalido.")
 
     return target
+
+
+initialize_storage()
 
 
 @app.after_request
