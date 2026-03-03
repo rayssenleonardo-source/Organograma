@@ -3,8 +3,25 @@ services:
     name: organograma
     runtime: python
     plan: free
-    buildCommand: pip install --upgrade pip && pip install -r backend/requirements.txt
-    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 60 backend.app:app
+    buildCommand: |
+      pip install --upgrade pip
+      if [ -f backend/requirements.txt ]; then
+        pip install -r backend/requirements.txt
+      elif [ -f requirements.txt ]; then
+        pip install -r requirements.txt
+      else
+        echo "requirements.txt nao encontrado"
+        exit 1
+      fi
+    startCommand: |
+      if [ -f backend/app.py ]; then
+        gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 60 backend.app:app
+      elif [ -f app.py ]; then
+        gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 60 app:app
+      else
+        echo "app.py nao encontrado"
+        exit 1
+      fi
     healthCheckPath: /api/health
     envVars:
       - key: FLASK_DEBUG
