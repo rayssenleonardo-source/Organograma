@@ -300,9 +300,9 @@ function clearDraft() {
     localStorage.removeItem(STORAGE_KEY);
 }
 
-async function persistServer(showAlert = false) {
+async function persistServer(showAlert = false, showStatus = true) {
     if (!activeApiBase) {
-        if (showAlert) alert('Backend nao conectado.');
+        if (showStatus) setStatus('Backend nao conectado. Alteracoes mantidas no rascunho local.', 'warning');
         return false;
     }
 
@@ -318,27 +318,28 @@ async function persistServer(showAlert = false) {
             throw new Error(details || `HTTP ${response.status}`);
         }
 
-        setStatus('Dados salvos no servidor.');
-        if (showAlert) alert('Dados salvos no servidor com sucesso.');
+        if (showStatus) setStatus('Alteracoes salvas com sucesso.', 'success');
         return true;
     } catch (error) {
         console.error('Erro ao salvar no servidor:', error);
-        setStatus('Falha ao salvar no servidor. Mantido no rascunho local.');
-        if (showAlert) alert('Falha ao salvar no servidor. Confira se o backend esta rodando.');
+        if (showStatus) setStatus('Falha ao salvar no servidor. Mantido no rascunho local.', 'warning');
         return false;
     }
 }
 
-function setStatus(message) {
-    if (!saveStatus) return;
-    saveStatus.innerText = message;
-    saveStatus.classList.remove('hidden');
+function updateStatusElement(element, message, tone = 'info') {
+    if (!element) return;
+    element.innerText = message;
+    element.classList.remove('hidden', 'status-info', 'status-success', 'status-warning');
+    element.classList.add(`status-${tone}`);
 }
 
-function setCreateStatus(message) {
-    if (!createUserStatus) return;
-    createUserStatus.innerText = message;
-    createUserStatus.classList.remove('hidden');
+function setStatus(message, tone = 'info') {
+    updateStatusElement(saveStatus, message, tone);
+}
+
+function setCreateStatus(message, tone = 'info') {
+    updateStatusElement(createUserStatus, message, tone);
 }
 
 function switchTab(targetId) {
@@ -625,33 +626,26 @@ function applyFormToSelectedNode() {
     return true;
 }
 
-async function saveCurrentFormChanges({ renderTreeView = false, showAlerts = false } = {}) {
+async function saveCurrentFormChanges({ renderTreeView = false, showFeedback = false } = {}) {
     if (!applyFormToSelectedNode()) return;
     syncTreeLevels();
     persistDraft();
-    const savedOnServer = await persistServer(false);
+    await persistServer(false, showFeedback);
 
     if (renderTreeView) renderTree();
-
-    if (!showAlerts) return;
-    if (savedOnServer) {
-        alert('Alteracoes salvas no servidor.');
-    } else {
-        alert('Alteracoes salvas no rascunho local. Backend indisponivel no momento.');
-    }
 }
 
 function scheduleAutoSave() {
     if (!selectedNode) return;
     if (autoSaveTimer) clearTimeout(autoSaveTimer);
     autoSaveTimer = setTimeout(() => {
-        saveCurrentFormChanges({ renderTreeView: false, showAlerts: false });
+        saveCurrentFormChanges({ renderTreeView: false, showFeedback: false });
     }, 700);
 }
 
 editForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    await saveCurrentFormChanges({ renderTreeView: true, showAlerts: true });
+    await saveCurrentFormChanges({ renderTreeView: true, showFeedback: true });
 });
 
 btnAddChild.addEventListener('click', async () => {
@@ -800,9 +794,13 @@ btnCreateUser?.addEventListener('click', async () => {
 
     syncTreeLevels();
     persistDraft();
-    await persistServer(false);
+    const savedOnServer = await persistServer(false, true);
     renderTree();
-    setCreateStatus('Usuario criado com sucesso.');
+    if (savedOnServer) {
+        setCreateStatus('Usuario criado e salvo com sucesso.', 'success');
+    } else {
+        setCreateStatus('Usuario criado no rascunho local (backend indisponivel).', 'warning');
+    }
     createNomeInput.value = '';
 });
 
