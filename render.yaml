@@ -17,3 +17,15 @@ services:
         value: /tmp/dados.json
       - key: UPLOADS_DIR
         value: /tmp/uploads
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SUPABASE_DATA_TABLE
+        value: organograma_data
+      - key: SUPABASE_DATA_ROW_ID
+        value: main
+      - key: SUPABASE_STORAGE_BUCKET
+        value: organograma-uploads
+      - key: SUPABASE_STORAGE_PREFIX
+        value: organograma

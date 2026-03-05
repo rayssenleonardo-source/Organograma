@@ -881,7 +881,7 @@ fotoFileInput?.addEventListener('change', async () => {
 btnRemovePhoto?.addEventListener('click', async () => {
     const current = (fotoUrlInput.value || '').trim();
 
-    if (current && activeApiBase && current.includes('/uploads/')) {
+    if (current && activeApiBase && !current.startsWith('data:')) {
         try {
             await removePhotoFromServer(current);
         } catch (error) {

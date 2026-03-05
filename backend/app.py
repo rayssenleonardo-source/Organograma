@@ -8,6 +8,7 @@ import uuid
 from pathlib import Path
 from urllib.parse import unquote, urlparse
 
+import requests
 from flask import Flask, jsonify, request, send_from_directory
 from werkzeug.utils import secure_filename
 
@@ -15,6 +16,16 @@ ROOT_DIR = Path(__file__).resolve().parent.parent
 DEFAULT_DATA_FILE = ROOT_DIR / "dados.json"
 DATA_FILE = Path(os.getenv("DATA_FILE", str(DEFAULT_DATA_FILE))).expanduser()
 UPLOADS_DIR = Path(os.getenv("UPLOADS_DIR", str(ROOT_DIR / "uploads"))).expanduser()
+
+SUPABASE_URL = os.getenv("SUPABASE_URL", "").strip().rstrip("/")
+SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "").strip()
+SUPABASE_DATA_TABLE = os.getenv("SUPABASE_DATA_TABLE", "organograma_data").strip() or "organograma_data"
+SUPABASE_DATA_ROW_ID = os.getenv("SUPABASE_DATA_ROW_ID", "main").strip() or "main"
+SUPABASE_STORAGE_BUCKET = os.getenv("SUPABASE_STORAGE_BUCKET", "").strip()
+SUPABASE_STORAGE_PREFIX = os.getenv("SUPABASE_STORAGE_PREFIX", "organograma").strip("/")
+
+USE_SUPABASE_DATA = bool(SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY)
+USE_SUPABASE_STORAGE = USE_SUPABASE_DATA and bool(SUPABASE_STORAGE_BUCKET)
 
 ALLOWED_EXTENSIONS = {
     ".png",
@@ -30,8 +41,110 @@ app = Flask(__name__, static_folder=str(ROOT_DIR), static_url_path="")
 app.config["MAX_CONTENT_LENGTH"] = 8 * 1024 * 1024
 
 
+def default_payload() -> dict:
+    if DEFAULT_DATA_FILE.exists():
+        try:
+            with DEFAULT_DATA_FILE.open("r", encoding="utf-8") as handle:
+                payload = json.load(handle)
+            if isinstance(payload, dict):
+                return payload
+        except Exception:
+            pass
+
+    return {
+        "principal": {"cargo": "Organograma", "nomes": [], "filhos": []},
+        "apoio": [],
+    }
+
+
+def supabase_headers(extra: dict | None = None) -> dict:
+    headers = {
+        "apikey": SUPABASE_SERVICE_ROLE_KEY,
+        "Authorization": f"Bearer {SUPABASE_SERVICE_ROLE_KEY}",
+    }
+    if extra:
+        headers.update(extra)
+    return headers
+
+
+def supabase_request(
+    method: str,
+    path: str,
+    *,
+    params: dict | None = None,
+    json_payload: object | None = None,
+    data: bytes | None = None,
+    extra_headers: dict | None = None,
+    timeout: int = 10,
+) -> requests.Response:
+    if not USE_SUPABASE_DATA:
+        raise RuntimeError("Supabase nao configurado.")
+
+    url = f"{SUPABASE_URL}{path}"
+    headers = supabase_headers(extra_headers)
+    return requests.request(
+        method=method,
+        url=url,
+        params=params,
+        json=json_payload,
+        data=data,
+        headers=headers,
+        timeout=timeout,
+    )
+
+
+def supabase_read_data() -> dict:
+    response = supabase_request(
+        "GET",
+        f"/rest/v1/{SUPABASE_DATA_TABLE}",
+        params={
+            "select": "payload",
+            "id": f"eq.{SUPABASE_DATA_ROW_ID}",
+            "limit": "1",
+        },
+        timeout=10,
+    )
+    if response.status_code >= 400:
+        raise RuntimeError(f"Falha ao ler dados no Supabase: HTTP {response.status_code}")
+
+    rows = response.json()
+    if not rows:
+        raise FileNotFoundError("Registro de dados nao encontrado no Supabase.")
+
+    payload = rows[0].get("payload")
+    if not isinstance(payload, dict):
+        raise RuntimeError("Payload invalido no Supabase.")
+
+    return payload
+
+
+def supabase_write_data(payload: dict) -> None:
+    response = supabase_request(
+        "POST",
+        f"/rest/v1/{SUPABASE_DATA_TABLE}",
+        params={"on_conflict": "id"},
+        json_payload=[{"id": SUPABASE_DATA_ROW_ID, "payload": payload}],
+        extra_headers={
+            "Content-Type": "application/json",
+            "Prefer": "resolution=merge-duplicates,return=minimal",
+        },
+        timeout=10,
+    )
+    if response.status_code >= 400:
+        raise RuntimeError(f"Falha ao gravar dados no Supabase: HTTP {response.status_code}")
+
+
 def initialize_storage() -> None:
-    UPLOADS_DIR.mkdir(parents=True, exist_ok=True)
+    if not USE_SUPABASE_STORAGE:
+        UPLOADS_DIR.mkdir(parents=True, exist_ok=True)
+
+    if USE_SUPABASE_DATA:
+        try:
+            supabase_read_data()
+        except FileNotFoundError:
+            supabase_write_data(default_payload())
+        return
+
     DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
 
     if DATA_FILE.exists():
@@ -42,24 +155,23 @@ def initialize_storage() -> None:
         return
 
     with DATA_FILE.open("w", encoding="utf-8") as handle:
-        json.dump(
-            {
-                "principal": {"cargo": "Organograma", "nomes": [], "filhos": []},
-                "apoio": [],
-            },
-            handle,
-            ensure_ascii=False,
-            indent=2,
-        )
+        json.dump(default_payload(), handle, ensure_ascii=False, indent=2)
         handle.write("\n")
 
 
 def read_data() -> dict:
+    if USE_SUPABASE_DATA:
+        return supabase_read_data()
+
     with DATA_FILE.open("r", encoding="utf-8") as handle:
         return json.load(handle)
 
 
 def write_data_atomic(payload: dict) -> None:
+    if USE_SUPABASE_DATA:
+        supabase_write_data(payload)
+        return
+
     # Em bind mount de arquivo único (./dados.json:/app/dados.json), usar rename
     # pode "descolar" o arquivo do host. Escrita direta mantém sincronismo.
     with DATA_FILE.open("w", encoding="utf-8") as handle:
@@ -67,7 +179,7 @@ def write_data_atomic(payload: dict) -> None:
         handle.write("\n")
 
 
-def normalize_upload_url(raw_url: str) -> Path:
+def normalize_local_upload_url(raw_url: str) -> Path:
     parsed = urlparse(raw_url)
     clean_path = unquote(parsed.path or "")
 
@@ -82,6 +194,64 @@ def normalize_upload_url(raw_url: str) -> Path:
         raise ValueError("Caminho de upload invalido.")
 
     return target
+
+
+def normalize_supabase_upload_path(raw_url: str) -> str:
+    parsed = urlparse(raw_url)
+    clean_path = unquote(parsed.path or "")
+    supabase_host = urlparse(SUPABASE_URL).netloc
+
+    if parsed.netloc and parsed.netloc != supabase_host:
+        raise ValueError("A URL nao pertence ao Supabase configurado.")
+
+    prefix = f"/storage/v1/object/public/{SUPABASE_STORAGE_BUCKET}/"
+    if not clean_path.startswith(prefix):
+        raise ValueError("A URL precisa apontar para o bucket publico configurado.")
+
+    object_path = clean_path.removeprefix(prefix).strip("/")
+    if not object_path:
+        raise ValueError("Caminho de upload invalido.")
+
+    return object_path
+
+
+def upload_to_supabase_storage(file_storage, final_name: str) -> str:
+    object_path = final_name
+    if SUPABASE_STORAGE_PREFIX:
+        object_path = f"{SUPABASE_STORAGE_PREFIX}/{final_name}"
+
+    content = file_storage.read()
+    response = supabase_request(
+        "POST",
+        f"/storage/v1/object/{SUPABASE_STORAGE_BUCKET}/{object_path}",
+        data=content,
+        extra_headers={
+            "Content-Type": file_storage.mimetype or "application/octet-stream",
+            "x-upsert": "false",
+        },
+        timeout=20,
+    )
+
+    if response.status_code >= 400:
+        raise RuntimeError(f"Falha no upload para Supabase Storage: HTTP {response.status_code}")
+
+    return f"{SUPABASE_URL}/storage/v1/object/public/{SUPABASE_STORAGE_BUCKET}/{object_path}"
+
+
+def delete_from_supabase_storage(raw_url: str) -> bool:
+    object_path = normalize_supabase_upload_path(raw_url)
+    response = supabase_request(
+        "DELETE",
+        f"/storage/v1/object/{SUPABASE_STORAGE_BUCKET}/{object_path}",
+        timeout=10,
+    )
+
+    if response.status_code == 404:
+        return False
+    if response.status_code >= 400:
+        raise RuntimeError(f"Falha ao remover arquivo no Supabase Storage: HTTP {response.status_code}")
+
+    return True
 
 
 initialize_storage()
@@ -103,7 +273,13 @@ def api_options(_path: str | None = None):
 
 @app.get("/api/health")
 def api_health():
-    return jsonify({"status": "ok"})
+    return jsonify(
+        {
+            "status": "ok",
+            "data_store": "supabase" if USE_SUPABASE_DATA else "local",
+            "photo_store": "supabase" if USE_SUPABASE_STORAGE else "local",
+        }
+    )
 
 
 @app.get("/api/dados")
@@ -111,7 +287,9 @@ def get_data():
     try:
         return jsonify(read_data())
     except FileNotFoundError:
-        return jsonify({"error": "dados.json nao encontrado."}), 404
+        return jsonify({"error": "dados nao encontrado."}), 404
+    except Exception as error:
+        return jsonify({"error": str(error)}), 500
 
 
 @app.put("/api/dados")
@@ -121,7 +299,11 @@ def put_data():
     if not isinstance(payload, dict):
         return jsonify({"error": "Corpo JSON invalido."}), 400
 
-    write_data_atomic(payload)
+    try:
+        write_data_atomic(payload)
+    except Exception as error:
+        return jsonify({"error": str(error)}), 500
+
     return jsonify({"ok": True})
 
 
@@ -143,10 +325,18 @@ def upload_photo():
         safe_name = f"photo{ext}"
 
     final_name = f"{uuid.uuid4().hex}_{safe_name}"
-    destination = UPLOADS_DIR / final_name
-    file_storage.save(destination)
 
-    return jsonify({"ok": True, "url": f"/uploads/{final_name}"})
+    try:
+        if USE_SUPABASE_STORAGE:
+            photo_url = upload_to_supabase_storage(file_storage, final_name)
+        else:
+            destination = UPLOADS_DIR / final_name
+            file_storage.save(destination)
+            photo_url = f"/uploads/{final_name}"
+    except Exception as error:
+        return jsonify({"error": str(error)}), 500
+
+    return jsonify({"ok": True, "url": photo_url})
 
 
 @app.delete("/api/photo")
@@ -158,9 +348,17 @@ def delete_photo():
         return jsonify({"error": "Campo url obrigatorio."}), 400
 
     try:
-        target = normalize_upload_url(raw_url)
+        if USE_SUPABASE_STORAGE and "/storage/v1/object/public/" in raw_url:
+            found = delete_from_supabase_storage(raw_url)
+            if not found:
+                return jsonify({"error": "Arquivo nao encontrado."}), 404
+            return jsonify({"ok": True})
+
+        target = normalize_local_upload_url(raw_url)
     except ValueError as error:
         return jsonify({"error": str(error)}), 400
+    except Exception as error:
+        return jsonify({"error": str(error)}), 500
 
     if not target.exists() or not target.is_file():
         return jsonify({"error": "Arquivo nao encontrado."}), 404

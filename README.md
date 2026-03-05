@@ -27,6 +27,8 @@ API padrao: `http://127.0.0.1:5000`
 - Upload de foto salva arquivo em `uploads/` e grava a URL no JSON.
 - Remover foto apaga o arquivo de `uploads/` (quando a foto veio do backend).
 
+Se as variaveis do Supabase estiverem configuradas, dados e fotos passam a ser salvos no Supabase automaticamente.
+
 ### Endpoints
 - `GET /api/health`
 - `GET /api/dados`
@@ -67,17 +69,45 @@ Este repositório ja inclui `render.yaml` para subir como Web Service Python.
 
 ### Opcao 2: Configuracao manual
 - Runtime: `Python`
-- Build Command: `pip install --upgrade pip && pip install -r backend/requirements.txt`
-- Start Command: `gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 60 backend.app:app`
+- Root Directory: `backend`
+- Build Command: `pip install --upgrade pip && pip install -r requirements.txt`
+- Start Command: `gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 120 --max-requests 500 --max-requests-jitter 50 app:app`
 - Health Check Path: `/api/health`
 
 ### Variaveis de ambiente
 - `FLASK_DEBUG=false`
-- `DATA_FILE=/var/data/dados.json`
-- `UPLOADS_DIR=/var/data/uploads`
+- `DATA_FILE=/tmp/dados.json`
+- `UPLOADS_DIR=/tmp/uploads`
+- `SUPABASE_URL=https://SEU-PROJETO.supabase.co`
+- `SUPABASE_SERVICE_ROLE_KEY=...`
+- `SUPABASE_DATA_TABLE=organograma_data`
+- `SUPABASE_DATA_ROW_ID=main`
+- `SUPABASE_STORAGE_BUCKET=organograma-uploads`
+- `SUPABASE_STORAGE_PREFIX=organograma`
 
-### Disco persistente (obrigatorio para salvar alteracoes)
-- Mount Path: `/var/data`
-- Tamanho sugerido: `1 GB` ou mais
+No plano Free do Render, o filesystem e temporario. Para persistencia real use Supabase.
 
-Sem disco persistente, dados do `dados.json` e imagens em `uploads/` podem ser perdidos em restart/redeploy.
+## Configuracao Supabase (simples)
+
+### 1. Criar tabela de dados
+No SQL Editor do Supabase, rode:
+
+```sql
+create table if not exists public.organograma_data (
+  id text primary key,
+  payload jsonb not null,
+  updated_at timestamptz not null default now()
+);
+```
+
+### 2. Criar bucket de fotos
+- Crie um bucket chamado `organograma-uploads`
+- Marque como `Public`
+
+### 3. Configurar variaveis no Render
+- `SUPABASE_URL`
+- `SUPABASE_SERVICE_ROLE_KEY` (usar a Service Role, nao a anon)
+- `SUPABASE_DATA_TABLE=organograma_data`
+- `SUPABASE_DATA_ROW_ID=main`
+- `SUPABASE_STORAGE_BUCKET=organograma-uploads`
+- `SUPABASE_STORAGE_PREFIX=organograma` (opcional)
