@@ -14,10 +14,6 @@ services:
       - key: FLASK_DEBUG
         value: "false"
       - key: DATA_FILE
-        value: /var/data/dados.json
+        value: /tmp/dados.json
       - key: UPLOADS_DIR
-        value: /var/data/uploads
-    disk:
-      name: organograma-data
-      mountPath: /var/data
-      sizeGB: 1
+        value: /tmp/uploads
