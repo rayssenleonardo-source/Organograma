@@ -59,6 +59,17 @@ button, .btn-secondary {
 .btn-secondary { background: #fff; border: 1px solid var(--border-color); color: #333; }
 .btn-secondary:hover { background: #f1f5f9; }
 
+.btn-icon {
+    background: #fff;
+    border: 1px solid var(--border-color);
+    color: #334155;
+    padding: 8px;
+}
+
+.btn-icon:hover {
+    background: #f8fafc;
+}
+
 .btn-danger { background: #fee2e2; color: var(--danger); padding: 8px; }
 .btn-danger:hover { background: #fecaca; }
 

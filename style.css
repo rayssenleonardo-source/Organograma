@@ -380,6 +380,17 @@ background: linear-gradient(
 .node:first-child::before { border-top-left-radius: 4px; }
 .node:last-child::before { border-top-right-radius: 4px; }
 
+/* Remove conectores acima do card raiz (Gerencia) */
+.org-chart > .node {
+  padding-top: 0;
+}
+
+.org-chart > .node::before,
+.org-chart > .node::after {
+  content: none;
+  display: none;
+}
+
 /* ===================== MODAL ===================== */
 .modal-overlay {
   position: fixed;

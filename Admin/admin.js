@@ -40,6 +40,8 @@ const treeSearch = document.getElementById('tree-search');
 const editorPlaceholder = document.getElementById('editor-placeholder');
 const editForm = document.getElementById('edit-form');
 const btnAddChild = document.getElementById('btn-add-child');
+const btnMoveUp = document.getElementById('btn-move-up');
+const btnMoveDown = document.getElementById('btn-move-down');
 const btnDelete = document.getElementById('btn-delete');
 const btnClearDraft = document.getElementById('btn-clear-draft');
 const btnLogout = document.getElementById('btn-logout');
@@ -300,6 +302,63 @@ function clearDraft() {
     localStorage.removeItem(STORAGE_KEY);
 }
 
+function moveItemInArray(items, fromIndex, toIndex) {
+    if (!Array.isArray(items)) return false;
+    if (fromIndex < 0 || toIndex < 0) return false;
+    if (fromIndex >= items.length || toIndex >= items.length) return false;
+    if (fromIndex === toIndex) return false;
+
+    const [moved] = items.splice(fromIndex, 1);
+    items.splice(toIndex, 0, moved);
+    return true;
+}
+
+function moveSelectedCard(direction) {
+    if (!selectedNode || selectedIndex < 0) {
+        return { ok: false, message: 'Selecione um colaborador para mover.' };
+    }
+
+    const step = direction === 'up' ? -1 : 1;
+    const nomes = Array.isArray(selectedNode.nomes) ? selectedNode.nomes : [];
+    const nextPersonIndex = selectedIndex + step;
+
+    if (nextPersonIndex >= 0 && nextPersonIndex < nomes.length) {
+        const moved = moveItemInArray(nomes, selectedIndex, nextPersonIndex);
+        if (moved) {
+            selectedIndex = nextPersonIndex;
+            return { ok: true, scope: 'card' };
+        }
+    }
+
+    let siblingNodes = null;
+    if (selectedParent === 'APOIO_ROOT') {
+        siblingNodes = globalData?.apoio;
+    } else if (selectedParent && selectedParent !== 'APOIO_ROOT') {
+        siblingNodes = selectedParent.filhos;
+    }
+
+    if (!Array.isArray(siblingNodes)) {
+        return { ok: false, message: 'Nao ha posicao disponivel para mover este card.' };
+    }
+
+    const currentNodeIndex = siblingNodes.indexOf(selectedNode);
+    if (currentNodeIndex < 0) {
+        return { ok: false, message: 'Nao foi possivel localizar o no selecionado.' };
+    }
+
+    const nextNodeIndex = currentNodeIndex + step;
+    if (nextNodeIndex < 0 || nextNodeIndex >= siblingNodes.length) {
+        return { ok: false, message: 'Este card ja esta no limite da posicao.' };
+    }
+
+    const moved = moveItemInArray(siblingNodes, currentNodeIndex, nextNodeIndex);
+    if (!moved) {
+        return { ok: false, message: 'Nao foi possivel mover este card.' };
+    }
+
+    return { ok: true, scope: 'node' };
+}
+
 async function persistServer(showAlert = false, showStatus = true) {
     if (!activeApiBase) {
         if (showStatus) setStatus('Backend nao conectado. Alteracoes mantidas no rascunho local.', 'warning');
@@ -350,6 +409,30 @@ function switchTab(targetId) {
         panel.classList.toggle('hidden', panel.id !== targetId);
         panel.classList.toggle('active', panel.id === targetId);
     });
+}
+
+async function handleMoveCard(direction) {
+    const result = moveSelectedCard(direction);
+    if (!result.ok) {
+        setStatus(result.message, 'warning');
+        return;
+    }
+
+    syncTreeLevels();
+    persistDraft();
+    const savedOnServer = await persistServer(false, false);
+    renderTree();
+
+    const directionLabel = direction === 'up' ? 'cima' : 'baixo';
+    const movedLabel = result.scope === 'card'
+        ? `Card movido para ${directionLabel}.`
+        : `Card movido na estrutura para ${directionLabel}.`;
+
+    if (savedOnServer) {
+        setStatus(`${movedLabel} Alteracoes salvas.`, 'success');
+    } else {
+        setStatus(`${movedLabel} Backend indisponivel, salvo no rascunho local.`, 'warning');
+    }
 }
 
 function renderTree() {
@@ -655,6 +738,14 @@ btnAddChild.addEventListener('click', async () => {
     createTurnoInput.value = '';
     refreshCreateUserForm();
     switchTab('tab-create');
+});
+
+btnMoveUp?.addEventListener('click', async () => {
+    await handleMoveCard('up');
+});
+
+btnMoveDown?.addEventListener('click', async () => {
+    await handleMoveCard('down');
 });
 
 btnDelete.addEventListener('click', async () => {
