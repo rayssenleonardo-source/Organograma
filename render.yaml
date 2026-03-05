@@ -3,26 +3,9 @@ services:
     name: organograma
     runtime: python
     plan: free
-    rootDir: .
-    buildCommand: |
-      pip install --upgrade pip
-      if [ -f backend/requirements.txt ]; then
-        pip install -r backend/requirements.txt
-      elif [ -f requirements.txt ]; then
-        pip install -r requirements.txt
-      else
-        echo "requirements.txt nao encontrado (esperado em backend/requirements.txt ou requirements.txt)"
-        exit 1
-      fi
-    startCommand: |
-      if [ -f backend/app.py ]; then
-        gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 60 backend.app:app
-      elif [ -f app.py ]; then
-        gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 60 app:app
-      else
-        echo "app.py nao encontrado (esperado em backend/app.py ou app.py)"
-        exit 1
-      fi
+    rootDir: backend
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 60 app:app
     healthCheckPath: /api/health
     envVars:
       - key: PYTHON_VERSION
