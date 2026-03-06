@@ -337,6 +337,80 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const btnExportPdf = document.getElementById('btn-export-pdf');
 const btnAdmin = document.getElementById('btn-admin-access');
+let imageProxyAvailable = null;
+
+function isHttpUrl(value) {
+    try {
+        const parsed = new URL(value, window.location.href);
+        return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+    } catch (error) {
+        return false;
+    }
+}
+
+function isExternalUrl(value) {
+    if (!isHttpUrl(value)) return false;
+    const parsed = new URL(value, window.location.href);
+    return parsed.origin !== window.location.origin;
+}
+
+async function canUseImageProxy() {
+    if (imageProxyAvailable !== null) return imageProxyAvailable;
+
+    try {
+        const response = await fetchWithTimeout('/api/health', 1200);
+        imageProxyAvailable = response.ok;
+    } catch (error) {
+        imageProxyAvailable = false;
+    }
+
+    return imageProxyAvailable;
+}
+
+function createPdfCaptureClone(target, useProxy) {
+    const clone = target.cloneNode(true);
+    clone.id = 'dashboard-content-export';
+    clone.style.position = 'fixed';
+    clone.style.left = '-100000px';
+    clone.style.top = '0';
+    clone.style.width = `${target.scrollWidth}px`;
+    clone.style.maxWidth = 'none';
+    clone.style.overflow = 'visible';
+    clone.style.background = '#eef1f4';
+    clone.style.pointerEvents = 'none';
+    clone.style.zIndex = '-1';
+    document.body.appendChild(clone);
+
+    if (!useProxy) return clone;
+
+    Array.from(clone.querySelectorAll('img')).forEach((img) => {
+        const rawSrc = img.getAttribute('src') || '';
+        if (!rawSrc || rawSrc.startsWith('data:') || !isExternalUrl(rawSrc)) return;
+        const absoluteSrc = new URL(rawSrc, window.location.href).href;
+        img.src = `/api/image-proxy?url=${encodeURIComponent(absoluteSrc)}`;
+    });
+
+    return clone;
+}
+
+async function waitForImages(scope, timeoutMs = 15000) {
+    const images = Array.from(scope.querySelectorAll('img'));
+    await Promise.all(images.map((img) => new Promise((resolve) => {
+        if (img.complete) {
+            resolve();
+            return;
+        }
+
+        const timer = setTimeout(resolve, timeoutMs);
+        const done = () => {
+            clearTimeout(timer);
+            resolve();
+        };
+
+        img.addEventListener('load', done, { once: true });
+        img.addEventListener('error', done, { once: true });
+    })));
+}
 
 async function exportOrganogramaPdf() {
     const target = document.getElementById('dashboard-content');
@@ -357,24 +431,25 @@ async function exportOrganogramaPdf() {
         btnExportPdf.innerHTML = '<span class="material-icons-round">hourglass_top</span><span style="font-size:12px; font-weight:700; letter-spacing:.4px;">GERANDO</span>';
     }
 
+    let exportTarget = null;
+
     try {
-        const cards = Array.from(target.querySelectorAll('.card'));
-        await Promise.all(
-            Array.from(target.querySelectorAll('img')).map((img) => {
-                if (img.complete && img.naturalWidth > 0) return Promise.resolve();
-                return new Promise((resolve) => {
-                    img.addEventListener('load', resolve, { once: true });
-                    img.addEventListener('error', resolve, { once: true });
-                });
-            })
-        );
+        const shouldProxyImages = await canUseImageProxy();
+        exportTarget = createPdfCaptureClone(target, shouldProxyImages);
+        await waitForImages(exportTarget, 15000);
+
+        const cards = Array.from(exportTarget.querySelectorAll('.card'));
 
         const captureScale = 2;
-        const canvas = await window.html2canvas(target, {
+        const canvas = await window.html2canvas(exportTarget, {
             scale: captureScale,
             useCORS: true,
             allowTaint: false,
             imageTimeout: 15000,
+            width: exportTarget.scrollWidth,
+            height: exportTarget.scrollHeight,
+            windowWidth: exportTarget.scrollWidth,
+            windowHeight: exportTarget.scrollHeight,
             backgroundColor: '#eef1f4'
         });
 
@@ -392,7 +467,7 @@ async function exportOrganogramaPdf() {
         const pixelsToPt = contentWidthPt / canvas.width;
         const maxSliceHeightPx = Math.max(1, Math.floor(contentHeightPt / pixelsToPt));
 
-        const targetRect = target.getBoundingClientRect();
+        const targetRect = exportTarget.getBoundingClientRect();
         const cardRanges = cards
             .map((card) => {
                 const rect = card.getBoundingClientRect();
@@ -463,6 +538,9 @@ async function exportOrganogramaPdf() {
         console.error('Erro ao gerar PDF:', error);
         alert('Nao foi possivel gerar o PDF. Tente novamente.');
     } finally {
+        if (exportTarget && exportTarget.parentNode) {
+            exportTarget.parentNode.removeChild(exportTarget);
+        }
         if (btnExportPdf) {
             btnExportPdf.disabled = false;
             btnExportPdf.innerHTML = previousLabel;

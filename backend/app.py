@@ -36,6 +36,7 @@ ALLOWED_EXTENSIONS = {
     ".bmp",
     ".svg",
 }
+IMAGE_PROXY_MAX_BYTES = int(os.getenv("IMAGE_PROXY_MAX_BYTES", str(12 * 1024 * 1024)))
 
 app = Flask(__name__, static_folder=str(ROOT_DIR), static_url_path="")
 app.config["MAX_CONTENT_LENGTH"] = 8 * 1024 * 1024
@@ -280,6 +281,44 @@ def api_health():
             "photo_store": "supabase" if USE_SUPABASE_STORAGE else "local",
         }
     )
+
+
+@app.get("/api/image-proxy")
+def image_proxy():
+    raw_url = (request.args.get("url") or "").strip()
+    if not raw_url:
+        return jsonify({"error": "Parametro url obrigatorio."}), 400
+
+    parsed = urlparse(raw_url)
+    if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+        return jsonify({"error": "URL invalida."}), 400
+
+    if parsed.hostname in {"localhost", "127.0.0.1", "::1"}:
+        return jsonify({"error": "Host nao permitido."}), 400
+
+    try:
+        upstream = requests.get(raw_url, stream=True, timeout=20)
+    except requests.RequestException as error:
+        return jsonify({"error": f"Falha ao baixar imagem: {error}"}), 502
+
+    if upstream.status_code >= 400:
+        return jsonify({"error": f"Imagem indisponivel: HTTP {upstream.status_code}"}), 502
+
+    content_type = (upstream.headers.get("Content-Type") or "application/octet-stream").split(";")[0].strip()
+    chunks = []
+    total_size = 0
+    for chunk in upstream.iter_content(chunk_size=64 * 1024):
+        if not chunk:
+            continue
+        total_size += len(chunk)
+        if total_size > IMAGE_PROXY_MAX_BYTES:
+            upstream.close()
+            return jsonify({"error": "Imagem excede o limite permitido no proxy."}), 413
+        chunks.append(chunk)
+
+    response = app.response_class(b"".join(chunks), status=200, mimetype=content_type)
+    response.headers["Cache-Control"] = "public, max-age=86400"
+    return response
 
 
 @app.get("/api/dados")
