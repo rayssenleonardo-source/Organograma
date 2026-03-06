@@ -1,6 +1,6 @@
-// ============================================================================
-// 1. FUNÇÕES UTILITÁRIAS
-// ============================================================================
+
+
+
 function getInitials(name) {
     if (typeof name !== "string") return "";
     const parts = name.trim().split(/\s+/).filter(Boolean);
@@ -10,9 +10,9 @@ function getInitials(name) {
     return (first + last).toUpperCase();
 }
 
-// ============================================================================
-// 2. LÓGICA DO MODAL
-// ============================================================================
+
+
+
 const modalOverlay = document.getElementById('profile-modal');
 const closeModalBtn = document.querySelector('.close-btn');
 const modalAvatar = document.getElementById('modal-avatar');
@@ -100,9 +100,9 @@ if (modalOverlay) modalOverlay.addEventListener('click', (e) => {
     if (e.target === modalOverlay) closeModal();
 });
 
-// ============================================================================
-// 3. RENDERIZAÇÃO DA ÁRVORE PRINCIPAL (COM LINHAS)
-// ============================================================================
+
+
+
 function createNodeElement(data) {
     const nodeDiv = document.createElement('div');
     nodeDiv.className = `node level-${data.nivel}`;
@@ -212,9 +212,9 @@ function createNodeElement(data) {
     return nodeDiv;
 }
 
-// ============================================================================
-// 4. NOVA FUNÇÃO: RENDERIZAR GRUPOS DE APOIO (SEM LINHAS)
-// ============================================================================
+
+
+
 function renderSupportGroups(grupos) {
     const container = document.getElementById('support-container');
     if (!container || !grupos) return;
@@ -258,9 +258,9 @@ function renderSupportGroups(grupos) {
     });
 }
 
-// ============================================================================
-// 5. CARREGAMENTO DOS DADOS (JSON)
-// ============================================================================
+
+
+
 const mainContainer = document.getElementById('org-container');
 const DATA_SOURCES = [
     '/api/dados',
@@ -309,9 +309,9 @@ loadData()
         if (mainContainer) mainContainer.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar dados.</p>';
     });
 
-// ============================================================================
-// 6. SPLASH SCREEN & ADMIN
-// ============================================================================
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
         const splash = document.getElementById('splash-screen');
@@ -322,7 +322,78 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 3000);
 });
 
+const btnExportPdf = document.getElementById('btn-export-pdf');
 const btnAdmin = document.getElementById('btn-admin-access');
+
+async function exportOrganogramaPdf() {
+    const target = document.getElementById('dashboard-content');
+    if (!target) {
+        alert('Area do organograma nao encontrada.');
+        return;
+    }
+
+    const jsPdfApi = window.jspdf && window.jspdf.jsPDF ? window.jspdf.jsPDF : null;
+    if (!window.html2canvas || !jsPdfApi) {
+        alert('Biblioteca de PDF indisponivel. Recarregue a pagina e tente novamente.');
+        return;
+    }
+
+    const previousLabel = btnExportPdf?.innerHTML || '';
+    if (btnExportPdf) {
+        btnExportPdf.disabled = true;
+        btnExportPdf.innerHTML = '<span class="material-icons-round">hourglass_top</span><span style="font-size:12px; font-weight:700; letter-spacing:.4px;">GERANDO</span>';
+    }
+
+    try {
+        const canvas = await window.html2canvas(target, {
+            scale: 2,
+            useCORS: true,
+            backgroundColor: '#eef1f4'
+        });
+
+        const imageData = canvas.toDataURL('image/png');
+        const pdf = new jsPdfApi({
+            orientation: 'landscape',
+            unit: 'pt',
+            format: 'a4'
+        });
+
+        const margin = 20;
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+        const imageWidth = pageWidth - (margin * 2);
+        const imageHeight = (canvas.height * imageWidth) / canvas.width;
+
+        let heightLeft = imageHeight;
+        let position = margin;
+
+        pdf.addImage(imageData, 'PNG', margin, position, imageWidth, imageHeight, undefined, 'FAST');
+        heightLeft -= (pageHeight - (margin * 2));
+
+        while (heightLeft > 0) {
+            pdf.addPage();
+            position = margin - (imageHeight - heightLeft);
+            pdf.addImage(imageData, 'PNG', margin, position, imageWidth, imageHeight, undefined, 'FAST');
+            heightLeft -= (pageHeight - (margin * 2));
+        }
+
+        const timestamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-');
+        pdf.save(`organograma-${timestamp}.pdf`);
+    } catch (error) {
+        console.error('Erro ao gerar PDF:', error);
+        alert('Nao foi possivel gerar o PDF. Tente novamente.');
+    } finally {
+        if (btnExportPdf) {
+            btnExportPdf.disabled = false;
+            btnExportPdf.innerHTML = previousLabel;
+        }
+    }
+}
+
+if (btnExportPdf) {
+    btnExportPdf.addEventListener('click', exportOrganogramaPdf);
+}
+
 if (btnAdmin) {
     btnAdmin.addEventListener('click', () => {
         window.location.href = "Admin/login.html";

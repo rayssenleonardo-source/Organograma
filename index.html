@@ -27,6 +27,11 @@
         </div>
         
         <div style="display: flex; align-items: center; gap: 15px;">
+            <button id="btn-export-pdf" class="btn-admin" title="Salvar PDF do organograma" style="background:none; border:none; cursor:pointer; color:#64748b; display:flex; align-items:center; gap:6px;">
+                <span class="material-icons-round">picture_as_pdf</span>
+                <span style="font-size:12px; font-weight:700; letter-spacing:.4px;">PDF</span>
+            </button>
+
             <button id="btn-admin-access" class="btn-admin" title="Acesso Administrativo" style="background:none; border:none; cursor:pointer; color:#64748b;">
                 <span class="material-icons-round">lock</span>
             </button>
@@ -37,7 +42,7 @@
         </div>
     </header>
 
-    <main>
+    <main id="dashboard-content">
         <div id="org-container" class="org-chart"></div>
 
         <div class="section-divider">
@@ -60,6 +65,8 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
     <script src="script.js"></script>
 
 </body>
