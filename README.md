@@ -111,3 +111,22 @@ create table if not exists public.organograma_data (
 - `SUPABASE_DATA_ROW_ID=main`
 - `SUPABASE_STORAGE_BUCKET=organograma-uploads`
 - `SUPABASE_STORAGE_PREFIX=organograma` (opcional)
+
+## Sincronizar dados do Render para o Git (simples)
+
+Este repositorio tem o workflow `.github/workflows/sync-dados-render.yml`.
+
+Ele busca `GET /api/dados` no servico publicado e, se houver mudanca, atualiza `dados.json` e faz commit na `main`.
+
+### Configurar uma vez
+1. No GitHub do repositorio: `Settings` > `Secrets and variables` > `Actions` > `Variables`.
+2. Crie a variavel `RENDER_API_DADOS_URL` com a URL completa do endpoint, por exemplo:
+   `https://SEU-SERVICO.onrender.com/api/dados`
+
+### Rodar manualmente
+1. Aba `Actions` > workflow `Sync dados.json from Render`.
+2. Clique em `Run workflow`.
+3. Opcional: informe `api_url` no formulario (se vazio, usa `RENDER_API_DADOS_URL`).
+
+### Execucao automatica
+- O workflow tambem roda a cada 6 horas.
