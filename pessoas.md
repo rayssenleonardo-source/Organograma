@@ -50,6 +50,9 @@ Marcos Maia
 <img width="409" height="409" alt="marcos_pronto" src="https://github.com/user-attachments/assets/ebe60cfd-891d-42f8-8ddf-781a37623491" />
 Tarcisio
 <img width="409" height="409" alt="tarcisio_pronto" src="https://github.com/user-attachments/assets/0918203f-2bf2-47ed-b892-b0035eeeb91a" />
+Renier
+<img width="409" height="409" alt="renier_pronto" src="https://github.com/user-attachments/assets/d957b249-3c96-44d1-a6cd-83745d4e8150" />
+
 
 
 
