@@ -47,29 +47,12 @@ Cirlei
 Lucas Batista
 <img width="409" height="409" alt="lucas_pronto" src="https://github.com/user-attachments/assets/1119b8fb-a936-46e5-984c-837e33b29b5f" />
 Marcos Maia
-<img width="![Uploading tarcisio_pronto.png…]()
-409" height="409" alt="marcos_pronto" src="https://github.com/user-attachments/assets/7d2e7b6f-775e-4f26-aef5-3a7c16f75f22" />
+<img width="409" height="409" alt="marcos_pronto" src="https://github.com/user-attachments/assets/ebe60cfd-891d-42f8-8ddf-781a37623491" />
+Tarcisio
+<img width="409" height="409" alt="tarcisio_pronto" src="https://github.com/user-attachments/assets/0918203f-2bf2-47ed-b892-b0035eeeb91a" />
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-![Uploading tarcisio_pronto.png…]()
 
 
 
