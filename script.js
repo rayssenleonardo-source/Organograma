@@ -12,9 +12,8 @@ function getInitials(name) {
 
 function createCardImage(src, onError) {
     const img = document.createElement('img');
-    img.crossOrigin = 'anonymous';
-    img.referrerPolicy = 'no-referrer';
     img.decoding = 'async';
+    img.loading = 'eager';
     if (typeof onError === 'function') img.onerror = onError;
     img.src = src;
     return img;
@@ -137,7 +136,10 @@ function createNodeElement(data) {
         const avatarMini = document.createElement('div');
         avatarMini.className = 'avatar';
         if (dados.foto) {
-            const img = createCardImage(dados.foto);
+            const img = createCardImage(dados.foto, () => {
+                avatarMini.innerHTML = '';
+                avatarMini.innerText = getInitials(dados.nome);
+            });
             avatarMini.appendChild(img);
         } else {
             avatarMini.innerText = getInitials(dados.nome);
@@ -243,7 +245,10 @@ function renderSupportGroups(grupos) {
                 const avatarMini = document.createElement('div');
                 avatarMini.className = 'avatar';
                 if (dados.foto) {
-                    const img = createCardImage(dados.foto);
+                    const img = createCardImage(dados.foto, () => {
+                        avatarMini.innerHTML = '';
+                        avatarMini.innerText = getInitials(dados.nome);
+                    });
                     avatarMini.appendChild(img);
                 } else {
                     avatarMini.innerText = getInitials(dados.nome);
