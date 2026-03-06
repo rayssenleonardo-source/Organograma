@@ -454,18 +454,31 @@ async function exportOrganogramaPdf() {
         });
 
         const pdf = new jsPdfApi({
-            orientation: 'landscape',
+            orientation: 'portrait',
             unit: 'pt',
             format: 'a4'
         });
 
         const margin = 20;
+        const titleText = 'Organograma Segurança eletronica';
+        const headerHeight = 38;
         const pageWidth = pdf.internal.pageSize.getWidth();
         const pageHeight = pdf.internal.pageSize.getHeight();
+        const contentTopPt = margin + headerHeight;
         const contentWidthPt = pageWidth - (margin * 2);
-        const contentHeightPt = pageHeight - (margin * 2);
+        const contentHeightPt = pageHeight - contentTopPt - margin;
         const pixelsToPt = contentWidthPt / canvas.width;
         const maxSliceHeightPx = Math.max(1, Math.floor(contentHeightPt / pixelsToPt));
+
+        const drawPageHeader = () => {
+            pdf.setFont('helvetica', 'bold');
+            pdf.setFontSize(16);
+            pdf.setTextColor(15, 23, 42);
+            pdf.text(titleText, pageWidth / 2, margin + 16, { align: 'center' });
+            pdf.setDrawColor(203, 213, 225);
+            pdf.setLineWidth(1);
+            pdf.line(margin, margin + 24, pageWidth - margin, margin + 24);
+        };
 
         const targetRect = exportTarget.getBoundingClientRect();
         const cardRanges = cards
@@ -507,6 +520,7 @@ async function exportOrganogramaPdf() {
 
         slices.forEach((slice, index) => {
             if (index > 0) pdf.addPage();
+            drawPageHeader();
 
             const sliceHeight = slice.endY - slice.startY;
             const pageCanvas = document.createElement('canvas');
@@ -529,7 +543,7 @@ async function exportOrganogramaPdf() {
 
             const pageImage = pageCanvas.toDataURL('image/png');
             const pageImageHeightPt = sliceHeight * pixelsToPt;
-            pdf.addImage(pageImage, 'PNG', margin, margin, contentWidthPt, pageImageHeightPt, undefined, 'FAST');
+            pdf.addImage(pageImage, 'PNG', margin, contentTopPt, contentWidthPt, pageImageHeightPt, undefined, 'FAST');
         });
 
         const timestamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-');
