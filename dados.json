@@ -261,20 +261,20 @@
           },
           {
             "cargo": "Administração",
+            "filhos": [],
+            "nivel": 3,
             "nomes": [
               {
                 "nome": "Quely Ferreira"
               }
-            ],
-            "nivel": 3,
-            "filhos": []
+            ]
           }
         ],
         "nivel": 2,
         "nomes": [
           {
-            "nome": "Luciano Pereira Nascimento",
-            "email": "luciano.pereira@brasfort.com.br"
+            "email": "luciano.pereira@brasfort.com.br",
+            "nome": "Luciano Pereira Nascimento"
           }
         ]
       }
