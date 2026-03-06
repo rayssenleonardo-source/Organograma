@@ -10,6 +10,16 @@ function getInitials(name) {
     return (first + last).toUpperCase();
 }
 
+function createCardImage(src, onError) {
+    const img = document.createElement('img');
+    img.crossOrigin = 'anonymous';
+    img.referrerPolicy = 'no-referrer';
+    img.decoding = 'async';
+    if (typeof onError === 'function') img.onerror = onError;
+    img.src = src;
+    return img;
+}
+
 
 
 
@@ -28,9 +38,9 @@ function openModal(pessoaDados, cargoTitulo) {
     modalRole.innerText = cargoFinal;
 
     if (pessoaDados.foto) {
-        const img = document.createElement('img');
-        img.src = pessoaDados.foto;
-        img.onerror = () => { modalAvatar.innerText = getInitials(pessoaDados.nome); };
+        const img = createCardImage(pessoaDados.foto, () => {
+            modalAvatar.innerText = getInitials(pessoaDados.nome);
+        });
         modalAvatar.appendChild(img);
     } else {
         modalAvatar.innerText = getInitials(pessoaDados.nome);
@@ -127,8 +137,7 @@ function createNodeElement(data) {
         const avatarMini = document.createElement('div');
         avatarMini.className = 'avatar';
         if (dados.foto) {
-            const img = document.createElement('img');
-            img.src = dados.foto;
+            const img = createCardImage(dados.foto);
             avatarMini.appendChild(img);
         } else {
             avatarMini.innerText = getInitials(dados.nome);
@@ -234,8 +243,7 @@ function renderSupportGroups(grupos) {
                 const avatarMini = document.createElement('div');
                 avatarMini.className = 'avatar';
                 if (dados.foto) {
-                    const img = document.createElement('img');
-                    img.src = dados.foto;
+                    const img = createCardImage(dados.foto);
                     avatarMini.appendChild(img);
                 } else {
                     avatarMini.innerText = getInitials(dados.nome);
@@ -345,13 +353,26 @@ async function exportOrganogramaPdf() {
     }
 
     try {
+        const cards = Array.from(target.querySelectorAll('.card'));
+        await Promise.all(
+            Array.from(target.querySelectorAll('img')).map((img) => {
+                if (img.complete && img.naturalWidth > 0) return Promise.resolve();
+                return new Promise((resolve) => {
+                    img.addEventListener('load', resolve, { once: true });
+                    img.addEventListener('error', resolve, { once: true });
+                });
+            })
+        );
+
+        const captureScale = 2;
         const canvas = await window.html2canvas(target, {
-            scale: 2,
+            scale: captureScale,
             useCORS: true,
+            allowTaint: false,
+            imageTimeout: 15000,
             backgroundColor: '#eef1f4'
         });
 
-        const imageData = canvas.toDataURL('image/png');
         const pdf = new jsPdfApi({
             orientation: 'landscape',
             unit: 'pt',
@@ -361,21 +382,75 @@ async function exportOrganogramaPdf() {
         const margin = 20;
         const pageWidth = pdf.internal.pageSize.getWidth();
         const pageHeight = pdf.internal.pageSize.getHeight();
-        const imageWidth = pageWidth - (margin * 2);
-        const imageHeight = (canvas.height * imageWidth) / canvas.width;
+        const contentWidthPt = pageWidth - (margin * 2);
+        const contentHeightPt = pageHeight - (margin * 2);
+        const pixelsToPt = contentWidthPt / canvas.width;
+        const maxSliceHeightPx = Math.max(1, Math.floor(contentHeightPt / pixelsToPt));
 
-        let heightLeft = imageHeight;
-        let position = margin;
+        const targetRect = target.getBoundingClientRect();
+        const cardRanges = cards
+            .map((card) => {
+                const rect = card.getBoundingClientRect();
+                const topPx = Math.max(0, Math.floor((rect.top - targetRect.top) * captureScale));
+                const bottomPx = Math.min(canvas.height, Math.ceil((rect.bottom - targetRect.top) * captureScale));
+                return { topPx, bottomPx };
+            })
+            .filter((range) => range.bottomPx > range.topPx)
+            .sort((a, b) => a.topPx - b.topPx);
 
-        pdf.addImage(imageData, 'PNG', margin, position, imageWidth, imageHeight, undefined, 'FAST');
-        heightLeft -= (pageHeight - (margin * 2));
+        const slices = [];
+        let startY = 0;
 
-        while (heightLeft > 0) {
-            pdf.addPage();
-            position = margin - (imageHeight - heightLeft);
-            pdf.addImage(imageData, 'PNG', margin, position, imageWidth, imageHeight, undefined, 'FAST');
-            heightLeft -= (pageHeight - (margin * 2));
+        while (startY < canvas.height) {
+            let endY = Math.min(canvas.height, startY + maxSliceHeightPx);
+
+            if (endY < canvas.height) {
+                const crossing = cardRanges.find((range) => range.topPx < endY && range.bottomPx > endY);
+                if (crossing) {
+                    const cutBeforeCard = crossing.topPx - 4;
+                    const hasUsefulSpace = (cutBeforeCard - startY) > Math.floor(maxSliceHeightPx * 0.35);
+                    if (hasUsefulSpace) {
+                        endY = cutBeforeCard;
+                    } else {
+                        endY = Math.min(canvas.height, crossing.bottomPx + 4);
+                    }
+                }
+            }
+
+            if (endY <= startY) {
+                endY = Math.min(canvas.height, startY + maxSliceHeightPx);
+            }
+
+            slices.push({ startY, endY });
+            startY = endY;
         }
+
+        slices.forEach((slice, index) => {
+            if (index > 0) pdf.addPage();
+
+            const sliceHeight = slice.endY - slice.startY;
+            const pageCanvas = document.createElement('canvas');
+            pageCanvas.width = canvas.width;
+            pageCanvas.height = sliceHeight;
+            const pageCtx = pageCanvas.getContext('2d');
+            if (!pageCtx) return;
+
+            pageCtx.drawImage(
+                canvas,
+                0,
+                slice.startY,
+                canvas.width,
+                sliceHeight,
+                0,
+                0,
+                canvas.width,
+                sliceHeight
+            );
+
+            const pageImage = pageCanvas.toDataURL('image/png');
+            const pageImageHeightPt = sliceHeight * pixelsToPt;
+            pdf.addImage(pageImage, 'PNG', margin, margin, contentWidthPt, pageImageHeightPt, undefined, 'FAST');
+        });
 
         const timestamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-');
         pdf.save(`organograma-${timestamp}.pdf`);
