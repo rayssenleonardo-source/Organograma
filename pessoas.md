@@ -44,3 +44,34 @@ Vinicius
 <img width="409" height="409" alt="Vinicius" src="https://github.com/user-attachments/assets/e9038a7d-dccb-4025-a41b-fd29594982e3" />
 Cirlei
 <img width="409" height="409" alt="formato_fotos" src="https://github.com/user-attachments/assets/77723fb4-2ee2-4638-adcf-1a120abcd8ac" />
+Lucas Batista
+<img width="409" height="409" alt="lucas_pronto" src="https://github.com/user-attachments/assets/1119b8fb-a936-46e5-984c-837e33b29b5f" />
+Marcos Maia
+<img width="![Uploading tarcisio_pronto.png…]()
+409" height="409" alt="marcos_pronto" src="https://github.com/user-attachments/assets/7d2e7b6f-775e-4f26-aef5-3a7c16f75f22" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+![Uploading tarcisio_pronto.png…]()
+
+
+
+
+
