@@ -67,6 +67,8 @@
                 <div class="editor-tabs">
                     <button type="button" class="editor-tab active" data-tab-target="tab-edit">Editar Perfil</button>
                     <button type="button" class="editor-tab" data-tab-target="tab-create">Criar Usuario</button>
+                    <button type="button" class="editor-tab" data-tab-target="tab-operadores">Operadores</button>
+                    <button type="button" class="editor-tab" data-tab-target="tab-duplas">Duplas Tecnicas</button>
                 </div>
 
                 <div id="tab-edit" class="tab-panel active">
@@ -158,6 +160,13 @@
                     <div class="create-card">
                         <h3>Novo Subordinado</h3>
                         <p class="create-help">Crie um novo usuario no no selecionado, com nivel e turno definidos.</p>
+                        <div id="create-auxiliar-option" class="create-inline-option hidden">
+                            <label>
+                                <input type="checkbox" id="create-as-auxiliar">
+                                Vincular como auxiliar do tecnico selecionado
+                            </label>
+                            <small>Quando ativo, o usuario criado fica logo abaixo do tecnico de SEG Eletronica.</small>
+                        </div>
 
                         <div class="form-grid">
                             <div class="form-group">
@@ -186,6 +195,205 @@
                         <div class="form-footer">
                             <button type="button" id="btn-create-user" class="btn-save">Criar Usuario</button>
                             <p id="create-user-status" class="save-status hidden"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-operadores" class="tab-panel hidden">
+                    <div class="create-card operadores-card">
+                        <h3>Equipe de Operadores</h3>
+                        <p class="create-help">Edite os operadores de monitoramento sem navegar na arvore.</p>
+
+                        <div class="operadores-layout">
+                            <aside class="operadores-list-panel">
+                                <h4>Operadores Cadastrados</h4>
+                                <div id="operadores-empty" class="operadores-empty hidden">Nenhum operador encontrado.</div>
+                                <ul id="operadores-list" class="operadores-list"></ul>
+                            </aside>
+
+                            <section class="operadores-editor-panel">
+                                <div id="operadores-editor-placeholder" class="operadores-editor-placeholder">
+                                    Selecione um operador para editar.
+                                </div>
+
+                                <div id="operadores-editor" class="operadores-editor hidden">
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label>Nome</label>
+                                            <input type="text" id="op-nome" placeholder="Nome do operador">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Turno</label>
+                                            <select id="op-turno">
+                                                <option value="">Nao informado</option>
+                                                <option value="Dia">Dia</option>
+                                                <option value="Noite">Noite</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>E-mail</label>
+                                            <input type="email" id="op-email">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Telefone</label>
+                                            <input type="text" id="op-telefone">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Matricula</label>
+                                            <input type="text" id="op-matricula">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Data de Nascimento</label>
+                                            <input type="text" id="op-nascimento">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Data de Admissao</label>
+                                            <input type="text" id="op-admissao">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Foto (URL)</label>
+                                            <input type="text" id="op-foto" placeholder="https://...">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group full-width">
+                                        <label>Descricao Curta</label>
+                                        <textarea id="op-descricao" rows="3"></textarea>
+                                    </div>
+
+                                    <div class="form-group full-width">
+                                        <label>Descricao Detalhada</label>
+                                        <textarea id="op-descricao-detalhada" rows="6"></textarea>
+                                    </div>
+
+                                    <div class="form-footer">
+                                        <button type="button" id="btn-save-operador" class="btn-save">Salvar Operador</button>
+                                        <button type="button" id="btn-delete-operador" class="btn-danger">Excluir Operador</button>
+                                        <p id="operadores-status" class="save-status hidden"></p>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-duplas" class="tab-panel hidden">
+                    <div class="create-card operadores-card">
+                        <h3>Duplas Tecnicas</h3>
+                        <p class="create-help">Edite os tecnicos de SEG Eletronica e seus auxiliares vinculados.</p>
+
+                        <div class="operadores-layout">
+                            <aside class="operadores-list-panel">
+                                <h4>Duplas Cadastradas</h4>
+                                <div id="duplas-empty" class="operadores-empty hidden">Nenhuma dupla encontrada.</div>
+                                <ul id="duplas-list" class="operadores-list"></ul>
+                            </aside>
+
+                            <section class="operadores-editor-panel">
+                                <div id="duplas-editor-placeholder" class="operadores-editor-placeholder">
+                                    Selecione uma dupla para editar.
+                                </div>
+
+                                <div id="duplas-editor" class="operadores-editor hidden">
+                                    <div class="dupla-section-header">Tecnico</div>
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label>Nome</label>
+                                            <input type="text" id="dupla-tec-nome" placeholder="Nome do tecnico">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>E-mail</label>
+                                            <input type="email" id="dupla-tec-email">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Telefone</label>
+                                            <input type="text" id="dupla-tec-telefone">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Matricula</label>
+                                            <input type="text" id="dupla-tec-matricula">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Data de Nascimento</label>
+                                            <input type="text" id="dupla-tec-nascimento">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Data de Admissao</label>
+                                            <input type="text" id="dupla-tec-admissao">
+                                        </div>
+                                        <div class="form-group full-width">
+                                            <label>Foto (URL)</label>
+                                            <input type="text" id="dupla-tec-foto" placeholder="https://...">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group full-width">
+                                        <label>Descricao Curta (Tecnico)</label>
+                                        <textarea id="dupla-tec-descricao" rows="3"></textarea>
+                                    </div>
+
+                                    <div class="form-group full-width">
+                                        <label>Descricao Detalhada (Tecnico)</label>
+                                        <textarea id="dupla-tec-descricao-detalhada" rows="5"></textarea>
+                                    </div>
+
+                                    <div class="dupla-section-header">Auxiliar Tecnico</div>
+                                    <div class="create-inline-option">
+                                        <label>
+                                            <input type="checkbox" id="dupla-has-auxiliar">
+                                            Este tecnico possui auxiliar vinculado
+                                        </label>
+                                    </div>
+
+                                    <div id="dupla-aux-fields">
+                                        <div class="form-grid">
+                                            <div class="form-group">
+                                                <label>Nome</label>
+                                                <input type="text" id="dupla-aux-nome" placeholder="Nome do auxiliar">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>E-mail</label>
+                                                <input type="email" id="dupla-aux-email">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Telefone</label>
+                                                <input type="text" id="dupla-aux-telefone">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Matricula</label>
+                                                <input type="text" id="dupla-aux-matricula">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Data de Nascimento</label>
+                                                <input type="text" id="dupla-aux-nascimento">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Data de Admissao</label>
+                                                <input type="text" id="dupla-aux-admissao">
+                                            </div>
+                                            <div class="form-group full-width">
+                                                <label>Foto (URL)</label>
+                                                <input type="text" id="dupla-aux-foto" placeholder="https://...">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group full-width">
+                                            <label>Descricao Curta (Auxiliar)</label>
+                                            <textarea id="dupla-aux-descricao" rows="3"></textarea>
+                                        </div>
+
+                                        <div class="form-group full-width">
+                                            <label>Descricao Detalhada (Auxiliar)</label>
+                                            <textarea id="dupla-aux-descricao-detalhada" rows="5"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-footer">
+                                        <button type="button" id="btn-save-dupla" class="btn-save">Salvar Dupla</button>
+                                        <p id="duplas-status" class="save-status hidden"></p>
+                                    </div>
+                                </div>
+                            </section>
                         </div>
                     </div>
                 </div>
