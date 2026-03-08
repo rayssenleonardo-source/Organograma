@@ -61,14 +61,14 @@
             "nomes": [
               {
                 "auxiliar": {
+                  "admissao": "20/03/2025",
                   "cargo": "Auxiliar Tecnico",
-                  "foto": "https://github.com/user-attachments/assets/337621a5-614f-454c-9409-90fd0e5bd964",
-                  "nome": "Eduardo Gonçalves",
                   "email": "Eduardo.goncalves@brasfort.com.br",
-                  "telefone": "(61) 98143-6487",
+                  "foto": "https://github.com/user-attachments/assets/337621a5-614f-454c-9409-90fd0e5bd964",
                   "matricula": "52031",
                   "nascimento": "08/04/2003",
-                  "admissao": "20/03/2025"
+                  "nome": "Eduardo Gonçalves",
+                  "telefone": "(61) 98143-6487"
                 },
                 "descricao": "<br>Responsável por instalar, configurar e manter sistemas de segurança eletrônica, garantindo funcionamento adequado de alarmes, CFTV, cercas elétricas e controles de acesso, atuando diretamente em campo com precisão técnica e conformidade.",
                 "descricaoDetalhada": "<br> 1- Instalar sistemas de alarmes, CFTV, sensores, cercas elétricas e portões automáticos, realizando conexões elétricas e integrações com redes. <br> 2- Realizar inspeções e testes operacionais, identificando falhas e efetuando reparos. <br> 3- Prestar apoio na configuração de sistemas remotos, orientando usuários e ajustes via acesso remoto ou presencial. <br> 4- Testar sistemas instalados ou reparados, garantindo operação correta de todos os componentes. <br> 5- Elaborar relatórios técnicos detalhados de instalação, manutenção e diagnósticos. <br> 6- Seguir normas técnicas e protocolos de segurança, utilizando EPI e prevenindo riscos.",
@@ -84,16 +84,9 @@
             "nomes": [
               {
                 "admissao": "10/2025",
-                "descricao": "<br>Responsável por instalar, configurar e manter sistemas de segurança eletrônica, garantindo funcionamento adequado de alarmes, CFTV, cercas elétricas e controles de acesso, atuando diretamente em campo com precisão técnica e conformidade.",
-                "descricaoDetalhada": "<br> 1- Instalar sistemas de alarmes, CFTV, sensores, cercas elétricas e portões automáticos, realizando conexões elétricas e integrações com redes. <br> 2- Realizar inspeções e testes operacionais, identificando falhas e efetuando reparos. <br> 3- Prestar apoio na configuração de sistemas remotos, orientando usuários e ajustes via acesso remoto ou presencial. <br> 4- Testar sistemas instalados ou reparados, garantindo operação correta de todos os componentes. <br> 5- Elaborar relatórios técnicos detalhados de instalação, manutenção e diagnósticos. <br> 6- Seguir normas técnicas e protocolos de segurança, utilizando EPI e prevenindo riscos.",
-                "email": "thiago.alves@brasfort.com.br",
-                "foto": "https://github.com/user-attachments/assets/3cfeee29-c8b6-470f-8ae0-2088fcd0febb",
-                "matricula": "53211",
-                "nascimento": "29/07/1985",
-                "nome": "Thiago Alves",
-                "telefone": "(61) 99903-7261",
                 "auxiliar": {
                   "admissao": "10/2025",
+                  "cargo": "Auxiliar Tecnico",
                   "descricao": "<br>Responsável por apoiar técnicos na instalação e manutenção de sistemas de segurança eletrônica, executando tarefas operacionais sob supervisão e desenvolvendo conhecimento técnico de forma contínua.",
                   "descricaoDetalhada": "<br> 1- Auxiliar na instalação de câmeras, alarmes, sensores e controle de acesso, realizando passagem de cabos e fixação de dispositivos.<br> 2- Apoiar manutenções com tarefas simples como limpeza, substituição de peças e testes básicos.<br> 3- Organizar ferramentas, materiais e equipamentos utilizados pela equipe técnica.<br> 4- Auxiliar em testes preliminares de sistemas e realizar configurações simples.<br> 5- Preencher fichas e relatórios básicos quando solicitado.<br> 6- Orientar clientes sobre dúvidas simples e redirecionar demandas mais complexas.<br> 7- Manter ambiente de trabalho organizado e apoiar desmontagens de sistemas antigos.<br> 8- Participar de treinamentos e acompanhar técnicos em demandas mais complexas.",
                   "email": "caua.oliveira@brasfort.com.br",
@@ -101,12 +94,31 @@
                   "matricula": "53176",
                   "nascimento": "16/10/2003",
                   "nome": "Cauã Carvalho",
-                  "telefone": "(61) 98214-8361",
-                  "cargo": "Auxiliar Tecnico"
-                }
+                  "telefone": "(61) 98214-8361"
+                },
+                "descricao": "<br>Responsável por instalar, configurar e manter sistemas de segurança eletrônica, garantindo funcionamento adequado de alarmes, CFTV, cercas elétricas e controles de acesso, atuando diretamente em campo com precisão técnica e conformidade.",
+                "descricaoDetalhada": "<br> 1- Instalar sistemas de alarmes, CFTV, sensores, cercas elétricas e portões automáticos, realizando conexões elétricas e integrações com redes. <br> 2- Realizar inspeções e testes operacionais, identificando falhas e efetuando reparos. <br> 3- Prestar apoio na configuração de sistemas remotos, orientando usuários e ajustes via acesso remoto ou presencial. <br> 4- Testar sistemas instalados ou reparados, garantindo operação correta de todos os componentes. <br> 5- Elaborar relatórios técnicos detalhados de instalação, manutenção e diagnósticos. <br> 6- Seguir normas técnicas e protocolos de segurança, utilizando EPI e prevenindo riscos.",
+                "email": "thiago.alves@brasfort.com.br",
+                "foto": "https://github.com/user-attachments/assets/3cfeee29-c8b6-470f-8ae0-2088fcd0febb",
+                "matricula": "53211",
+                "nascimento": "29/07/1985",
+                "nome": "Thiago Alves",
+                "telefone": "(61) 99903-7261"
               },
               {
                 "admissao": "02/2021",
+                "auxiliar": {
+                  "admissao": "15/08/2023",
+                  "cargo": "Auxiliar Tecnico",
+                  "descricao": "<br>Responsável por apoiar técnicos na instalação e manutenção de sistemas de segurança eletrônica, executando tarefas operacionais sob supervisão e desenvolvendo conhecimento técnico de forma contínua.",
+                  "descricaoDetalhada": "<br> 1- Auxiliar na instalação de câmeras, alarmes, sensores e controle de acesso, realizando passagem de cabos e fixação de dispositivos.<br> 2- Apoiar manutenções com tarefas simples como limpeza, substituição de peças e testes básicos.<br> 3- Organizar ferramentas, materiais e equipamentos utilizados pela equipe técnica.<br> 4- Auxiliar em testes preliminares de sistemas e realizar configurações simples.<br> 5- Preencher fichas e relatórios básicos quando solicitado.<br> 6- Orientar clientes sobre dúvidas simples e redirecionar demandas mais complexas.<br> 7- Manter ambiente de trabalho organizado e apoiar desmontagens de sistemas antigos.<br> 8- Participar de treinamentos e acompanhar técnicos em demandas mais complexas.",
+                  "email": "luquinhas.da.silva.matos@gmail.com",
+                  "foto": "https://github.com/user-attachments/assets/e6d656dd-b400-4ab4-bf6f-55b2986aa197",
+                  "matricula": "29109",
+                  "nascimento": "26/09/2003",
+                  "nome": "Lucas Matos",
+                  "telefone": "(61) 99858-7246"
+                },
                 "descricao": "<br>Responsável por instalar, configurar e manter sistemas de segurança eletrônica, garantindo funcionamento adequado de alarmes, CFTV, cercas elétricas e controles de acesso, atuando diretamente em campo com precisão técnica e conformidade.",
                 "descricaoDetalhada": "<br> 1- Instalar sistemas de alarmes, CFTV, sensores, cercas elétricas e portões automáticos, realizando conexões elétricas e integrações com redes. <br> 2- Realizar inspeções e testes operacionais, identificando falhas e efetuando reparos. <br> 3- Prestar apoio na configuração de sistemas remotos, orientando usuários e ajustes via acesso remoto ou presencial. <br> 4- Testar sistemas instalados ou reparados, garantindo operação correta de todos os componentes. <br> 5- Elaborar relatórios técnicos detalhados de instalação, manutenção e diagnósticos. <br> 6- Seguir normas técnicas e protocolos de segurança, utilizando EPI e prevenindo riscos.",
                 "email": "silvano.souza@brasfort.com.br",
@@ -115,22 +127,17 @@
                 "nascimento": "06/04/2003",
                 "nome": "Silvano Rodrigues",
                 "semLinhaSuperior": true,
-                "telefone": "(61) 99666-2715",
-                "auxiliar": {
-                  "admissao": "15/08/2023",
-                  "descricao": "<br>Responsável por apoiar técnicos na instalação e manutenção de sistemas de segurança eletrônica, executando tarefas operacionais sob supervisão e desenvolvendo conhecimento técnico de forma contínua.",
-                  "descricaoDetalhada": "<br> 1- Auxiliar na instalação de câmeras, alarmes, sensores e controle de acesso, realizando passagem de cabos e fixação de dispositivos.<br> 2- Apoiar manutenções com tarefas simples como limpeza, substituição de peças e testes básicos.<br> 3- Organizar ferramentas, materiais e equipamentos utilizados pela equipe técnica.<br> 4- Auxiliar em testes preliminares de sistemas e realizar configurações simples.<br> 5- Preencher fichas e relatórios básicos quando solicitado.<br> 6- Orientar clientes sobre dúvidas simples e redirecionar demandas mais complexas.<br> 7- Manter ambiente de trabalho organizado e apoiar desmontagens de sistemas antigos.<br> 8- Participar de treinamentos e acompanhar técnicos em demandas mais complexas.",
-                  "email": "luquinhas.da.silva.matos@gmail.com",
-                  "foto": "https://github.com/user-attachments/assets/e6d656dd-b400-4ab4-bf6f-55b2986aa197",
-                  "matricula": "29109",
-                  "nascimento": "26/09/2003",
-                  "nome": "Lucas Matos",
-                  "telefone": "(61) 99858-7246",
-                  "cargo": "Auxiliar Tecnico"
-                }
+                "telefone": "(61) 99666-2715"
               },
               {
                 "admissao": "01/2026",
+                "auxiliar": {
+                  "cargo": "Auxiliar Tecnico",
+                  "descricao": "<br>Responsável por apoiar técnicos na instalação e manutenção de sistemas de segurança eletrônica, executando tarefas operacionais sob supervisão e desenvolvendo conhecimento técnico de forma contínua.",
+                  "descricaoDetalhada": "<br> 1- Auxiliar na instalação de câmeras, alarmes, sensores e controle de acesso, realizando passagem de cabos e fixação de dispositivos.<br> 2- Apoiar manutenções com tarefas simples como limpeza, substituição de peças e testes básicos.<br> 3- Organizar ferramentas, materiais e equipamentos utilizados pela equipe técnica.<br> 4- Auxiliar em testes preliminares de sistemas e realizar configurações simples.<br> 5- Preencher fichas e relatórios básicos quando solicitado.<br> 6- Orientar clientes sobre dúvidas simples e redirecionar demandas mais complexas.<br> 7- Manter ambiente de trabalho organizado e apoiar desmontagens de sistemas antigos.<br> 8- Participar de treinamentos e acompanhar técnicos em demandas mais complexas.",
+                  "foto": "https://github.com/user-attachments/assets/1119b8fb-a936-46e5-984c-837e33b29b5f",
+                  "nome": "Lucas Batista"
+                },
                 "descricao": "<br>Responsável por instalar, configurar e manter sistemas de segurança eletrônica, garantindo funcionamento adequado de alarmes, CFTV, cercas elétricas e controles de acesso, atuando diretamente em campo com precisão técnica e conformidade.",
                 "descricaoDetalhada": "<br> 1- Instalar sistemas de alarmes, CFTV, sensores, cercas elétricas e portões automáticos, realizando conexões elétricas e integrações com redes. <br> 2- Realizar inspeções e testes operacionais, identificando falhas e efetuando reparos. <br> 3- Prestar apoio na configuração de sistemas remotos, orientando usuários e ajustes via acesso remoto ou presencial. <br> 4- Testar sistemas instalados ou reparados, garantindo operação correta de todos os componentes. <br> 5- Elaborar relatórios técnicos detalhados de instalação, manutenção e diagnósticos. <br> 6- Seguir normas técnicas e protocolos de segurança, utilizando EPI e prevenindo riscos.",
                 "email": "cirlei.silva@brasfort.com.br",
@@ -138,14 +145,7 @@
                 "matricula": "53529",
                 "nascimento": "08/01/1991",
                 "nome": "Cirlei Silva",
-                "telefone": "(61) 992847852",
-                "auxiliar": {
-                  "descricao": "<br>Responsável por apoiar técnicos na instalação e manutenção de sistemas de segurança eletrônica, executando tarefas operacionais sob supervisão e desenvolvendo conhecimento técnico de forma contínua.",
-                  "descricaoDetalhada": "<br> 1- Auxiliar na instalação de câmeras, alarmes, sensores e controle de acesso, realizando passagem de cabos e fixação de dispositivos.<br> 2- Apoiar manutenções com tarefas simples como limpeza, substituição de peças e testes básicos.<br> 3- Organizar ferramentas, materiais e equipamentos utilizados pela equipe técnica.<br> 4- Auxiliar em testes preliminares de sistemas e realizar configurações simples.<br> 5- Preencher fichas e relatórios básicos quando solicitado.<br> 6- Orientar clientes sobre dúvidas simples e redirecionar demandas mais complexas.<br> 7- Manter ambiente de trabalho organizado e apoiar desmontagens de sistemas antigos.<br> 8- Participar de treinamentos e acompanhar técnicos em demandas mais complexas.",
-                  "foto": "https://github.com/user-attachments/assets/1119b8fb-a936-46e5-984c-837e33b29b5f",
-                  "nome": "Lucas Batista",
-                  "cargo": "Auxiliar Tecnico"
-                }
+                "telefone": "(61) 992847852"
               }
             ]
           },
@@ -220,11 +220,11 @@
                         "turno": "Noite"
                       },
                       {
-                        "nome": "Gabriel",
-                        "turno": "Noite",
-                        "foto": "https://github.com/user-attachments/assets/02a9b9da-918e-49be-8821-00e97e51a206",
+                        "descricao": "<br>Responsável pelo monitoramento remoto de sistemas de segurança eletrônica, atendendo ocorrências, executando rondas virtuais, checklists e prestando suporte técnico e administrativo. Atua como ponto central na detecção de incidentes e resposta rápida a riscos.",
                         "descricaoDetalhada": "<br> 1- Monitorar câmeras e alarmes em plataformas como SIM Next, Sigma Image e Sigma Cloud. <br> 2- Realizar checklists diários, registrando falhas e comunicando a equipe responsável.<br> 3- Verificar status individual das câmeras e informar o grupo técnico sobre falhas.<br> 4- Responder a disparos de alarme, contatando clientes, fiscais de ronda e órgãos competentes.<br> 5- Criar e alterar senhas, incluindo senhas de coação, nos sistemas internos.<br> 6- Atualizar cadastros e abrir Ordens de Serviço conforme necessidade.<br> 7- Executar arme e desarme das centrais de alarme conforme solicitações oficiais.",
-                        "descricao": "<br>Responsável pelo monitoramento remoto de sistemas de segurança eletrônica, atendendo ocorrências, executando rondas virtuais, checklists e prestando suporte técnico e administrativo. Atua como ponto central na detecção de incidentes e resposta rápida a riscos."
+                        "foto": "https://github.com/user-attachments/assets/02a9b9da-918e-49be-8821-00e97e51a206",
+                        "nome": "Gabriel",
+                        "turno": "Noite"
                       },
                       {
                         "nome": "Vaga Disponível",
