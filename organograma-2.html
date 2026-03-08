@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organograma de Cargos</title>
+    <link rel="stylesheet" href="style.css?v=20260308-18">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-brand">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1976d2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="3" width="6" height="6"></rect>
+                <path d="M5 15h14"></path>
+                <path d="M12 9v6"></path>
+                <path d="M12 15v3"></path>
+                <rect x="2" y="18" width="6" height="6"></rect>
+                <rect x="16" y="18" width="6" height="6"></rect>
+            </svg>
+            <h1>Organograma de Cargos</h1>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <button id="btn-export-pdf-org2" class="btn-admin" title="Salvar PDF do organograma de cargos" style="background:none; border:none; cursor:pointer; color:#64748b; display:flex; align-items:center; gap:6px;">
+                <span class="material-icons-round">picture_as_pdf</span>
+                <span style="font-size:12px; font-weight:700; letter-spacing:.4px;">PDF</span>
+            </button>
+
+            <a href="index.html" class="btn-admin" title="Voltar para o dashboard" style="text-decoration:none; color:#64748b; display:flex; align-items:center; gap:6px;">
+                <span class="material-icons-round">arrow_back</span>
+                <span style="font-size:12px; font-weight:700; letter-spacing:.4px;">VOLTAR</span>
+            </a>
+        </div>
+    </header>
+
+    <div id="org2-scroll-top-wrap" class="org2-scroll-top-wrap" aria-hidden="true">
+        <div id="org2-scroll-top" class="org2-scroll-top">
+            <div id="org2-scroll-top-inner" class="org2-scroll-top-inner"></div>
+        </div>
+    </div>
+
+    <main id="dashboard-content" class="org2-page">
+        <div id="org2-layout">
+            <section id="org2-top-directorias" class="org2-top-directorias"></section>
+            <div class="org2-top-connector" aria-hidden="true"></div>
+            <div id="org2-container" class="org-chart"></div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="organograma-2.js?v=20260308-33"></script>
+</body>
+</html>
