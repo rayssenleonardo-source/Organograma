@@ -90,8 +90,12 @@
                               "nivel": 5,
                               "nomes": [
                                 {
-                                  "foto": "https://github.com/user-attachments/assets/11c70c12-c8ed-4348-a3e4-efd93770b838",
-                                  "nome": "Adriel Rodrigues"
+                                  "foto": "https://github.com/user-attachments/assets/da33e098-642f-4783-865b-5563594176fb",
+                                  "nome": "Quedma Paula"
+                                },
+                                {
+                                  "foto": "https://github.com/user-attachments/assets/774cdc60-9407-49a2-963d-c96971cd0c26",
+                                  "nome": "Luiz Gabriel"
                                 }
                               ],
                               "quantidade": 2
@@ -105,7 +109,15 @@
                             {
                               "cargo": "Operadores Noturnos",
                               "nivel": 5,
-                              "nomes": [],
+                              "nomes": [
+                                {
+                                  "nome": "Vaga Disponível"
+                                },
+                                {
+                                  "foto": "https://github.com/user-attachments/assets/11c70c12-c8ed-4348-a3e4-efd93770b838",
+                                  "nome": "Adriel Rodrigues"
+                                }
+                              ],
                               "quantidade": 2
                             }
                           ],
@@ -227,7 +239,12 @@
                     }
                   ],
                   "nivel": 5,
-                  "nomes": []
+                  "nomes": [
+                    {
+                      "foto": "https://github.com/user-attachments/assets/e3924039-fd1d-4056-a6f7-9e9b8d52a179",
+                      "nome": "Silvano Rodrigues"
+                    }
+                  ]
                 }
               ],
               "nivel": 4
@@ -250,7 +267,11 @@
                                 {
                                   "cargo": "Analista Shield",
                                   "nivel": 5,
-                                  "nomes": []
+                                  "nomes": [
+                                    {
+                                      "nome": "Vaga de Sugestão"
+                                    }
+                                  ]
                                 }
                               ],
                               "nivel": 5,
@@ -259,7 +280,12 @@
                             }
                           ],
                           "nivel": 5,
-                          "nomes": []
+                          "nomes": [
+                            {
+                              "foto": "https://github.com/user-attachments/assets/16eef1a3-8f46-4fc8-8b9c-055d4f054fb5",
+                              "nome": "Rayssen Leonardo"
+                            }
+                          ]
                         }
                       ],
                       "nivel": 5,
