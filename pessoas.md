@@ -60,7 +60,8 @@ Renier
 <img width="409" height="409" alt="renier_pronto" src="https://github.com/user-attachments/assets/d957b249-3c96-44d1-a6cd-83745d4e8150" />
 Gabriel
 <img width="409" height="409" alt="gabriel_pronto" src="https://github.com/user-attachments/assets/02a9b9da-918e-49be-8821-00e97e51a206" />
-
+Michael 
+<img width="409" height="409" alt="michael_douglas" src="https://github.com/user-attachments/assets/ff6ffe3e-2167-42ff-82fd-39c3b988bdcd" />
 
 
 
