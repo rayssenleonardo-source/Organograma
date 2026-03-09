@@ -1742,8 +1742,35 @@ function createPdfCaptureClone(target) {
         slot.removeAttribute("aria-label");
     });
 
+    Array.from(clone.querySelectorAll("img")).forEach((img) => {
+        const src = (img.getAttribute("src") || img.src || "").trim();
+        const safeSrc = buildOrg2PdfImageSrc(src);
+        if (!safeSrc) return;
+        img.removeAttribute("srcset");
+        img.removeAttribute("sizes");
+        img.setAttribute("loading", "eager");
+        img.setAttribute("decoding", "sync");
+        img.src = safeSrc;
+    });
+
     document.body.appendChild(clone);
     return clone;
+}
+
+function buildOrg2PdfImageSrc(rawSrc) {
+    const src = String(rawSrc || "").trim();
+    if (!src) return "";
+    if (src.startsWith("data:") || src.startsWith("blob:")) return src;
+
+    try {
+        const parsed = new URL(src, window.location.origin);
+        if (parsed.origin === window.location.origin) {
+            return parsed.toString();
+        }
+        return `/api/image-proxy?url=${encodeURIComponent(parsed.toString())}`;
+    } catch {
+        return src;
+    }
 }
 
 async function waitForFonts(timeoutMs = 3000) {
@@ -1757,6 +1784,39 @@ async function waitForFonts(timeoutMs = 3000) {
     } catch (error) {
         console.warn("Falha ao aguardar fontes para exportacao:", error);
     }
+}
+
+async function waitForImages(container, timeoutMs = 12000) {
+    if (!container) return;
+
+    const images = Array.from(container.querySelectorAll("img"));
+    if (images.length === 0) return;
+
+    await Promise.all(images.map((img) => new Promise((resolve) => {
+        if (img.complete && img.naturalWidth > 0) {
+            resolve();
+            return;
+        }
+
+        let done = false;
+        const finalize = () => {
+            if (done) return;
+            done = true;
+            img.removeEventListener("load", finalize);
+            img.removeEventListener("error", finalize);
+            resolve();
+        };
+
+        const timer = setTimeout(finalize, timeoutMs);
+        img.addEventListener("load", () => {
+            clearTimeout(timer);
+            finalize();
+        }, { once: true });
+        img.addEventListener("error", () => {
+            clearTimeout(timer);
+            finalize();
+        }, { once: true });
+    })));
 }
 
 async function exportOrganogramaPdf() {
@@ -1784,6 +1844,7 @@ async function exportOrganogramaPdf() {
         await waitForFonts();
         exportTarget = createPdfCaptureClone(target);
         await waitForFonts();
+        await waitForImages(exportTarget);
 
         const captureScale = 2;
         const canvas = await window.html2canvas(exportTarget, {
