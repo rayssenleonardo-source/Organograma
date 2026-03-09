@@ -13,10 +13,35 @@ services:
       - key: FLASK_DEBUG
         value: "false"
       - key: DATA_FILE
-        value: /var/data/dados.json
+        value: /tmp/organograma/dados.json
       - key: UPLOADS_DIR
-        value: /var/data/uploads
-    disk:
-      name: organograma-data
-      mountPath: /var/data
-      sizeGB: 1
+        value: /tmp/organograma/uploads
+      # Persistencia opcional (free): configure Supabase (Postgres + Storage)
+      # no dashboard do Render. Com isso, os dados deixam de depender de disco local.
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SUPABASE_DATA_TABLE
+        value: organograma_data
+      - key: SUPABASE_DATA_ROW_ID
+        value: main
+      - key: SUPABASE_STORAGE_BUCKET
+        sync: false
+      - key: SUPABASE_STORAGE_PREFIX
+        value: organograma
+      # Sincronizacao opcional com GitHub (dados.json no repositorio)
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: GITHUB_REPO
+        value: rayssenleonardo-source/Organograma
+      - key: GITHUB_BRANCH
+        value: main
+      - key: GITHUB_DATA_PATH
+        value: dados.json
+      - key: GITHUB_COMMITTER_NAME
+        value: Organograma Bot
+      - key: GITHUB_COMMITTER_EMAIL
+        sync: false
+      - key: GITHUB_COMMIT_MESSAGE_PREFIX
+        value: "chore(data): atualiza dados.json via API"

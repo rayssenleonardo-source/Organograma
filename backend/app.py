@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+import base64
 import json
 import os
 import uuid
+from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import unquote, urlparse
 
@@ -26,6 +28,20 @@ SUPABASE_STORAGE_PREFIX = os.getenv("SUPABASE_STORAGE_PREFIX", "organograma").st
 
 USE_SUPABASE_DATA = bool(SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY)
 USE_SUPABASE_STORAGE = USE_SUPABASE_DATA and bool(SUPABASE_STORAGE_BUCKET)
+
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN", "").strip()
+GITHUB_REPO = os.getenv("GITHUB_REPO", "").strip()
+GITHUB_BRANCH = os.getenv("GITHUB_BRANCH", "main").strip() or "main"
+GITHUB_DATA_PATH = os.getenv("GITHUB_DATA_PATH", "dados.json").strip().strip("/")
+GITHUB_API_BASE = os.getenv("GITHUB_API_BASE", "https://api.github.com").strip().rstrip("/")
+GITHUB_COMMITTER_NAME = os.getenv("GITHUB_COMMITTER_NAME", "").strip()
+GITHUB_COMMITTER_EMAIL = os.getenv("GITHUB_COMMITTER_EMAIL", "").strip()
+GITHUB_COMMIT_MESSAGE_PREFIX = (
+    os.getenv("GITHUB_COMMIT_MESSAGE_PREFIX", "chore(data): atualiza dados.json via API").strip()
+    or "chore(data): atualiza dados.json via API"
+)
+
+USE_GITHUB_SYNC = bool(GITHUB_TOKEN and GITHUB_REPO and GITHUB_DATA_PATH)
 
 ALLOWED_EXTENSIONS = {
     ".png",
@@ -135,6 +151,130 @@ def supabase_write_data(payload: dict) -> None:
         raise RuntimeError(f"Falha ao gravar dados no Supabase: HTTP {response.status_code}")
 
 
+def serialize_payload(payload: dict) -> str:
+    return f"{json.dumps(payload, ensure_ascii=False, indent=2)}\n"
+
+
+def github_headers(extra: dict | None = None) -> dict:
+    headers = {
+        "Authorization": f"Bearer {GITHUB_TOKEN}",
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "User-Agent": "organograma-backend",
+    }
+    if extra:
+        headers.update(extra)
+    return headers
+
+
+def github_request(
+    method: str,
+    path: str,
+    *,
+    params: dict | None = None,
+    json_payload: object | None = None,
+    timeout: int = 15,
+) -> requests.Response:
+    if not USE_GITHUB_SYNC:
+        raise RuntimeError("Sincronizacao com GitHub nao configurada.")
+
+    url = f"{GITHUB_API_BASE}{path}"
+    return requests.request(
+        method=method,
+        url=url,
+        params=params,
+        json=json_payload,
+        headers=github_headers(),
+        timeout=timeout,
+    )
+
+
+def github_fetch_file_state() -> tuple[str | None, str | None]:
+    response = github_request(
+        "GET",
+        f"/repos/{GITHUB_REPO}/contents/{GITHUB_DATA_PATH}",
+        params={"ref": GITHUB_BRANCH},
+        timeout=15,
+    )
+
+    if response.status_code == 404:
+        return None, None
+    if response.status_code >= 400:
+        raise RuntimeError(f"Falha ao ler arquivo no GitHub: HTTP {response.status_code}")
+
+    body = response.json()
+    sha = body.get("sha")
+    raw_content = body.get("content")
+    if raw_content is None:
+        return sha, None
+    if not isinstance(raw_content, str):
+        raise RuntimeError("Conteudo invalido retornado pelo GitHub.")
+
+    try:
+        decoded = base64.b64decode(raw_content.encode("utf-8"), validate=False).decode("utf-8")
+    except Exception as error:
+        raise RuntimeError(f"Falha ao decodificar conteudo no GitHub: {error}") from error
+
+    return sha, decoded
+
+
+def build_github_commit_message() -> str:
+    timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+    return f"{GITHUB_COMMIT_MESSAGE_PREFIX} ({timestamp})"
+
+
+def github_put_file(serialized_payload: str, file_sha: str | None) -> requests.Response:
+    encoded_content = base64.b64encode(serialized_payload.encode("utf-8")).decode("ascii")
+    body: dict[str, object] = {
+        "message": build_github_commit_message(),
+        "content": encoded_content,
+        "branch": GITHUB_BRANCH,
+    }
+    if file_sha:
+        body["sha"] = file_sha
+    if GITHUB_COMMITTER_NAME and GITHUB_COMMITTER_EMAIL:
+        body["committer"] = {
+            "name": GITHUB_COMMITTER_NAME,
+            "email": GITHUB_COMMITTER_EMAIL,
+        }
+
+    return github_request(
+        "PUT",
+        f"/repos/{GITHUB_REPO}/contents/{GITHUB_DATA_PATH}",
+        json_payload=body,
+        timeout=20,
+    )
+
+
+def sync_payload_to_github(payload: dict) -> tuple[bool, str]:
+    if not USE_GITHUB_SYNC:
+        return True, "disabled"
+
+    serialized_payload = serialize_payload(payload)
+    remote_sha, remote_content = github_fetch_file_state()
+
+    if remote_content == serialized_payload:
+        return True, "unchanged"
+
+    response = github_put_file(serialized_payload, remote_sha)
+    if response.status_code in {200, 201}:
+        return True, "updated"
+
+    # SHA pode ficar desatualizado se houver atualizacao concorrente; tenta uma nova vez.
+    if response.status_code == 409:
+        remote_sha, remote_content = github_fetch_file_state()
+        if remote_content == serialized_payload:
+            return True, "unchanged"
+        retry_response = github_put_file(serialized_payload, remote_sha)
+        if retry_response.status_code in {200, 201}:
+            return True, "updated"
+        raise RuntimeError(
+            f"Falha ao sincronizar com GitHub: HTTP {retry_response.status_code}"
+        )
+
+    raise RuntimeError(f"Falha ao sincronizar com GitHub: HTTP {response.status_code}")
+
+
 def initialize_storage() -> None:
     if not USE_SUPABASE_STORAGE:
         UPLOADS_DIR.mkdir(parents=True, exist_ok=True)
@@ -175,9 +315,9 @@ def write_data_atomic(payload: dict) -> None:
 
     # Em bind mount de arquivo único (./dados.json:/app/dados.json), usar rename
     # pode "descolar" o arquivo do host. Escrita direta mantém sincronismo.
+    serialized_payload = serialize_payload(payload)
     with DATA_FILE.open("w", encoding="utf-8") as handle:
-        json.dump(payload, handle, ensure_ascii=False, indent=2)
-        handle.write("\n")
+        handle.write(serialized_payload)
 
 
 def normalize_local_upload_url(raw_url: str) -> Path:
@@ -279,6 +419,7 @@ def api_health():
             "status": "ok",
             "data_store": "supabase" if USE_SUPABASE_DATA else "local",
             "photo_store": "supabase" if USE_SUPABASE_STORAGE else "local",
+            "github_sync": "enabled" if USE_GITHUB_SYNC else "disabled",
         }
     )
 
@@ -343,7 +484,28 @@ def put_data():
     except Exception as error:
         return jsonify({"error": str(error)}), 500
 
-    return jsonify({"ok": True})
+    github_sync_status = "disabled"
+    github_sync_error = None
+
+    if USE_GITHUB_SYNC:
+        try:
+            _, github_sync_status = sync_payload_to_github(payload)
+        except Exception as error:
+            github_sync_status = "failed"
+            github_sync_error = str(error)
+            app.logger.exception("Falha ao sincronizar dados com GitHub")
+
+    response_payload: dict[str, object] = {
+        "ok": True,
+        "github_sync": {
+            "enabled": USE_GITHUB_SYNC,
+            "status": github_sync_status,
+        },
+    }
+    if github_sync_error:
+        response_payload["github_sync"]["error"] = github_sync_error
+
+    return jsonify(response_payload)
 
 
 @app.post("/api/upload-photo")
