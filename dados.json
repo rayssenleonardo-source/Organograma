@@ -302,7 +302,12 @@
                     }
                   ],
                   "nivel": 5,
-                  "nomes": []
+                  "nomes": [
+                    {
+                      "foto": "https://github.com/user-attachments/assets/e3924039-fd1d-4056-a6f7-9e9b8d52a179",
+                      "nome": "Silvano Rodrigues"
+                    }
+                  ]
                 }
               ],
               "nivel": 4
@@ -351,7 +356,12 @@
                             }
                           ],
                           "nivel": 5,
-                          "nomes": []
+                          "nomes": [
+                            {
+                              "foto": "https://github.com/user-attachments/assets/16eef1a3-8f46-4fc8-8b9c-055d4f054fb5",
+                              "nome": "Rayssen Leonardo"
+                            }
+                          ]
                         }
                       ],
                       "nivel": 5,
