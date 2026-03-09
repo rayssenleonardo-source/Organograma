@@ -65,7 +65,8 @@
           "nivel": 2,
           "nomes": [
             {
-              "nome": "Delfino"
+              "foto": "https://github.com/user-attachments/assets/c0482077-6ce7-481a-8f9d-08cc1aad40f7",
+              "nome": "Delfino Mendes"
             }
           ]
         },
@@ -87,7 +88,12 @@
                             {
                               "cargo": "Operadores Diurnos",
                               "nivel": 5,
-                              "nomes": [],
+                              "nomes": [
+                                {
+                                  "foto": "https://github.com/user-attachments/assets/11c70c12-c8ed-4348-a3e4-efd93770b838",
+                                  "nome": "Adriel Rodrigues"
+                                }
+                              ],
                               "quantidade": 2
                             }
                           ],
@@ -107,7 +113,12 @@
                         }
                       ],
                       "nivel": 5,
-                      "nomes": []
+                      "nomes": [
+                        {
+                          "foto": "https://github.com/user-attachments/assets/d957b249-3c96-44d1-a6cd-83745d4e8150",
+                          "nome": "Renier Müller"
+                        }
+                      ]
                     }
                   ],
                   "nivel": 5
@@ -286,12 +297,22 @@
             }
           ],
           "nivel": 2,
-          "nomes": []
+          "nomes": [
+            {
+              "foto": "https://github.com/user-attachments/assets/98982e04-790a-4fd7-be29-29217af7ca32",
+              "nome": "Luciano Nascimento"
+            }
+          ]
         },
         {
           "cargo": "Gerência Comercial",
           "nivel": 2,
-          "nomes": []
+          "nomes": [
+            {
+              "foto": "https://github.com/user-attachments/assets/9f1f43ee-708b-4d33-baea-65a3251baf03",
+              "nome": "João Apoena"
+            }
+          ]
         }
       ],
       "nivel": 1
