@@ -13,54 +13,134 @@ const ORG2_DEFAULT_ESTRUTURA = {
             cargo: "Gerência de Seg. Eletrônica",
             filhos: [
                 {
-                    nivel: 3,
-                    cargo: "Gestão de Segurança Eletrônica",
+                    nivel: 4,
+                    cargo: "Central de Monitoramento",
                     filhos: [
                         {
-                            nivel: 4,
-                            cargo: "Central de Monitoramento",
+                            nivel: 5,
+                            cargo: "Operação de Monitoramento",
                             filhos: [
                                 {
                                     nivel: 5,
-                                    cargo: "Operação de Monitoramento",
+                                    cargo: "Supervisor de Monitoramento",
                                     filhos: [
-                                        {
-                                            nivel: 5,
-                                            cargo: "Supervisor de Monitoramento",
-                                            filhos: [
-                                                { nivel: 5, cargo: "Operadores Diurnos", quantidade: 4 },
-                                                { nivel: 5, cargo: "Operadores Noturnos", quantidade: 4 }
-                                            ]
-                                        }
+                                        { nivel: 5, cargo: "Operadores Diurnos", quantidade: 4 },
+                                        { nivel: 5, cargo: "Operadores Noturnos", quantidade: 4 }
                                     ]
                                 }
                             ]
-                        },
+                        }
+                    ]
+                },
+                {
+                    nivel: 4,
+                    cargo: "Central Técnica",
+                    filhos: [
                         {
-                            nivel: 4,
-                            cargo: "Central Técnica",
+                            nivel: 5,
+                            cargo: "Supervisor Técnico",
                             filhos: [
                                 {
                                     nivel: 5,
-                                    cargo: "Instalação e Manutenção",
+                                    cargo: "Instalação",
                                     filhos: [
                                         {
                                             nivel: 5,
-                                            cargo: "Supervisor Técnico",
+                                            cargo: "Clientes 6x1",
                                             filhos: [
                                                 {
                                                     nivel: 5,
-                                                    cargo: "Tecnicos",
-                                                    quantidade: 4,
+                                                    cargo: "Técnico",
                                                     filhos: [
                                                         {
                                                             nivel: 5,
-                                                            cargo: "Auxiliares Tecnicos",
-                                                            quantidade: 4,
-                                                            filhos: [
-                                                                { nivel: 5, cargo: "Tec. Shield" }
-                                                            ]
+                                                            cargo: "Auxiliar Técnico"
                                                         }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    nivel: 5,
+                                    cargo: "Manutenção",
+                                    filhos: [
+                                        {
+                                            nivel: 5,
+                                            cargo: "CIPLAN 5x2",
+                                            filhos: [
+                                                {
+                                                    nivel: 5,
+                                                    cargo: "Técnico",
+                                                    filhos: [
+                                                        { nivel: 5, cargo: "Auxiliar Técnico" }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            nivel: 5,
+                                            cargo: "STF 6x1",
+                                            filhos: [
+                                                {
+                                                    nivel: 5,
+                                                    cargo: "Técnico",
+                                                    filhos: [
+                                                        { nivel: 5, cargo: "Auxiliar Técnico" }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            nivel: 5,
+                                            cargo: "Clientes 6x1",
+                                            filhos: [
+                                                {
+                                                    nivel: 5,
+                                                    cargo: "Técnico",
+                                                    filhos: [
+                                                        { nivel: 5, cargo: "Auxiliar Técnico" }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    nivel: 5,
+                                    cargo: "Tecnico Shield"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    nivel: 4,
+                    cargo: "Shield"
+                },
+                {
+                    nivel: 4,
+                    cargo: "Tecnologia",
+                    filhos: [
+                        {
+                            nivel: 5,
+                            cargo: "Projetos, Inovação e Planejamento",
+                            filhos: [
+                                {
+                                    nivel: 5,
+                                    cargo: "Analista de Tecnologia N2",
+                                    filhos: [
+                                        {
+                                            nivel: 5,
+                                            cargo: "Analista de Tecnologia N1",
+                                            filhos: [
+                                                {
+                                                    nivel: 5,
+                                                    cargo: "Tecnicos de Suporte",
+                                                    quantidade: 2,
+                                                    filhos: [
+                                                        { nivel: 5, cargo: "Analista Shield" }
                                                     ]
                                                 }
                                             ]
@@ -68,54 +148,22 @@ const ORG2_DEFAULT_ESTRUTURA = {
                                     ]
                                 }
                             ]
-                        },
+                        }
+                    ]
+                },
+                {
+                    nivel: 4,
+                    cargo: "Apoio e Logística",
+                    filhos: [
                         {
-                            nivel: 4,
-                            cargo: "Tecnologia",
+                            nivel: 5,
+                            cargo: "Op. Apoio Técnico, ADM e Logístico",
                             filhos: [
                                 {
                                     nivel: 5,
-                                    cargo: "Projetos, Inovação e Planejamento",
+                                    cargo: "Assistente Administrativo",
                                     filhos: [
-                                        {
-                                            nivel: 5,
-                                            cargo: "Analista de Tecnologia N2",
-                                            filhos: [
-                                                {
-                                                    nivel: 5,
-                                                    cargo: "Analista de Tecnologia N1",
-                                                    filhos: [
-                                                        {
-                                                            nivel: 5,
-                                                            cargo: "Tecnicos de Suporte",
-                                                            quantidade: 2,
-                                                            filhos: [
-                                                                { nivel: 5, cargo: "Suporte Shield" }
-                                                            ]
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            nivel: 4,
-                            cargo: "Apoio e Logística",
-                            filhos: [
-                                {
-                                    nivel: 5,
-                                    cargo: "Op. Apoio Técnico, ADM e Logístico",
-                                    filhos: [
-                                        {
-                                            nivel: 5,
-                                            cargo: "Assistente Administrativo",
-                                            filhos: [
-                                                { nivel: 5, cargo: "Equipe de Jovens Aprendiz" }
-                                            ]
-                                        }
+                                        { nivel: 5, cargo: "Jovem Aprendiz" }
                                     ]
                                 }
                             ]
@@ -215,6 +263,334 @@ function syncOrg2StateFromPayload(payload) {
         org2Diretorias = cloneData(ORG2_DEFAULT_DIRETORIAS);
         org2Estrutura = cloneData(ORG2_DEFAULT_ESTRUTURA);
     }
+
+    normalizeOrg2LegacyLabels(org2Estrutura);
+    flattenGestaoSegurancaNodes(org2Estrutura);
+    ensureShieldUnderGerenciaSeguranca(org2Estrutura);
+    ensureCentralTecnicaSplit(org2Estrutura);
+}
+
+function walkOrg2Nodes(nodeData, visitor) {
+    if (!nodeData || typeof nodeData !== "object") return;
+    visitor(nodeData);
+
+    const filhos = Array.isArray(nodeData.filhos) ? nodeData.filhos : [];
+    filhos.forEach((filho) => walkOrg2Nodes(filho, visitor));
+}
+
+function normalizeOrg2LegacyLabels(rootNode) {
+    walkOrg2Nodes(rootNode, (node) => {
+        const cargo = normalizeLabel(node.cargo);
+        if (
+            cargo === normalizeLabel("Equipe de Jovens Aprendiz") ||
+            cargo === normalizeLabel("Equipe de Jovem Aprendiz")
+        ) {
+            node.cargo = "Jovem Aprendiz";
+            return;
+        }
+
+        if (cargo === normalizeLabel("Suporte Shield")) {
+            node.cargo = "Analista Shield";
+        }
+    });
+}
+
+function flattenGestaoSegurancaNodes(nodeData) {
+    if (!nodeData || typeof nodeData !== "object") return;
+
+    const filhos = Array.isArray(nodeData.filhos) ? nodeData.filhos : [];
+    if (filhos.length === 0) return;
+
+    const filhosNormalizados = [];
+    filhos.forEach((filho) => {
+        flattenGestaoSegurancaNodes(filho);
+
+        if (normalizeLabel(filho?.cargo) === normalizeLabel("Gestão de Segurança Eletrônica")) {
+            const netos = Array.isArray(filho.filhos) ? filho.filhos : [];
+            netos.forEach((neto) => filhosNormalizados.push(neto));
+            return;
+        }
+
+        filhosNormalizados.push(filho);
+    });
+
+    nodeData.filhos = filhosNormalizados;
+}
+
+function ensureShieldUnderGerenciaSeguranca(rootNode) {
+    walkOrg2Nodes(rootNode, (node) => {
+        if (normalizeLabel(node?.cargo) !== normalizeLabel("Gerência de Seg. Eletrônica")) return;
+
+        const filhos = Array.isArray(node.filhos) ? node.filhos : [];
+        const filhosSemShield = [];
+        let shieldNode = null;
+
+        filhos.forEach((filho) => {
+            if (normalizeLabel(filho?.cargo) === normalizeLabel("Shield")) {
+                if (!shieldNode) shieldNode = filho;
+                return;
+            }
+            filhosSemShield.push(filho);
+        });
+
+        if (!shieldNode) {
+            shieldNode = { cargo: "Shield" };
+        }
+
+        const levelFromChildren = filhosSemShield.find((filho) => Number.isFinite(filho?.nivel));
+        const levelFallback = Number.isFinite(node.nivel) ? node.nivel + 2 : 4;
+        shieldNode.nivel = Number.isFinite(levelFromChildren?.nivel)
+            ? levelFromChildren.nivel
+            : levelFallback;
+
+        const idxCentralTecnica = filhosSemShield.findIndex((filho) => (
+            normalizeLabel(filho?.cargo) === normalizeLabel("Central Técnica")
+        ));
+
+        if (idxCentralTecnica >= 0) {
+            node.filhos = [
+                ...filhosSemShield.slice(0, idxCentralTecnica + 1),
+                shieldNode,
+                ...filhosSemShield.slice(idxCentralTecnica + 1)
+            ];
+            return;
+        }
+
+        node.filhos = [...filhosSemShield, shieldNode];
+    });
+}
+
+const ORG2_TECNICOS_LOCAIS = ["CIPLAN 5x2", "STF 6x1", "Clientes 6x1"];
+
+function getFirstNodeName(nodeData) {
+    if (!nodeData || typeof nodeData !== "object") return "";
+    const names = Array.isArray(nodeData.nomes) ? nodeData.nomes : [];
+    const firstName = names.find((value) => String(value || "").trim().length > 0);
+    return firstName ? String(firstName).trim() : "";
+}
+
+function findFirstDescendantByCargo(nodeData, labels) {
+    if (!nodeData || typeof nodeData !== "object") return null;
+
+    let found = null;
+    walkOrg2Nodes(nodeData, (item) => {
+        if (found) return;
+        if (item === nodeData) return;
+
+        const cargo = normalizeLabel(item?.cargo);
+        if (labels.some((label) => cargo === normalizeLabel(label))) {
+            found = item;
+        }
+    });
+
+    return found;
+}
+
+function buildTecnicosLocalNode(localCargo, nivel, tecnicoName = "", auxiliarName = "") {
+    const tecnicoNode = {
+        nivel,
+        cargo: "Técnico",
+        filhos: [{ nivel, cargo: "Auxiliar Técnico" }]
+    };
+    if (tecnicoName) tecnicoNode.nomes = [tecnicoName];
+    if (auxiliarName) tecnicoNode.filhos[0].nomes = [auxiliarName];
+
+    return {
+        nivel,
+        cargo: localCargo,
+        filhos: [tecnicoNode]
+    };
+}
+
+function buildInstalacaoNode(nivel, tecnicoName = "", auxiliarName = "") {
+    const tecnicoNode = {
+        nivel,
+        cargo: "Técnico",
+        filhos: [{ nivel, cargo: "Auxiliar Técnico" }]
+    };
+
+    if (tecnicoName) tecnicoNode.nomes = [tecnicoName];
+    if (auxiliarName) tecnicoNode.filhos[0].nomes = [auxiliarName];
+
+    return {
+        nivel,
+        cargo: "Instalação",
+        filhos: [
+            {
+                nivel,
+                cargo: "Clientes 6x1",
+                filhos: [tecnicoNode]
+            }
+        ]
+    };
+}
+
+function buildManutencaoNode(nivel, locais) {
+    return {
+        nivel,
+        cargo: "Manutenção",
+        filhos: locais
+    };
+}
+
+function buildTecnicoShieldNode(nivel, tecnicoShieldName = "") {
+    const node = {
+        nivel,
+        cargo: "Tecnico Shield"
+    };
+
+    if (tecnicoShieldName) node.nomes = [tecnicoShieldName];
+    return node;
+}
+
+function buildSupervisorTecnicoNode(
+    nivel,
+    instalacaoNode,
+    manutencaoNode,
+    tecnicoShieldNode,
+    supervisorName = ""
+) {
+    const supervisorNode = {
+        nivel,
+        cargo: "Supervisor Técnico",
+        filhos: [instalacaoNode, manutencaoNode, tecnicoShieldNode]
+    };
+
+    if (supervisorName) supervisorNode.nomes = [supervisorName];
+    return supervisorNode;
+}
+
+function ensureCentralTecnicaSplit(rootNode) {
+    walkOrg2Nodes(rootNode, (node) => {
+        if (normalizeLabel(node?.cargo) !== normalizeLabel("Central Técnica")) return;
+
+        const filhosOriginais = Array.isArray(node.filhos) ? node.filhos : [];
+        const supervisorExistente = filhosOriginais.find((filho) => (
+            normalizeLabel(filho?.cargo) === normalizeLabel("Supervisor Técnico")
+        ));
+        const filhosSupervisor = Array.isArray(supervisorExistente?.filhos) ? supervisorExistente.filhos : [];
+        const filhosBase = filhosSupervisor.length > 0 ? filhosSupervisor : filhosOriginais;
+
+        const instalacaoExistente = filhosBase.find((filho) => (
+            normalizeLabel(filho?.cargo) === normalizeLabel("Instalação")
+        ));
+        const manutencaoExistente = filhosBase.find((filho) => (
+            normalizeLabel(filho?.cargo) === normalizeLabel("Manutenção")
+        ));
+        const legadoInstalacaoManutencao = filhosBase.find((filho) => (
+            normalizeLabel(filho?.cargo) === normalizeLabel("Instalação e Manutenção")
+        ));
+
+        const baseNode =
+            instalacaoExistente ||
+            manutencaoExistente ||
+            legadoInstalacaoManutencao ||
+            filhosBase[0] ||
+            supervisorExistente ||
+            filhosOriginais[0];
+        const baseNivel = Number.isFinite(baseNode?.nivel)
+            ? baseNode.nivel
+            : (Number.isFinite(node.nivel) ? node.nivel + 1 : 5);
+
+        const supervisorExistenteDesc = supervisorExistente || findFirstDescendantByCargo(node, ["Supervisor Técnico", "Supervisor Tecnico"]);
+        const supervisorName = getFirstNodeName(supervisorExistenteDesc) || "";
+        const tecnicoShieldExistenteDesc = findFirstDescendantByCargo(node, ["Tecnico Shield", "Técnico Shield", "Tec. Shield"]);
+        const tecnicoShieldName = getFirstNodeName(tecnicoShieldExistenteDesc) || "";
+
+        const tecnicoInstalacaoNode = findFirstDescendantByCargo(instalacaoExistente, ["Técnico", "Tecnico", "Tecnicos"]);
+        const auxiliarInstalacaoNode = findFirstDescendantByCargo(instalacaoExistente, ["Auxiliar Técnico", "Auxiliar Tecnico", "Auxiliares Tecnicos"]);
+
+        const tecnicoInstalacaoName = getFirstNodeName(tecnicoInstalacaoNode) || "";
+        const auxiliarInstalacaoName = getFirstNodeName(auxiliarInstalacaoNode) || "";
+
+        const sourceManutencao = manutencaoExistente || legadoInstalacaoManutencao || null;
+        const filhosManutencao = Array.isArray(sourceManutencao?.filhos) ? sourceManutencao.filhos : [];
+
+        const tecnicoNames = [];
+        const auxiliarNames = [];
+        walkOrg2Nodes(sourceManutencao, (item) => {
+            const cargo = normalizeLabel(item?.cargo);
+            const nome = getFirstNodeName(item);
+            if (!nome) return;
+
+            if (
+                cargo === normalizeLabel("Técnico") ||
+                cargo === normalizeLabel("Tecnico") ||
+                cargo === normalizeLabel("Tecnicos")
+            ) {
+                tecnicoNames.push(nome);
+            }
+            if (
+                cargo === normalizeLabel("Auxiliar Técnico") ||
+                cargo === normalizeLabel("Auxiliar Tecnico") ||
+                cargo === normalizeLabel("Auxiliares Tecnicos")
+            ) {
+                auxiliarNames.push(nome);
+            }
+        });
+
+        const localNodes = ORG2_TECNICOS_LOCAIS.map((localCargo, index) => {
+            const localExistente = filhosManutencao.find((filho) => (
+                normalizeLabel(filho?.cargo) === normalizeLabel(localCargo)
+            ));
+
+            const tecnicoLocal = findFirstDescendantByCargo(localExistente, ["Técnico", "Tecnico", "Tecnicos"]);
+            const auxiliarLocal = findFirstDescendantByCargo(localExistente, ["Auxiliar Técnico", "Auxiliar Tecnico", "Auxiliares Tecnicos"]);
+
+            const tecnicoName = getFirstNodeName(tecnicoLocal) || tecnicoNames[index] || "";
+            const auxiliarName = getFirstNodeName(auxiliarLocal) || auxiliarNames[index] || "";
+
+            return buildTecnicosLocalNode(localCargo, baseNivel, tecnicoName, auxiliarName);
+        });
+
+        const outrosFilhos = filhosOriginais.filter((filho) => {
+            const cargo = normalizeLabel(filho?.cargo);
+            return (
+                cargo !== normalizeLabel("Supervisor Técnico") &&
+                cargo !== normalizeLabel("Instalação") &&
+                cargo !== normalizeLabel("Manutenção") &&
+                cargo !== normalizeLabel("Instalação e Manutenção") &&
+                cargo !== normalizeLabel("Tecnico Shield") &&
+                cargo !== normalizeLabel("Técnico Shield") &&
+                cargo !== normalizeLabel("Tec. Shield")
+            );
+        });
+
+        node.filhos = [
+            buildSupervisorTecnicoNode(
+                baseNivel,
+                buildInstalacaoNode(baseNivel, tecnicoInstalacaoName, auxiliarInstalacaoName),
+                buildManutencaoNode(baseNivel, localNodes),
+                buildTecnicoShieldNode(baseNivel, tecnicoShieldName),
+                supervisorName
+            ),
+            ...outrosFilhos
+        ];
+    });
+}
+
+function getCardDisplayCargo(nodeData, nameIndex = 0) {
+    const cargo = normalizeLabel(nodeData.cargo);
+
+    if (cargo === normalizeLabel("Tecnicos de Suporte")) {
+        const limiteTecnicosSuporte =
+            Number.isFinite(nodeData.quantidade) && nodeData.quantidade > 0
+                ? nodeData.quantidade
+                : 2;
+
+        if (nameIndex >= limiteTecnicosSuporte) {
+            return "Jovem Aprendiz";
+        }
+    }
+
+    if (
+        cargo === normalizeLabel("Equipe de Jovens Aprendiz") ||
+        cargo === normalizeLabel("Equipe de Jovem Aprendiz")
+    ) {
+        return "Jovem Aprendiz";
+    }
+
+    return nodeData.cargo;
 }
 
 function ensureNodeNames(nodeData) {
@@ -297,13 +673,17 @@ async function persistOrg2Data() {
 const ORG2_CARGOS_TITULO_APENAS = new Set(
     [
         "Segurança Eletrônica",
-        "Gestão de Segurança Eletrônica",
         "Central de Monitoramento",
         "Central Técnica",
         "Tecnologia",
         "Apoio e Logística",
         "Operação de Monitoramento",
+        "Instalação",
+        "Manutenção",
         "Instalação e Manutenção",
+        "CIPLAN 5x2",
+        "STF 6x1",
+        "Clientes 6x1",
         "Projetos, Inovação e Planejamento",
         "Op. Apoio Técnico, ADM e Logístico",
         "Shield"
@@ -335,6 +715,14 @@ function findNodeCardByLabel(label) {
     return match ? match.closest(".org2-card") : null;
 }
 
+function findFirstNodeCardByLabels(labels) {
+    for (const label of labels) {
+        const card = findNodeCardByLabel(label);
+        if (card) return card;
+    }
+    return null;
+}
+
 function alignGerenciaOperacionalWithMonitoramento() {
     const gerenciaCard = findNodeCardByLabel("Gerencia Operacional");
     const monitoramentoCard = findNodeCardByLabel("Central de Monitoramento");
@@ -357,10 +745,22 @@ function alignGerenciaOperacionalWithMonitoramento() {
 }
 
 function alignGerenciaComercialWithApoioLogistica() {
-    const gerenciaCard = findNodeCardByLabel("Gerencia Comercial");
-    const apoioCard = findNodeCardByLabel("Apoio e Logistica");
+    const gerenciaCard = findFirstNodeCardByLabels([
+        "Gerencia Comercial",
+        "Gerancia Comercial",
+        "Gerência Comercial",
+        "Gerância Comercial"
+    ]);
+    const gerenciaSegCard = findFirstNodeCardByLabels([
+        "Gerencia de Seg. Eletronica",
+        "Gerência de Seg. Eletrônica"
+    ]);
+    const gerenciaOperacionalCard = findFirstNodeCardByLabels([
+        "Gerencia Operacional",
+        "Gerência Operacional"
+    ]);
 
-    if (!gerenciaCard || !apoioCard) return;
+    if (!gerenciaCard || !gerenciaSegCard || !gerenciaOperacionalCard) return;
 
     const gerenciaNode = gerenciaCard.closest(".node");
     if (!gerenciaNode) return;
@@ -368,63 +768,20 @@ function alignGerenciaComercialWithApoioLogistica() {
     gerenciaNode.style.transform = "";
 
     const gerenciaRect = gerenciaCard.getBoundingClientRect();
-    const apoioRect = apoioCard.getBoundingClientRect();
+    const gerenciaSegRect = gerenciaSegCard.getBoundingClientRect();
+    const gerenciaOperacionalRect = gerenciaOperacionalCard.getBoundingClientRect();
 
     const gerenciaCenter = gerenciaRect.left + (gerenciaRect.width / 2);
-    const apoioCenter = apoioRect.left + (apoioRect.width / 2);
-    const delta = Math.round(apoioCenter - gerenciaCenter);
+    const gerenciaSegCenter = gerenciaSegRect.left + (gerenciaSegRect.width / 2);
+    const gerenciaOperacionalCenter =
+        gerenciaOperacionalRect.left + (gerenciaOperacionalRect.width / 2);
+
+    // Mantem o comercial com o mesmo espaçamento da operacional, espelhando ao redor da gerencia de seguranca.
+    const spacing = Math.max(0, gerenciaSegCenter - gerenciaOperacionalCenter);
+    const targetCenter = gerenciaSegCenter + spacing;
+    const delta = Math.round(targetCenter - gerenciaCenter);
 
     gerenciaNode.style.transform = `translateX(${delta}px)`;
-}
-
-function alignShieldWithGerenciaOperacional() {
-    const group = document.querySelector(".group-container.org2-gestao-with-shield");
-    const shieldWrap = group ? group.querySelector(".org2-card-wrap.org2-floating-shield") : null;
-    const shieldCard = shieldWrap ? shieldWrap.querySelector(".org2-card") : null;
-    const gestaoCard = findNodeCardByLabel("Gestao de Seguranca Eletronica");
-    const gerenciaCard = findNodeCardByLabel("Gerencia Operacional");
-
-    if (!group || !shieldWrap || !shieldCard || !gestaoCard || !gerenciaCard) return;
-
-    shieldWrap.style.transform = "";
-    shieldWrap.style.right = "auto";
-
-    const groupRect = group.getBoundingClientRect();
-    const shieldRectBase = shieldCard.getBoundingClientRect();
-    const gerenciaRect = gerenciaCard.getBoundingClientRect();
-    const gestaoRect = gestaoCard.getBoundingClientRect();
-
-    const targetCenterX = gerenciaRect.left + (gerenciaRect.width / 2);
-    let targetLeft = Math.round(targetCenterX - groupRect.left - (shieldRectBase.width / 2));
-
-    // Mantem o Shield a esquerda do card de Gestao, sem sobrepor.
-    const maxLeftBeforeGestao = Math.round((gestaoRect.left - groupRect.left) - shieldRectBase.width - 24);
-    targetLeft = Math.min(targetLeft, maxLeftBeforeGestao);
-
-    shieldWrap.style.left = `${targetLeft}px`;
-
-    let connector = group.querySelector(".org2-shield-link");
-    if (!connector) {
-        connector = document.createElement("span");
-        connector.className = "org2-shield-link";
-        connector.setAttribute("aria-hidden", "true");
-        group.appendChild(connector);
-    }
-
-    const shieldRect = shieldCard.getBoundingClientRect();
-    const startX = shieldRect.right - groupRect.left;
-    const startY = (shieldRect.top + (shieldRect.height / 2)) - groupRect.top;
-    const endX = gestaoRect.left - groupRect.left;
-    const endY = (gestaoRect.top + (gestaoRect.height / 2)) - groupRect.top;
-    const dx = endX - startX;
-    const dy = endY - startY;
-    const length = Math.hypot(dx, dy);
-    const angle = Math.atan2(dy, dx) * (180 / Math.PI);
-
-    connector.style.left = `${startX}px`;
-    connector.style.top = `${startY}px`;
-    connector.style.width = `${Math.round(length)}px`;
-    connector.style.transform = `translateY(-50%) rotate(${angle}deg)`;
 }
 
 function getOrCreateShieldNetworkLayer() {
@@ -488,10 +845,29 @@ function drawShieldVerticalSegment(layer, segmentId, x, y1, y2) {
 function updateShieldDownstreamConnectors() {
     const layout = document.getElementById("org2-layout");
     const shieldCard = findNodeCardByLabel("Shield");
-    const tecShieldCard = findNodeCardByLabel("Tec. Shield");
-    const suporteShieldCard = findNodeCardByLabel("Suporte Shield");
+    const centralTecnicaCard = findFirstNodeCardByLabels([
+        "Central Técnica",
+        "Central Tecnica"
+    ]);
+    const analistaN2Card = findFirstNodeCardByLabels([
+        "Analista de Tecnologia N2"
+    ]);
+    const analistaShieldCard = findFirstNodeCardByLabels([
+        "Analista Shield",
+        "Suporte Shield"
+    ]);
+    const tecnicoShieldCard = findFirstNodeCardByLabels([
+        "Tecnico Shield",
+        "Técnico Shield",
+        "Tec. Shield"
+    ]);
 
-    if (!layout || !shieldCard || !tecShieldCard || !suporteShieldCard) {
+    const targetCards = [
+        { id: "analista-shield", card: analistaShieldCard },
+        { id: "tecnico-shield", card: tecnicoShieldCard }
+    ].filter((target) => Boolean(target.card));
+
+    if (!layout || !shieldCard || targetCards.length === 0) {
         removeShieldNetworkLayer();
         return;
     }
@@ -502,36 +878,101 @@ function updateShieldDownstreamConnectors() {
 
     const layoutRect = layout.getBoundingClientRect();
     const shieldRect = shieldCard.getBoundingClientRect();
-    const tecRect = tecShieldCard.getBoundingClientRect();
-    const suporteRect = suporteShieldCard.getBoundingClientRect();
+    const centralTecnicaRect = centralTecnicaCard
+        ? centralTecnicaCard.getBoundingClientRect()
+        : null;
 
     const shieldLeftX = shieldRect.left - layoutRect.left;
-    const shieldCenterY = (shieldRect.top + (shieldRect.height / 2)) - layoutRect.top;
+    const shieldCenterX = (shieldRect.left + (shieldRect.width / 2)) - layoutRect.left;
+    const shieldBottomY = shieldRect.bottom - layoutRect.top;
+    const centralBottomY = centralTecnicaRect
+        ? (centralTecnicaRect.bottom - layoutRect.top)
+        : null;
+    // Desvia por baixo da Central Tecnica para nao cruzar o card.
+    const shieldRouteY = Math.round(Math.max(
+        shieldBottomY + 14,
+        Number.isFinite(centralBottomY) ? centralBottomY + 14 : 0
+    ));
 
-    const tecLeftX = tecRect.left - layoutRect.left;
-    const tecCenterX = (tecRect.left + (tecRect.width / 2)) - layoutRect.left;
-    const tecBottomY = tecRect.bottom - layoutRect.top;
-    const tecBranchY = tecBottomY + 14;
+    const targetPositions = targetCards.map((target) => {
+        const rect = target.card.getBoundingClientRect();
+        const leftX = rect.left - layoutRect.left;
+        const centerX = (rect.left + (rect.width / 2)) - layoutRect.left;
+        const bottomY = rect.bottom - layoutRect.top;
+        const branchY = bottomY + 14;
 
-    const suporteLeftX = suporteRect.left - layoutRect.left;
-    const suporteCenterX = (suporteRect.left + (suporteRect.width / 2)) - layoutRect.left;
-    const suporteBottomY = suporteRect.bottom - layoutRect.top;
-    const suporteBranchY = tecBranchY;
+        return {
+            id: target.id,
+            leftX,
+            centerX,
+            bottomY,
+            branchY
+        };
+    });
 
     // Afasta a espinha lateral para nao encostar nos cards da coluna de monitoramento.
-    const trunkX = Math.max(10, Math.round(Math.min(shieldLeftX, tecLeftX, suporteLeftX) - 150));
-    const trunkTopY = Math.round(Math.min(shieldCenterY, tecBranchY, suporteBranchY));
-    const trunkBottomY = Math.round(Math.max(shieldCenterY, tecBranchY, suporteBranchY));
+    const trunkX = Math.max(
+        10,
+        Math.round(Math.min(shieldLeftX, ...targetPositions.map((target) => target.leftX)) - 150)
+    );
+    const trunkTopY = Math.round(Math.min(shieldRouteY, ...targetPositions.map((target) => target.branchY)));
+    const trunkBottomY = Math.round(Math.max(shieldRouteY, ...targetPositions.map((target) => target.branchY)));
 
-    drawShieldHorizontalSegment(layer, "shield-to-trunk", shieldLeftX, trunkX, shieldCenterY);
+    drawShieldVerticalSegment(layer, "shield-to-route", shieldCenterX, shieldBottomY, shieldRouteY);
+    drawShieldHorizontalSegment(layer, "shield-to-trunk", shieldCenterX, trunkX, shieldRouteY);
     drawShieldVerticalSegment(layer, "trunk", trunkX, trunkTopY, trunkBottomY);
 
-    // Os dois conectores entram por baixo dos cards.
-    drawShieldHorizontalSegment(layer, "trunk-to-tec-branch", trunkX, tecCenterX, tecBranchY);
-    drawShieldVerticalSegment(layer, "tec-branch-up", tecCenterX, tecBranchY, tecBottomY);
+    // Os conectores entram por baixo de cada card destino.
+    targetPositions.forEach((target) => {
+        drawShieldHorizontalSegment(
+            layer,
+            `trunk-to-${target.id}-branch`,
+            trunkX,
+            target.centerX,
+            target.branchY
+        );
+        drawShieldVerticalSegment(
+            layer,
+            `${target.id}-branch-up`,
+            target.centerX,
+            target.branchY,
+            target.bottomY
+        );
+    });
 
-    drawShieldHorizontalSegment(layer, "trunk-to-suporte-branch", trunkX, suporteCenterX, suporteBranchY);
-    drawShieldVerticalSegment(layer, "suporte-branch-up", suporteCenterX, suporteBranchY, suporteBottomY);
+    if (analistaN2Card && analistaShieldCard) {
+        const analistaRect = analistaN2Card.getBoundingClientRect();
+        const analistaShieldRect = analistaShieldCard.getBoundingClientRect();
+
+        const analistaLeftX = analistaRect.left - layoutRect.left;
+        const analistaCenterY = (analistaRect.top + (analistaRect.height / 2)) - layoutRect.top;
+        const analistaShieldLeftX = analistaShieldRect.left - layoutRect.left;
+        const analistaShieldCenterY = (analistaShieldRect.top + (analistaShieldRect.height / 2)) - layoutRect.top;
+
+        const bridgeX = Math.max(10, Math.round(Math.min(analistaLeftX, analistaShieldLeftX) - 26));
+
+        drawShieldHorizontalSegment(
+            layer,
+            "analista-n2-to-analista-shield-start",
+            analistaLeftX,
+            bridgeX,
+            analistaCenterY
+        );
+        drawShieldVerticalSegment(
+            layer,
+            "analista-n2-to-analista-shield-vertical",
+            bridgeX,
+            analistaCenterY,
+            analistaShieldCenterY
+        );
+        drawShieldHorizontalSegment(
+            layer,
+            "analista-n2-to-analista-shield-end",
+            bridgeX,
+            analistaShieldLeftX,
+            analistaShieldCenterY
+        );
+    }
 }
 
 function updateGerenciasTopConnector() {
@@ -557,12 +998,97 @@ function updateGerenciasTopConnector() {
 
     row.style.setProperty("--org2-row-line-left", `${Math.round(minCenter)}px`);
     row.style.setProperty("--org2-row-line-width", `${Math.round(width)}px`);
+
+    const gerenciaOperacionalCard = findFirstNodeCardByLabels([
+        "Gerencia Operacional",
+        "Gerência Operacional"
+    ]);
+    const gerenciaSegCard = findFirstNodeCardByLabels([
+        "Gerencia de Seg. Eletronica",
+        "Gerência de Seg. Eletrônica"
+    ]);
+    const gerenciaComercialCard = findFirstNodeCardByLabels([
+        "Gerencia Comercial",
+        "Gerancia Comercial",
+        "Gerência Comercial",
+        "Gerância Comercial"
+    ]);
+
+    const existingMarkers = Array.from(row.querySelectorAll(".org2-gerencia-s-marker"));
+    if (!gerenciaOperacionalCard || !gerenciaSegCard || !gerenciaComercialCard) {
+        existingMarkers.forEach((marker) => marker.remove());
+        return;
+    }
+
+    const gerenciaOperacionalRect = gerenciaOperacionalCard.getBoundingClientRect();
+    const gerenciaSegRect = gerenciaSegCard.getBoundingClientRect();
+    const gerenciaComercialRect = gerenciaComercialCard.getBoundingClientRect();
+
+    const operacionalCenter = (gerenciaOperacionalRect.left + (gerenciaOperacionalRect.width / 2)) - rowRect.left;
+    const segCenter = (gerenciaSegRect.left + (gerenciaSegRect.width / 2)) - rowRect.left;
+    const comercialCenter = (gerenciaComercialRect.left + (gerenciaComercialRect.width / 2)) - rowRect.left;
+
+    const leftMid = Math.round((operacionalCenter + segCenter) / 2);
+    const rightMid = Math.round((segCenter + comercialCenter) / 2);
+
+    const upsertMarker = (className, leftPx) => {
+        let marker = row.querySelector(`.${className}`);
+        if (!marker) {
+            marker = document.createElement("span");
+            marker.className = `org2-gerencia-s-marker ${className}`;
+            marker.textContent = "S";
+            marker.setAttribute("aria-hidden", "true");
+            row.appendChild(marker);
+        }
+        marker.style.left = `${leftPx}px`;
+    };
+
+    upsertMarker("org2-gerencia-s-left", leftMid);
+    upsertMarker("org2-gerencia-s-right", rightMid);
+}
+
+function updateSupervisorTecnicoShieldConnector() {
+    const supervisorNodes = Array.from(document.querySelectorAll(".org2-card h3"))
+        .filter((el) => normalizeLabel(el.textContent) === normalizeLabel("Supervisor Técnico"))
+        .map((el) => el.closest(".node"))
+        .filter(Boolean);
+
+    supervisorNodes.forEach((supervisorNode) => {
+        const supervisorCard = supervisorNode.querySelector(":scope > .group-container .org2-card");
+        const shieldCard = supervisorNode.querySelector(":scope > .org2-supervisor-shield-branch .org2-card");
+        let link = supervisorNode.querySelector(":scope > .org2-supervisor-shield-link");
+
+        if (!supervisorCard || !shieldCard) {
+            if (link) link.remove();
+            return;
+        }
+
+        if (!link) {
+            link = document.createElement("span");
+            link.className = "org2-supervisor-shield-link";
+            link.setAttribute("aria-hidden", "true");
+            supervisorNode.appendChild(link);
+        }
+
+        const nodeRect = supervisorNode.getBoundingClientRect();
+        const supervisorRect = supervisorCard.getBoundingClientRect();
+        const shieldRect = shieldCard.getBoundingClientRect();
+
+        const centerX = Math.round((supervisorRect.left + (supervisorRect.width / 2)) - nodeRect.left);
+        const startY = Math.round(supervisorRect.bottom - nodeRect.top);
+        const endY = Math.round(shieldRect.top - nodeRect.top);
+        const height = Math.max(0, endY - startY);
+
+        link.style.left = `${centerX}px`;
+        link.style.top = `${startY}px`;
+        link.style.height = `${height}px`;
+    });
 }
 
 function refreshGerenciasAlignment() {
     alignGerenciaOperacionalWithMonitoramento();
     alignGerenciaComercialWithApoioLogistica();
-    alignShieldWithGerenciaOperacional();
+    updateSupervisorTecnicoShieldConnector();
     updateShieldDownstreamConnectors();
     updateGerenciasTopConnector();
 }
@@ -574,8 +1100,9 @@ function createCardElement(nodeData, extraClass, isTitleOnly, nameIndex = 0) {
         card.classList.add("org2-title-only-card");
     }
 
+    const displayCargo = getCardDisplayCargo(nodeData, nameIndex);
     const cargo = document.createElement("h3");
-    cargo.textContent = nodeData.cargo;
+    cargo.textContent = displayCargo;
     card.appendChild(cargo);
 
     if (!isTitleOnly) {
@@ -583,7 +1110,7 @@ function createCardElement(nodeData, extraClass, isTitleOnly, nameIndex = 0) {
         nome.className = "org2-name-slot";
         nome.setAttribute("contenteditable", "true");
         nome.setAttribute("role", "textbox");
-        nome.setAttribute("aria-label", `Nome para ${nodeData.cargo}`);
+        nome.setAttribute("aria-label", `Nome para ${displayCargo}`);
         nome.textContent = getNodeName(nodeData, nameIndex);
 
         const commitValue = () => {
@@ -608,11 +1135,24 @@ function createCardElement(nodeData, extraClass, isTitleOnly, nameIndex = 0) {
 }
 
 function getExtraCardCopies(nodeData) {
+    const cargo = normalizeLabel(nodeData.cargo);
+
+    if (
+        cargo === normalizeLabel("Jovem Aprendiz") ||
+        cargo === normalizeLabel("Equipe de Jovens Aprendiz") ||
+        cargo === normalizeLabel("Equipe de Jovem Aprendiz")
+    ) {
+        return 1;
+    }
+
+    if (cargo === normalizeLabel("Tecnicos de Suporte")) {
+        return 3;
+    }
+
     if (!Number.isFinite(nodeData.quantidade) || nodeData.quantidade <= 1) {
         return 0;
     }
 
-    const cargo = normalizeLabel(nodeData.cargo);
     if (cargo === normalizeLabel("Operadores Diurnos")) {
         return 3;
     }
@@ -655,7 +1195,8 @@ function createCard(nodeData, extraClass = "") {
 
             const extraNameSlot = extraCard.querySelector(".org2-name-slot");
             if (extraNameSlot) {
-                extraNameSlot.setAttribute("aria-label", `Nome adicional ${index + 1} para ${nodeData.cargo}`);
+                const extraCardCargo = getCardDisplayCargo(nodeData, index + 1);
+                extraNameSlot.setAttribute("aria-label", `Nome adicional ${index + 1} para ${extraCardCargo}`);
             }
 
             wrapper.appendChild(extraCard);
@@ -672,30 +1213,45 @@ function createNodeElement(nodeData) {
     const group = document.createElement("div");
     group.className = "group-container";
 
-    const isGestaoSeguranca =
-        normalizeLabel(nodeData.cargo) === normalizeLabel("Gestao de Seguranca Eletronica");
-
-    if (isGestaoSeguranca) {
-        group.classList.add("org2-gestao-with-shield");
-        const shieldCard = createCard({ cargo: "Shield", nivel: nodeData.nivel }, "org2-shield-card");
-        shieldCard.classList.add("org2-floating-shield");
-        group.appendChild(shieldCard);
-    }
-
     group.appendChild(createCard(nodeData));
     node.appendChild(group);
 
+    const isSupervisorTecnicoNode =
+        normalizeLabel(nodeData.cargo) === normalizeLabel("Supervisor Técnico");
     const children = Array.isArray(nodeData.filhos) ? nodeData.filhos : [];
-    if (children.length > 0) {
+    const childrenToRender = [];
+    let detachedTecnicoShieldChild = null;
+
+    children.forEach((child) => {
+        const isTecnicoShieldChild =
+            normalizeLabel(child?.cargo) === normalizeLabel("Tecnico Shield") ||
+            normalizeLabel(child?.cargo) === normalizeLabel("Técnico Shield");
+
+        if (isSupervisorTecnicoNode && isTecnicoShieldChild && !detachedTecnicoShieldChild) {
+            detachedTecnicoShieldChild = child;
+            return;
+        }
+
+        childrenToRender.push(child);
+    });
+
+    if (childrenToRender.length > 0) {
         const childrenContainer = document.createElement("div");
         childrenContainer.className = "children";
         if (nodeData.nivel === 1) {
             childrenContainer.classList.add("org2-gerencias-row");
         }
-        children.forEach((child) => {
+        childrenToRender.forEach((child) => {
             childrenContainer.appendChild(createNodeElement(child));
         });
         node.appendChild(childrenContainer);
+    }
+
+    if (detachedTecnicoShieldChild) {
+        const shieldBranch = document.createElement("div");
+        shieldBranch.className = "org2-supervisor-shield-branch";
+        shieldBranch.appendChild(createCard(detachedTecnicoShieldChild, "org2-supervisor-shield-card"));
+        node.appendChild(shieldBranch);
     }
 
     return node;
@@ -760,6 +1316,11 @@ function setupTopHorizontalScroll() {
         syncTopScrollMetrics();
     });
 
+    window.addEventListener("load", () => {
+        refreshGerenciasAlignment();
+        syncTopScrollMetrics();
+    });
+
     requestAnimationFrame(() => {
         refreshGerenciasAlignment();
         syncTopScrollMetrics();
@@ -768,6 +1329,13 @@ function setupTopHorizontalScroll() {
             syncTopScrollMetrics();
         });
     });
+
+    if (document.fonts?.ready) {
+        document.fonts.ready.then(() => {
+            refreshGerenciasAlignment();
+            syncTopScrollMetrics();
+        }).catch(() => {});
+    }
 }
 
 function createPdfCaptureClone(target) {

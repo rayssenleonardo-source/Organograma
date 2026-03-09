@@ -1166,27 +1166,39 @@ background: linear-gradient(
   height: 12px;
 }
 
-.group-container.org2-gestao-with-shield {
+.org2-supervisor-shield-branch {
   position: relative;
+  display: flex;
+  justify-content: center;
+  margin-top: 34px;
 }
 
-.org2-card-wrap.org2-floating-shield {
+.org2-supervisor-shield-link {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: auto;
+  width: 2px;
+  background-color: #cbd5e1;
+  transform: translateX(-50%);
+  z-index: 1;
+  pointer-events: none;
 }
 
-.group-container.org2-gestao-with-shield .org2-card-wrap {
+.org2-supervisor-shield-branch .org2-card-wrap {
+  position: relative;
   z-index: 2;
 }
 
-.org2-shield-link {
+.org2-gerencia-s-marker {
   position: absolute;
-  height: 2px;
-  background-color: #94a3b8;
-  transform-origin: 0 50%;
-  z-index: 1;
+  top: 0;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  color: #16a34a;
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1;
+  background: #eef1f4;
+  border-radius: 999px;
+  padding: 1px 5px;
   pointer-events: none;
 }
 
@@ -1201,10 +1213,6 @@ background: linear-gradient(
   position: absolute;
   background-color: #94a3b8;
   pointer-events: none;
-}
-
-.org2-shield-card {
-  width: 170px;
 }
 
 .org2-card-wrap {
