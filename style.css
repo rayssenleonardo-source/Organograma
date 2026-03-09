@@ -1295,20 +1295,26 @@ background: linear-gradient(
 .org2-name-slot {
   width: 100%;
   min-height: 26px;
+  background: transparent;
+  border: none;
   border-bottom: 2px dashed #94a3b8;
   padding: 2px;
   font-size: 13px;
   font-weight: 600;
+  font-family: inherit;
   color: inherit;
   line-height: 1.3;
   text-align: left;
   outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  box-sizing: border-box;
 }
 
-.org2-name-slot:empty::before {
-  content: "Nome";
+.org2-name-slot::placeholder {
   color: #94a3b8;
   font-weight: 500;
+  opacity: 1;
 }
 
 .org2-name-slot:focus {
@@ -1319,7 +1325,7 @@ background: linear-gradient(
   border-bottom-color: rgba(255, 255, 255, 0.55);
 }
 
-.level-1 .org2-card .org2-name-slot:empty::before {
+.level-1 .org2-card .org2-name-slot::placeholder {
   color: rgba(255, 255, 255, 0.75);
 }
 

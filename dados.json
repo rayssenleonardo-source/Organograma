@@ -48,6 +48,239 @@
       ]
     }
   ],
+  "organograma2": {
+    "diretorias": [
+      {
+        "cargo": "Diretoria Operacional"
+      },
+      {
+        "cargo": "Diretoria de Inovação, Processos e Tecnologia"
+      }
+    ],
+    "estrutura": {
+      "cargo": "Segurança Eletrônica",
+      "filhos": [
+        {
+          "cargo": "Gerência Operacional",
+          "nivel": 2,
+          "nomes": []
+        },
+        {
+          "cargo": "Gerência de Seg. Eletrônica",
+          "filhos": [
+            {
+              "cargo": "Central de Monitoramento",
+              "filhos": [
+                {
+                  "cargo": "Operação de Monitoramento",
+                  "filhos": [
+                    {
+                      "cargo": "Supervisor de Monitoramento",
+                      "filhos": [
+                        {
+                          "cargo": "Operadores Diurnos",
+                          "nivel": 5,
+                          "nomes": [],
+                          "quantidade": 4
+                        },
+                        {
+                          "cargo": "Operadores Noturnos",
+                          "nivel": 5,
+                          "nomes": [],
+                          "quantidade": 4
+                        }
+                      ],
+                      "nivel": 5,
+                      "nomes": []
+                    }
+                  ],
+                  "nivel": 5
+                }
+              ],
+              "nivel": 4
+            },
+            {
+              "cargo": "Central Técnica",
+              "filhos": [
+                {
+                  "nivel": 5,
+                  "cargo": "Supervisor Técnico",
+                  "filhos": [
+                    {
+                      "nivel": 5,
+                      "cargo": "Instalação",
+                      "filhos": [
+                        {
+                          "nivel": 5,
+                          "cargo": "Clientes 6x1",
+                          "filhos": [
+                            {
+                              "nivel": 5,
+                              "cargo": "Técnico",
+                              "filhos": [
+                                {
+                                  "nivel": 5,
+                                  "cargo": "Auxiliar Técnico",
+                                  "nomes": []
+                                }
+                              ],
+                              "nomes": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "nivel": 5,
+                      "cargo": "Manutenção",
+                      "filhos": [
+                        {
+                          "nivel": 5,
+                          "cargo": "CIPLAN 5x2",
+                          "filhos": [
+                            {
+                              "nivel": 5,
+                              "cargo": "Técnico",
+                              "filhos": [
+                                {
+                                  "nivel": 5,
+                                  "cargo": "Auxiliar Técnico",
+                                  "nomes": []
+                                }
+                              ],
+                              "nomes": []
+                            }
+                          ]
+                        },
+                        {
+                          "nivel": 5,
+                          "cargo": "STF 6x1",
+                          "filhos": [
+                            {
+                              "nivel": 5,
+                              "cargo": "Técnico",
+                              "filhos": [
+                                {
+                                  "nivel": 5,
+                                  "cargo": "Auxiliar Técnico",
+                                  "nomes": []
+                                }
+                              ],
+                              "nomes": []
+                            }
+                          ]
+                        },
+                        {
+                          "nivel": 5,
+                          "cargo": "Clientes 6x1",
+                          "filhos": [
+                            {
+                              "nivel": 5,
+                              "cargo": "Técnico",
+                              "filhos": [
+                                {
+                                  "nivel": 5,
+                                  "cargo": "Auxiliar Técnico",
+                                  "nomes": []
+                                }
+                              ],
+                              "nomes": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "nivel": 5,
+                      "cargo": "Tecnico Shield",
+                      "nomes": []
+                    }
+                  ],
+                  "nomes": []
+                }
+              ],
+              "nivel": 4
+            },
+            {
+              "cargo": "Shield",
+              "nivel": 4
+            },
+            {
+              "cargo": "Tecnologia",
+              "filhos": [
+                {
+                  "cargo": "Projetos, Inovação e Planejamento",
+                  "filhos": [
+                    {
+                      "cargo": "Analista de Tecnologia N2",
+                      "filhos": [
+                        {
+                          "cargo": "Analista de Tecnologia N1",
+                          "filhos": [
+                            {
+                              "cargo": "Tecnicos de Suporte",
+                              "filhos": [
+                                {
+                                  "cargo": "Analista Shield",
+                                  "nivel": 5,
+                                  "nomes": []
+                                }
+                              ],
+                              "nivel": 5,
+                              "nomes": [],
+                              "quantidade": 2
+                            }
+                          ],
+                          "nivel": 5,
+                          "nomes": []
+                        }
+                      ],
+                      "nivel": 5,
+                      "nomes": []
+                    }
+                  ],
+                  "nivel": 5
+                }
+              ],
+              "nivel": 4
+            },
+            {
+              "cargo": "Apoio e Logística",
+              "filhos": [
+                {
+                  "cargo": "Op. Apoio Técnico, ADM e Logístico",
+                  "filhos": [
+                    {
+                      "cargo": "Assistente Administrativo",
+                      "filhos": [
+                        {
+                          "cargo": "Jovem Aprendiz",
+                          "nivel": 5,
+                          "nomes": []
+                        }
+                      ],
+                      "nivel": 5,
+                      "nomes": []
+                    }
+                  ],
+                  "nivel": 5
+                }
+              ],
+              "nivel": 4
+            }
+          ],
+          "nivel": 2,
+          "nomes": []
+        },
+        {
+          "cargo": "Gerência Comercial",
+          "nivel": 2,
+          "nomes": []
+        }
+      ],
+      "nivel": 1
+    }
+  },
   "principal": {
     "cargo": "Gerência",
     "filhos": [

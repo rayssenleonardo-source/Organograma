@@ -726,6 +726,10 @@ function findFirstNodeCardByLabels(labels) {
 function alignGerenciaOperacionalWithMonitoramento() {
     const gerenciaCard = findNodeCardByLabel("Gerencia Operacional");
     const monitoramentoCard = findNodeCardByLabel("Central de Monitoramento");
+    const gerenciaSegCard = findFirstNodeCardByLabels([
+        "Gerencia de Seg. Eletronica",
+        "Gerência de Seg. Eletrônica"
+    ]);
 
     if (!gerenciaCard || !monitoramentoCard) return;
 
@@ -739,9 +743,19 @@ function alignGerenciaOperacionalWithMonitoramento() {
 
     const gerenciaCenter = gerenciaRect.left + (gerenciaRect.width / 2);
     const monitoramentoCenter = monitoramentoRect.left + (monitoramentoRect.width / 2);
-    const delta = Math.round(monitoramentoCenter - gerenciaCenter);
+    let targetCenter = monitoramentoCenter;
+
+    if (gerenciaSegCard) {
+        const gerenciaSegRect = gerenciaSegCard.getBoundingClientRect();
+        const minGapPx = 26;
+        const maxAllowedCenter = gerenciaSegRect.left - minGapPx - (gerenciaRect.width / 2);
+        targetCenter = Math.min(targetCenter, maxAllowedCenter);
+    }
+
+    const delta = Math.round(targetCenter - gerenciaCenter);
 
     gerenciaNode.style.transform = `translateX(${delta}px)`;
+    gerenciaNode.style.zIndex = "4";
 }
 
 function alignGerenciaComercialWithApoioLogistica() {
@@ -1106,27 +1120,33 @@ function createCardElement(nodeData, extraClass, isTitleOnly, nameIndex = 0) {
     card.appendChild(cargo);
 
     if (!isTitleOnly) {
-        const nome = document.createElement("div");
+        const nome = document.createElement("input");
+        nome.type = "text";
         nome.className = "org2-name-slot";
-        nome.setAttribute("contenteditable", "true");
-        nome.setAttribute("role", "textbox");
         nome.setAttribute("aria-label", `Nome para ${displayCargo}`);
-        nome.textContent = getNodeName(nodeData, nameIndex);
+        nome.placeholder = "Nome";
+        nome.value = getNodeName(nodeData, nameIndex);
+
+        const syncValue = () => {
+            const liveValue = String(nome.value || "");
+            setNodeName(nodeData, nameIndex, liveValue);
+            scheduleOrg2Save();
+        };
 
         const commitValue = () => {
-            const safeValue = String(nome.innerText || "")
+            const safeValue = String(nome.value || "")
                 .replace(/\s+/g, " ")
                 .trim();
 
-            if (nome.textContent !== safeValue) {
-                nome.textContent = safeValue;
+            if (nome.value !== safeValue) {
+                nome.value = safeValue;
             }
 
             setNodeName(nodeData, nameIndex, safeValue);
             scheduleOrg2Save();
         };
 
-        nome.addEventListener("input", commitValue);
+        nome.addEventListener("input", syncValue);
         nome.addEventListener("blur", commitValue);
         card.appendChild(nome);
     }
@@ -1172,7 +1192,8 @@ function getExtraCardCopies(nodeData) {
 function createCard(nodeData, extraClass = "") {
     const wrapper = document.createElement("div");
     wrapper.className = "org2-card-wrap";
-    const isTitleOnly = isTitleOnlyCargo(nodeData.cargo);
+    const forceTitleOnly = extraClass.split(/\s+/).includes("org2-force-title-only");
+    const isTitleOnly = forceTitleOnly || isTitleOnlyCargo(nodeData.cargo);
     const showCount = shouldShowCount(nodeData.cargo);
 
     if (showCount && Number.isFinite(nodeData.quantidade)) {
@@ -1263,7 +1284,7 @@ function renderDiretorias() {
 
     topContainer.innerHTML = "";
     org2Diretorias.forEach((diretoria) => {
-        topContainer.appendChild(createCard(diretoria, "org2-top-card"));
+        topContainer.appendChild(createCard(diretoria, "org2-top-card org2-force-title-only"));
     });
 }
 
@@ -1352,8 +1373,6 @@ function createPdfCaptureClone(target) {
     clone.style.zIndex = "-1";
 
     Array.from(clone.querySelectorAll(".org2-name-slot")).forEach((slot) => {
-        slot.removeAttribute("contenteditable");
-        slot.removeAttribute("role");
         slot.removeAttribute("aria-label");
     });
 
