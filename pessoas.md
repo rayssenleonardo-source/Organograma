@@ -32,6 +32,12 @@ Matheus
 <img width="410" height="409" alt="Matheus" src="https://github.com/user-attachments/assets/1e911aef-c71e-4a84-a844-a739bbd5c6c5" />
 Quedma Oliveira
 <img width="409" height="409" alt="Quedma Oliveira" src="https://github.com/user-attachments/assets/da33e098-642f-4783-865b-5563594176fb" />
+Delfino
+<img width="638" height="634" alt="image" src="https://github.com/user-attachments/assets/c0482077-6ce7-481a-8f9d-08cc1aad40f7" />
+João Apoena
+<img width="634" height="627" alt="image" src="https://github.com/user-attachments/assets/9f1f43ee-708b-4d33-baea-65a3251baf03" />
+
+
 Quely Ferreira
 <img width="409" height="409" alt="Quely Ferreira" src="https://github.com/user-attachments/assets/17bfd145-243e-48d5-8073-099a22277204" />
 Rayssen Leonardo   
