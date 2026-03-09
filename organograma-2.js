@@ -203,6 +203,30 @@ function normalizeLabel(value) {
         .trim();
 }
 
+function isEmptyPersonEntry(entry) {
+    if (typeof entry === "string") {
+        return String(entry).trim() === "";
+    }
+
+    if (entry && typeof entry === "object") {
+        return !Object.values(entry).some((value) => String(value || "").trim() !== "");
+    }
+
+    return true;
+}
+
+function getPersonEntryName(entry) {
+    if (typeof entry === "string") return entry;
+    if (entry && typeof entry === "object") return String(entry.nome || "");
+    return "";
+}
+
+function clonePersonEntry(entry) {
+    if (typeof entry === "string") return String(entry);
+    if (entry && typeof entry === "object") return { ...entry };
+    return "";
+}
+
 function getInitials(name) {
     const parts = String(name || "")
         .trim()
@@ -242,6 +266,7 @@ const ORG2_DATA_SOURCES = [
 const ORG2_DATA_KEY = "organograma2";
 const ORG2_OPERADOR_LIDER_TITULO = "Operador N2 Lider Plantão";
 const ORG2_OPERADOR_TOTAL_CARDS = 4;
+const ORG2_TECNICOS_SUPORTE_CARDS = 1;
 const ORG2_NAME_PLACEHOLDER = "Nome do Funcionário";
 const ORG2_TECNOLOGIA_SHIFT_RIGHT_PX = 36;
 const ORG2_APOIO_LOGISTICA_SHIFT_RIGHT_PX = 36;
@@ -364,12 +389,11 @@ function ensureMonitoramentoTurnosGroups(rootNode) {
                 filho.quantidade = ORG2_OPERADOR_TOTAL_CARDS;
 
                 const names = ensureNodeNames(filho);
-                if (normalizeLabel(names[0]) === normalizeLabel(ORG2_OPERADOR_LIDER_TITULO)) {
+                if (normalizeLabel(getPersonEntryName(names[0])) === normalizeLabel(ORG2_OPERADOR_LIDER_TITULO)) {
                     names.shift();
                 }
                 while (names.length > 0) {
-                    const lastValue = String(names[names.length - 1] || "").trim();
-                    if (lastValue) break;
+                    if (!isEmptyPersonEntry(names[names.length - 1])) break;
                     names.pop();
                 }
 
@@ -425,12 +449,11 @@ function ensureMonitoramentoTurnosGroups(rootNode) {
             operadorNode.quantidade = ORG2_OPERADOR_TOTAL_CARDS;
 
             const names = ensureNodeNames(operadorNode);
-            if (normalizeLabel(names[0]) === normalizeLabel(ORG2_OPERADOR_LIDER_TITULO)) {
+            if (normalizeLabel(getPersonEntryName(names[0])) === normalizeLabel(ORG2_OPERADOR_LIDER_TITULO)) {
                 names.shift();
             }
             while (names.length > 0) {
-                const lastValue = String(names[names.length - 1] || "").trim();
-                if (lastValue) break;
+                if (!isEmptyPersonEntry(names[names.length - 1])) break;
                 names.pop();
             }
 
@@ -506,11 +529,16 @@ function ensureShieldUnderGerenciaSeguranca(rootNode) {
 
 const ORG2_TECNICOS_LOCAIS = ["CIPLAN 5x2", "STF 6x1", "Clientes 6x1"];
 
-function getFirstNodeName(nodeData) {
+function getFirstNodePerson(nodeData) {
     if (!nodeData || typeof nodeData !== "object") return "";
     const names = Array.isArray(nodeData.nomes) ? nodeData.nomes : [];
-    const firstName = names.find((value) => String(value || "").trim().length > 0);
-    return firstName ? String(firstName).trim() : "";
+    const firstPerson = names.find((value) => !isEmptyPersonEntry(value));
+    return firstPerson ? clonePersonEntry(firstPerson) : "";
+}
+
+function getFirstNodeName(nodeData) {
+    const person = getFirstNodePerson(nodeData);
+    return String(getPersonEntryName(person) || "").trim();
 }
 
 function findFirstDescendantByCargo(nodeData, labels) {
@@ -530,14 +558,14 @@ function findFirstDescendantByCargo(nodeData, labels) {
     return found;
 }
 
-function buildTecnicosLocalNode(localCargo, nivel, tecnicoName = "", auxiliarName = "") {
+function buildTecnicosLocalNode(localCargo, nivel, tecnicoPerson = "", auxiliarPerson = "") {
     const tecnicoNode = {
         nivel,
         cargo: "Técnico",
         filhos: [{ nivel, cargo: "Auxiliar Técnico" }]
     };
-    if (tecnicoName) tecnicoNode.nomes = [tecnicoName];
-    if (auxiliarName) tecnicoNode.filhos[0].nomes = [auxiliarName];
+    if (!isEmptyPersonEntry(tecnicoPerson)) tecnicoNode.nomes = [clonePersonEntry(tecnicoPerson)];
+    if (!isEmptyPersonEntry(auxiliarPerson)) tecnicoNode.filhos[0].nomes = [clonePersonEntry(auxiliarPerson)];
 
     return {
         nivel,
@@ -546,15 +574,15 @@ function buildTecnicosLocalNode(localCargo, nivel, tecnicoName = "", auxiliarNam
     };
 }
 
-function buildInstalacaoNode(nivel, tecnicoName = "", auxiliarName = "") {
+function buildInstalacaoNode(nivel, tecnicoPerson = "", auxiliarPerson = "") {
     const tecnicoNode = {
         nivel,
         cargo: "Técnico",
         filhos: [{ nivel, cargo: "Auxiliar Técnico" }]
     };
 
-    if (tecnicoName) tecnicoNode.nomes = [tecnicoName];
-    if (auxiliarName) tecnicoNode.filhos[0].nomes = [auxiliarName];
+    if (!isEmptyPersonEntry(tecnicoPerson)) tecnicoNode.nomes = [clonePersonEntry(tecnicoPerson)];
+    if (!isEmptyPersonEntry(auxiliarPerson)) tecnicoNode.filhos[0].nomes = [clonePersonEntry(auxiliarPerson)];
 
     return {
         nivel,
@@ -577,13 +605,13 @@ function buildManutencaoNode(nivel, locais) {
     };
 }
 
-function buildTecnicoShieldNode(nivel, tecnicoShieldName = "") {
+function buildTecnicoShieldNode(nivel, tecnicoShieldPerson = "") {
     const node = {
         nivel,
         cargo: "Tecnico Shield"
     };
 
-    if (tecnicoShieldName) node.nomes = [tecnicoShieldName];
+    if (!isEmptyPersonEntry(tecnicoShieldPerson)) node.nomes = [clonePersonEntry(tecnicoShieldPerson)];
     return node;
 }
 
@@ -592,7 +620,7 @@ function buildSupervisorTecnicoNode(
     instalacaoNode,
     manutencaoNode,
     tecnicoShieldNode,
-    supervisorName = ""
+    supervisorPerson = ""
 ) {
     const supervisorNode = {
         nivel,
@@ -600,7 +628,7 @@ function buildSupervisorTecnicoNode(
         filhos: [instalacaoNode, manutencaoNode, tecnicoShieldNode]
     };
 
-    if (supervisorName) supervisorNode.nomes = [supervisorName];
+    if (!isEmptyPersonEntry(supervisorPerson)) supervisorNode.nomes = [clonePersonEntry(supervisorPerson)];
     return supervisorNode;
 }
 
@@ -637,39 +665,39 @@ function ensureCentralTecnicaSplit(rootNode) {
             : (Number.isFinite(node.nivel) ? node.nivel + 1 : 5);
 
         const supervisorExistenteDesc = supervisorExistente || findFirstDescendantByCargo(node, ["Supervisor Técnico", "Supervisor Tecnico"]);
-        const supervisorName = getFirstNodeName(supervisorExistenteDesc) || "";
+        const supervisorPerson = getFirstNodePerson(supervisorExistenteDesc);
         const tecnicoShieldExistenteDesc = findFirstDescendantByCargo(node, ["Tecnico Shield", "Técnico Shield", "Tec. Shield"]);
-        const tecnicoShieldName = getFirstNodeName(tecnicoShieldExistenteDesc) || "";
+        const tecnicoShieldPerson = getFirstNodePerson(tecnicoShieldExistenteDesc);
 
         const tecnicoInstalacaoNode = findFirstDescendantByCargo(instalacaoExistente, ["Técnico", "Tecnico", "Tecnicos"]);
         const auxiliarInstalacaoNode = findFirstDescendantByCargo(instalacaoExistente, ["Auxiliar Técnico", "Auxiliar Tecnico", "Auxiliares Tecnicos"]);
 
-        const tecnicoInstalacaoName = getFirstNodeName(tecnicoInstalacaoNode) || "";
-        const auxiliarInstalacaoName = getFirstNodeName(auxiliarInstalacaoNode) || "";
+        const tecnicoInstalacaoPerson = getFirstNodePerson(tecnicoInstalacaoNode);
+        const auxiliarInstalacaoPerson = getFirstNodePerson(auxiliarInstalacaoNode);
 
         const sourceManutencao = manutencaoExistente || legadoInstalacaoManutencao || null;
         const filhosManutencao = Array.isArray(sourceManutencao?.filhos) ? sourceManutencao.filhos : [];
 
-        const tecnicoNames = [];
-        const auxiliarNames = [];
+        const tecnicoPeople = [];
+        const auxiliarPeople = [];
         walkOrg2Nodes(sourceManutencao, (item) => {
             const cargo = normalizeLabel(item?.cargo);
-            const nome = getFirstNodeName(item);
-            if (!nome) return;
+            const person = getFirstNodePerson(item);
+            if (isEmptyPersonEntry(person)) return;
 
             if (
                 cargo === normalizeLabel("Técnico") ||
                 cargo === normalizeLabel("Tecnico") ||
                 cargo === normalizeLabel("Tecnicos")
             ) {
-                tecnicoNames.push(nome);
+                tecnicoPeople.push(person);
             }
             if (
                 cargo === normalizeLabel("Auxiliar Técnico") ||
                 cargo === normalizeLabel("Auxiliar Tecnico") ||
                 cargo === normalizeLabel("Auxiliares Tecnicos")
             ) {
-                auxiliarNames.push(nome);
+                auxiliarPeople.push(person);
             }
         });
 
@@ -681,10 +709,10 @@ function ensureCentralTecnicaSplit(rootNode) {
             const tecnicoLocal = findFirstDescendantByCargo(localExistente, ["Técnico", "Tecnico", "Tecnicos"]);
             const auxiliarLocal = findFirstDescendantByCargo(localExistente, ["Auxiliar Técnico", "Auxiliar Tecnico", "Auxiliares Tecnicos"]);
 
-            const tecnicoName = getFirstNodeName(tecnicoLocal) || tecnicoNames[index] || "";
-            const auxiliarName = getFirstNodeName(auxiliarLocal) || auxiliarNames[index] || "";
+            const tecnicoPerson = getFirstNodePerson(tecnicoLocal) || tecnicoPeople[index] || "";
+            const auxiliarPerson = getFirstNodePerson(auxiliarLocal) || auxiliarPeople[index] || "";
 
-            return buildTecnicosLocalNode(localCargo, baseNivel, tecnicoName, auxiliarName);
+            return buildTecnicosLocalNode(localCargo, baseNivel, tecnicoPerson, auxiliarPerson);
         });
 
         const outrosFilhos = filhosOriginais.filter((filho) => {
@@ -703,10 +731,10 @@ function ensureCentralTecnicaSplit(rootNode) {
         node.filhos = [
             buildSupervisorTecnicoNode(
                 baseNivel,
-                buildInstalacaoNode(baseNivel, tecnicoInstalacaoName, auxiliarInstalacaoName),
+                buildInstalacaoNode(baseNivel, tecnicoInstalacaoPerson, auxiliarInstalacaoPerson),
                 buildManutencaoNode(baseNivel, localNodes),
-                buildTecnicoShieldNode(baseNivel, tecnicoShieldName),
-                supervisorName
+                buildTecnicoShieldNode(baseNivel, tecnicoShieldPerson),
+                supervisorPerson
             ),
             ...outrosFilhos
         ];
@@ -714,20 +742,26 @@ function ensureCentralTecnicaSplit(rootNode) {
 }
 
 function getCardDisplayCargo(nodeData, nameIndex = 0) {
+    const customCargo = getCustomCardDisplayCargo(nodeData, nameIndex);
+    if (customCargo) return customCargo;
+    return getDefaultCardDisplayCargo(nodeData, nameIndex);
+}
+
+function getDefaultCardDisplayCargo(nodeData, nameIndex = 0) {
     const cargo = normalizeLabel(nodeData.cargo);
 
     if (
         cargo === normalizeLabel("Operadores Diurnos") ||
         cargo === normalizeLabel("Operadores Noturnos")
     ) {
-        return nameIndex % 2 === 0 ? ORG2_OPERADOR_LIDER_TITULO : "Operador";
+        if (nameIndex % 2 === 0) {
+            return ORG2_OPERADOR_LIDER_TITULO;
+        }
+        return nameIndex === 1 ? "Operador (PCD)" : "Operador";
     }
 
     if (cargo === normalizeLabel("Tecnicos de Suporte")) {
-        const limiteTecnicosSuporte =
-            Number.isFinite(nodeData.quantidade) && nodeData.quantidade > 0
-                ? nodeData.quantidade
-                : 2;
+        const limiteTecnicosSuporte = ORG2_TECNICOS_SUPORTE_CARDS;
 
         if (nameIndex >= limiteTecnicosSuporte) {
             return "Jovem Aprendiz";
@@ -744,9 +778,15 @@ function getCardDisplayCargo(nodeData, nameIndex = 0) {
     return nodeData.cargo;
 }
 
+function getCustomCardDisplayCargo(nodeData, nameIndex) {
+    const labels = Array.isArray(nodeData?.cargosExibicao) ? nodeData.cargosExibicao : [];
+    const rawValue = labels[nameIndex];
+    return typeof rawValue === "string" ? rawValue.trim() : "";
+}
+
 function getCardScaleLabel(nodeData, nameIndex = 0) {
     const nodeCargo = normalizeLabel(nodeData?.cargo);
-    const cardCargo = normalizeLabel(getCardDisplayCargo(nodeData, nameIndex));
+    const cardCargo = normalizeLabel(getDefaultCardDisplayCargo(nodeData, nameIndex));
 
     if (nodeCargo === normalizeLabel("Diurno") || nodeCargo === normalizeLabel("Noturno")) {
         return "12x36";
@@ -754,7 +794,8 @@ function getCardScaleLabel(nodeData, nameIndex = 0) {
 
     if (
         cardCargo === normalizeLabel("Supervisor Técnico") ||
-        cardCargo === normalizeLabel("Supervisor Tecnico")
+        cardCargo === normalizeLabel("Supervisor Tecnico") ||
+        cardCargo === normalizeLabel("Supervisor de Monitoramento")
     ) {
         return "6x1";
     }
@@ -781,15 +822,7 @@ function ensureNodeNames(nodeData) {
 }
 
 function isEmptyNameEntry(entry) {
-    if (typeof entry === "string") {
-        return String(entry).trim() === "";
-    }
-
-    if (entry && typeof entry === "object") {
-        return !Object.values(entry).some((value) => String(value || "").trim() !== "");
-    }
-
-    return true;
+    return isEmptyPersonEntry(entry);
 }
 
 function getNodeName(nodeData, nameIndex) {
@@ -1415,9 +1448,10 @@ function refreshGerenciasAlignment() {
 function createCardElement(nodeData, extraClass, isTitleOnly, nameIndex = 0) {
     const card = document.createElement("article");
     card.className = `card org2-card ${extraClass}`.trim();
+    const defaultCargo = getDefaultCardDisplayCargo(nodeData, nameIndex);
     const displayCargo = getCardDisplayCargo(nodeData, nameIndex);
     const scaleLabel = getCardScaleLabel(nodeData, nameIndex);
-    card.dataset.org2Cargo = displayCargo;
+    card.dataset.org2Cargo = defaultCargo;
 
     if (isTitleOnly) {
         card.classList.add("org2-title-only-card");
@@ -1504,7 +1538,7 @@ function getExtraCardCopies(nodeData) {
     }
 
     if (cargo === normalizeLabel("Tecnicos de Suporte")) {
-        return 3;
+        return 2;
     }
 
     if (!Number.isFinite(nodeData.quantidade) || nodeData.quantidade <= 1) {

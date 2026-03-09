@@ -8,6 +8,7 @@ const DATA_SOURCES = [
 
 const ORG2_OPERADOR_LIDER_TITULO = "Operador N2 Lider Plantão";
 const ORG2_OPERADOR_TOTAL_CARDS = 4;
+const ORG2_TECNICOS_SUPORTE_CARDS = 1;
 const ORG2_TITLE_ONLY_CARGOS = new Set([
     "Segurança Eletrônica",
     "Diurno",
@@ -39,6 +40,7 @@ const editForm = document.getElementById("org2-edit-form");
 const formTitle = document.getElementById("org2-form-title");
 const pathInput = document.getElementById("org2-path");
 const cargoInput = document.getElementById("org2-cargo");
+const cargoEditInput = document.getElementById("org2-cargo-edit");
 const nomeInput = document.getElementById("org2-nome");
 const fotoUrlInput = document.getElementById("org2-foto-url");
 const fotoFileInput = document.getElementById("org2-foto-file");
@@ -130,20 +132,26 @@ function isTitleOnlyCargo(cargo) {
 }
 
 function getCardDisplayCargo(nodeData, nameIndex = 0) {
+    const customCargo = getCustomCardDisplayCargo(nodeData, nameIndex);
+    if (customCargo) return customCargo;
+    return getDefaultCardDisplayCargo(nodeData, nameIndex);
+}
+
+function getDefaultCardDisplayCargo(nodeData, nameIndex = 0) {
     const cargo = normalizeText(nodeData?.cargo);
 
     if (
         cargo === normalizeText("Operadores Diurnos") ||
         cargo === normalizeText("Operadores Noturnos")
     ) {
-        return nameIndex % 2 === 0 ? ORG2_OPERADOR_LIDER_TITULO : "Operador";
+        if (nameIndex % 2 === 0) {
+            return ORG2_OPERADOR_LIDER_TITULO;
+        }
+        return nameIndex === 1 ? "Operador (PCD)" : "Operador";
     }
 
     if (cargo === normalizeText("Tecnicos de Suporte")) {
-        const limiteTecnicosSuporte =
-            Number.isFinite(nodeData.quantidade) && nodeData.quantidade > 0
-                ? nodeData.quantidade
-                : 2;
+        const limiteTecnicosSuporte = ORG2_TECNICOS_SUPORTE_CARDS;
 
         if (nameIndex >= limiteTecnicosSuporte) {
             return "Jovem Aprendiz";
@@ -160,6 +168,42 @@ function getCardDisplayCargo(nodeData, nameIndex = 0) {
     return String(nodeData?.cargo || "Sem Cargo");
 }
 
+function ensureNodeDisplayCargos(nodeData) {
+    if (!Array.isArray(nodeData.cargosExibicao)) {
+        nodeData.cargosExibicao = [];
+    }
+    return nodeData.cargosExibicao;
+}
+
+function getCustomCardDisplayCargo(nodeData, nameIndex) {
+    const labels = Array.isArray(nodeData?.cargosExibicao) ? nodeData.cargosExibicao : [];
+    const rawValue = labels[nameIndex];
+    return typeof rawValue === "string" ? rawValue.trim() : "";
+}
+
+function setCustomCardDisplayCargo(nodeData, nameIndex, rawValue) {
+    const labels = ensureNodeDisplayCargos(nodeData);
+    const normalizedValue = String(rawValue || "")
+        .replace(/\s+/g, " ")
+        .trim();
+    const defaultLabel = String(getDefaultCardDisplayCargo(nodeData, nameIndex) || "").trim();
+
+    if (!normalizedValue || normalizeText(normalizedValue) === normalizeText(defaultLabel)) {
+        labels[nameIndex] = "";
+    } else {
+        labels[nameIndex] = normalizedValue;
+    }
+
+    while (labels.length > 0) {
+        if (String(labels[labels.length - 1] || "").trim()) break;
+        labels.pop();
+    }
+
+    if (labels.length === 0) {
+        delete nodeData.cargosExibicao;
+    }
+}
+
 function getExtraCardCopies(nodeData) {
     const cargo = normalizeText(nodeData?.cargo);
 
@@ -172,7 +216,7 @@ function getExtraCardCopies(nodeData) {
     }
 
     if (cargo === normalizeText("Tecnicos de Suporte")) {
-        return 3;
+        return 2;
     }
 
     if (!Number.isFinite(nodeData?.quantidade) || nodeData.quantidade <= 1) {
@@ -206,12 +250,16 @@ function collectEditableSlots(nodeData, path = [], output = []) {
 
         for (let index = 0; index < slotsCount; index += 1) {
             const person = readPersonData(nodeData, index);
+            const cargoBaseLabel = getDefaultCardDisplayCargo(nodeData, index);
+            const cargoCustomAtual = getCustomCardDisplayCargo(nodeData, index);
             output.push({
                 id: `${output.length}-${nextPath.join("|")}-${index}`,
                 nodeRef: nodeData,
                 nameIndex: index,
                 pathLabel: nextPath.join(" > "),
                 cargoLabel: getCardDisplayCargo(nodeData, index),
+                cargoBaseLabel,
+                cargoCustomAtual,
                 nomeAtual: String(person.nome || "")
             });
         }
@@ -351,12 +399,15 @@ function renderTree() {
 function fillFormFromSlot(slot) {
     if (!slot || !editForm || !placeholder) return;
     const person = readPersonData(slot.nodeRef, slot.nameIndex);
+    const cargoBase = String(slot.cargoBaseLabel || slot.cargoLabel || "");
+    const cargoCustom = String(slot.cargoCustomAtual || "");
 
     placeholder.classList.add("hidden");
     editForm.classList.remove("hidden");
     if (formTitle) formTitle.textContent = `Editar ${slot.cargoLabel}`;
     if (pathInput) pathInput.value = slot.pathLabel;
-    if (cargoInput) cargoInput.value = slot.cargoLabel;
+    if (cargoInput) cargoInput.value = cargoBase;
+    if (cargoEditInput) cargoEditInput.value = cargoCustom || cargoBase;
     if (nomeInput) nomeInput.value = String(person.nome || "");
     if (fotoUrlInput) fotoUrlInput.value = String(person.foto || "");
     if (descricaoInput) descricaoInput.value = String(person.descricao || "");
@@ -557,6 +608,7 @@ function initEventHandlers() {
             descricaoDetalhada: String(descricaoDetalhadaInput?.value || "")
         };
 
+        setCustomCardDisplayCargo(selected.nodeRef, selected.nameIndex, cargoEditInput?.value || "");
         writePersonData(selected.nodeRef, selected.nameIndex, payload);
         refreshSlotsAndTree();
         selectedSlotId = selected.id;

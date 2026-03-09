@@ -90,6 +90,17 @@
                               "nivel": 5,
                               "nomes": [
                                 {
+                                  "foto": "https://github.com/user-attachments/assets/da33e098-642f-4783-865b-5563594176fb",
+                                  "nome": "Quedma Paula"
+                                },
+                                {
+                                  "foto": "https://github.com/user-attachments/assets/774cdc60-9407-49a2-963d-c96971cd0c26",
+                                  "nome": "Luiz Gabriel"
+                                },
+                                {
+                                  "nome": "Vaga Disponível"
+                                },
+                                {
                                   "foto": "https://github.com/user-attachments/assets/11c70c12-c8ed-4348-a3e4-efd93770b838",
                                   "nome": "Adriel Rodrigues"
                                 }
@@ -104,8 +115,29 @@
                           "filhos": [
                             {
                               "cargo": "Operadores Noturnos",
+                              "cargosExibicao": [
+                                null,
+                                "Operador"
+                              ],
                               "nivel": 5,
-                              "nomes": [],
+                              "nomes": [
+                                {
+                                  "foto": "https://github.com/user-attachments/assets/7763c7c1-2630-45ed-879e-863e66c854f4",
+                                  "nome": "David Alves"
+                                },
+                                {
+                                  "foto": "https://github.com/user-attachments/assets/02a9b9da-918e-49be-8821-00e97e51a206",
+                                  "nome": "Gabriel Oliveira"
+                                },
+                                {
+                                  "foto": "https://github.com/user-attachments/assets/952337c8-42b4-4436-ae4a-f5d08cd9e33f",
+                                  "nome": "Fabricio Forte"
+                                },
+                                {
+                                  "nome": "Michael Douglas",
+                                  "foto": "https://github.com/user-attachments/assets/ff6ffe3e-2167-42ff-82fd-39c3b988bdcd"
+                                }
+                              ],
                               "quantidade": 2
                             }
                           ],
@@ -148,11 +180,21 @@
                                 {
                                   "cargo": "Auxiliar Técnico",
                                   "nivel": 5,
-                                  "nomes": []
+                                  "nomes": [
+                                    {
+                                      "foto": "https://github.com/user-attachments/assets/e6d656dd-b400-4ab4-bf6f-55b2986aa197",
+                                      "nome": "Lucas Matos"
+                                    }
+                                  ]
                                 }
                               ],
                               "nivel": 5,
-                              "nomes": []
+                              "nomes": [
+                                {
+                                  "foto": "https://github.com/user-attachments/assets/3cfeee29-c8b6-470f-8ae0-2088fcd0febb",
+                                  "nome": "Thiago Alves"
+                                }
+                              ]
                             }
                           ],
                           "nivel": 5
@@ -172,11 +214,21 @@
                                 {
                                   "cargo": "Auxiliar Técnico",
                                   "nivel": 5,
-                                  "nomes": []
+                                  "nomes": [
+                                    {
+                                      "foto": "https://github.com/user-attachments/assets/1119b8fb-a936-46e5-984c-837e33b29b5f",
+                                      "nome": "Lucas Batista"
+                                    }
+                                  ]
                                 }
                               ],
                               "nivel": 5,
-                              "nomes": []
+                              "nomes": [
+                                {
+                                  "foto": "https://github.com/user-attachments/assets/1f9adacc-43fc-489c-ab89-5dfe2416c35e",
+                                  "nome": "Cauã Carvalho"
+                                }
+                              ]
                             }
                           ],
                           "nivel": 5
@@ -190,11 +242,20 @@
                                 {
                                   "cargo": "Auxiliar Técnico",
                                   "nivel": 5,
-                                  "nomes": []
+                                  "nomes": [
+                                    {
+                                      "nome": "Vaga Disponível"
+                                    }
+                                  ]
                                 }
                               ],
                               "nivel": 5,
-                              "nomes": []
+                              "nomes": [
+                                {
+                                  "foto": "https://github.com/user-attachments/assets/77723fb4-2ee2-4638-adcf-1a120abcd8ac",
+                                  "nome": "Cirlei Silva"
+                                }
+                              ]
                             }
                           ],
                           "nivel": 5
@@ -208,11 +269,21 @@
                                 {
                                   "cargo": "Auxiliar Técnico",
                                   "nivel": 5,
-                                  "nomes": []
+                                  "nomes": [
+                                    {
+                                      "foto": "https://github.com/user-attachments/assets/337621a5-614f-454c-9409-90fd0e5bd964",
+                                      "nome": "Eduardo  Gonçalves"
+                                    }
+                                  ]
                                 }
                               ],
                               "nivel": 5,
-                              "nomes": []
+                              "nomes": [
+                                {
+                                  "foto": "https://github.com/user-attachments/assets/0918203f-2bf2-47ed-b892-b0035eeeb91a",
+                                  "nome": "Tarcisio Felizardo"
+                                }
+                              ]
                             }
                           ],
                           "nivel": 5
@@ -223,7 +294,11 @@
                     {
                       "cargo": "Tecnico Shield",
                       "nivel": 5,
-                      "nomes": []
+                      "nomes": [
+                        {
+                          "nome": "Mariom"
+                        }
+                      ]
                     }
                   ],
                   "nivel": 5,
@@ -250,11 +325,28 @@
                                 {
                                   "cargo": "Analista Shield",
                                   "nivel": 5,
-                                  "nomes": []
+                                  "nomes": [
+                                    {
+                                      "nome": "Sugestão"
+                                    }
+                                  ]
                                 }
                               ],
                               "nivel": 5,
-                              "nomes": [],
+                              "nomes": [
+                                {
+                                  "foto": "https://github.com/user-attachments/assets/ebe60cfd-891d-42f8-8ddf-781a37623491",
+                                  "nome": "Marcos Maia"
+                                },
+                                {
+                                  "foto": "https://github.com/user-attachments/assets/8593b0fc-76d4-436d-abfc-8fefa5b96a07",
+                                  "nome": "Guilherme Alexandre"
+                                },
+                                {
+                                  "foto": "https://github.com/user-attachments/assets/1b7764bc-ae95-4c67-94cc-c1975f46728c",
+                                  "nome": "Isack Aragão"
+                                }
+                              ],
                               "quantidade": 2
                             }
                           ],
@@ -263,7 +355,11 @@
                         }
                       ],
                       "nivel": 5,
-                      "nomes": []
+                      "nomes": [
+                        {
+                          "nome": "Sugestão"
+                        }
+                      ]
                     }
                   ],
                   "nivel": 5
@@ -283,11 +379,24 @@
                         {
                           "cargo": "Jovem Aprendiz",
                           "nivel": 5,
-                          "nomes": []
+                          "nomes": [
+                            {
+                              "foto": "https://github.com/user-attachments/assets/75b5cd83-0968-4051-b758-255d0a39fbdf",
+                              "nome": "Lucas Sales"
+                            },
+                            {
+                              "nome": "Vaga Disponível"
+                            }
+                          ]
                         }
                       ],
                       "nivel": 5,
-                      "nomes": []
+                      "nomes": [
+                        {
+                          "foto": "https://github.com/user-attachments/assets/17bfd145-243e-48d5-8073-099a22277204",
+                          "nome": "Quely Ferreira"
+                        }
+                      ]
                     }
                   ],
                   "nivel": 5
