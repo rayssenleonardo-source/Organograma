@@ -7,6 +7,7 @@ const DATA_SOURCES = [
 ];
 
 const ORG2_OPERADOR_LIDER_TITULO = "Operador N2 Lider Plantão";
+const ORG2_OPERADOR_TOTAL_CARDS = 4;
 const ORG2_TITLE_ONLY_CARGOS = new Set([
     "Segurança Eletrônica",
     "Diurno",
@@ -135,7 +136,7 @@ function getCardDisplayCargo(nodeData, nameIndex = 0) {
         cargo === normalizeText("Operadores Diurnos") ||
         cargo === normalizeText("Operadores Noturnos")
     ) {
-        return nameIndex === 0 ? ORG2_OPERADOR_LIDER_TITULO : "Operador";
+        return nameIndex % 2 === 0 ? ORG2_OPERADOR_LIDER_TITULO : "Operador";
     }
 
     if (cargo === normalizeText("Tecnicos de Suporte")) {
@@ -179,10 +180,10 @@ function getExtraCardCopies(nodeData) {
     }
 
     if (cargo === normalizeText("Operadores Diurnos")) {
-        return 1;
+        return ORG2_OPERADOR_TOTAL_CARDS - 1;
     }
     if (cargo === normalizeText("Operadores Noturnos")) {
-        return 1;
+        return ORG2_OPERADOR_TOTAL_CARDS - 1;
     }
     if (cargo === normalizeText("Auxiliares Tecnicos")) {
         return 3;

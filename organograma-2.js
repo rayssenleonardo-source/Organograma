@@ -28,14 +28,14 @@ const ORG2_DEFAULT_ESTRUTURA = {
                                             nivel: 5,
                                             cargo: "Diurno",
                                             filhos: [
-                                                { nivel: 5, cargo: "Operadores Diurnos", quantidade: 2 }
+                                                { nivel: 5, cargo: "Operadores Diurnos", quantidade: 4 }
                                             ]
                                         },
                                         {
                                             nivel: 5,
                                             cargo: "Noturno",
                                             filhos: [
-                                                { nivel: 5, cargo: "Operadores Noturnos", quantidade: 2 }
+                                                { nivel: 5, cargo: "Operadores Noturnos", quantidade: 4 }
                                             ]
                                         }
                                     ]
@@ -241,6 +241,7 @@ const ORG2_DATA_SOURCES = [
 
 const ORG2_DATA_KEY = "organograma2";
 const ORG2_OPERADOR_LIDER_TITULO = "Operador N2 Lider Plantão";
+const ORG2_OPERADOR_TOTAL_CARDS = 4;
 const ORG2_NAME_PLACEHOLDER = "Nome do Funcionário";
 const ORG2_TECNOLOGIA_SHIFT_RIGHT_PX = 36;
 const ORG2_APOIO_LOGISTICA_SHIFT_RIGHT_PX = 36;
@@ -360,7 +361,7 @@ function ensureMonitoramentoTurnosGroups(rootNode) {
                     : (Number.isFinite(node.nivel) ? node.nivel : 5);
 
                 filho.nivel = levelFromChild;
-                filho.quantidade = 2;
+                filho.quantidade = ORG2_OPERADOR_TOTAL_CARDS;
 
                 const names = ensureNodeNames(filho);
                 if (normalizeLabel(names[0]) === normalizeLabel(ORG2_OPERADOR_LIDER_TITULO)) {
@@ -413,7 +414,7 @@ function ensureMonitoramentoTurnosGroups(rootNode) {
                     cargo: cargoTurno === normalizeLabel("Diurno")
                         ? "Operadores Diurnos"
                         : "Operadores Noturnos",
-                    quantidade: 2,
+                    quantidade: ORG2_OPERADOR_TOTAL_CARDS,
                     nomes: []
                 };
             }
@@ -421,7 +422,7 @@ function ensureMonitoramentoTurnosGroups(rootNode) {
             operadorNode.cargo = cargoTurno === normalizeLabel("Diurno")
                 ? "Operadores Diurnos"
                 : "Operadores Noturnos";
-            operadorNode.quantidade = 2;
+            operadorNode.quantidade = ORG2_OPERADOR_TOTAL_CARDS;
 
             const names = ensureNodeNames(operadorNode);
             if (normalizeLabel(names[0]) === normalizeLabel(ORG2_OPERADOR_LIDER_TITULO)) {
@@ -719,7 +720,7 @@ function getCardDisplayCargo(nodeData, nameIndex = 0) {
         cargo === normalizeLabel("Operadores Diurnos") ||
         cargo === normalizeLabel("Operadores Noturnos")
     ) {
-        return nameIndex === 0 ? ORG2_OPERADOR_LIDER_TITULO : "Operador";
+        return nameIndex % 2 === 0 ? ORG2_OPERADOR_LIDER_TITULO : "Operador";
     }
 
     if (cargo === normalizeLabel("Tecnicos de Suporte")) {
@@ -741,6 +742,35 @@ function getCardDisplayCargo(nodeData, nameIndex = 0) {
     }
 
     return nodeData.cargo;
+}
+
+function getCardScaleLabel(nodeData, nameIndex = 0) {
+    const nodeCargo = normalizeLabel(nodeData?.cargo);
+    const cardCargo = normalizeLabel(getCardDisplayCargo(nodeData, nameIndex));
+
+    if (nodeCargo === normalizeLabel("Diurno") || nodeCargo === normalizeLabel("Noturno")) {
+        return "12x36";
+    }
+
+    if (
+        cardCargo === normalizeLabel("Supervisor Técnico") ||
+        cardCargo === normalizeLabel("Supervisor Tecnico")
+    ) {
+        return "6x1";
+    }
+
+    if (
+        cardCargo === normalizeLabel("Analista de Tecnologia N2") ||
+        cardCargo === normalizeLabel("Analista de Tecnologia N1")
+    ) {
+        return "5x2";
+    }
+
+    if (cardCargo === normalizeLabel("Tecnicos de Suporte")) {
+        return "6x1";
+    }
+
+    return "";
 }
 
 function ensureNodeNames(nodeData) {
@@ -1386,6 +1416,7 @@ function createCardElement(nodeData, extraClass, isTitleOnly, nameIndex = 0) {
     const card = document.createElement("article");
     card.className = `card org2-card ${extraClass}`.trim();
     const displayCargo = getCardDisplayCargo(nodeData, nameIndex);
+    const scaleLabel = getCardScaleLabel(nodeData, nameIndex);
     card.dataset.org2Cargo = displayCargo;
 
     if (isTitleOnly) {
@@ -1394,6 +1425,13 @@ function createCardElement(nodeData, extraClass, isTitleOnly, nameIndex = 0) {
         title.className = "org2-card-title";
         title.textContent = displayCargo;
         card.appendChild(title);
+
+        if (scaleLabel) {
+            const scale = document.createElement("div");
+            scale.className = "role-tag org2-scale-tag org2-title-scale-tag";
+            scale.textContent = scaleLabel;
+            card.appendChild(scale);
+        }
         return card;
     }
 
@@ -1437,9 +1475,19 @@ function createCardElement(nodeData, extraClass, isTitleOnly, nameIndex = 0) {
     cargo.className = "role-tag org2-role-tag";
     cargo.textContent = displayCargo;
 
+    let scale = null;
+    if (scaleLabel) {
+        scale = document.createElement("div");
+        scale.className = "role-tag org2-scale-tag";
+        scale.textContent = scaleLabel;
+    }
+
     card.appendChild(avatar);
     card.appendChild(nome);
     card.appendChild(cargo);
+    if (scale) {
+        card.appendChild(scale);
+    }
 
     return card;
 }
@@ -1464,10 +1512,10 @@ function getExtraCardCopies(nodeData) {
     }
 
     if (cargo === normalizeLabel("Operadores Diurnos")) {
-        return 1;
+        return ORG2_OPERADOR_TOTAL_CARDS - 1;
     }
     if (cargo === normalizeLabel("Operadores Noturnos")) {
-        return 1;
+        return ORG2_OPERADOR_TOTAL_CARDS - 1;
     }
     if (cargo === normalizeLabel("Auxiliares Tecnicos")) {
         return 3;

@@ -1332,6 +1332,17 @@ background: linear-gradient(
   margin-top: 0;
 }
 
+.org2-scale-tag {
+  margin-top: 0;
+  font-size: 10px;
+  letter-spacing: 0.4px;
+  opacity: 0.95;
+}
+
+.org2-title-scale-tag {
+  margin-top: 2px;
+}
+
 .level-1 .org2-card .org2-name-slot {
   color: #ffffff;
 }
