@@ -63,7 +63,11 @@
         {
           "cargo": "Gerência Operacional",
           "nivel": 2,
-          "nomes": []
+          "nomes": [
+            {
+              "nome": "Delfino"
+            }
+          ]
         },
         {
           "cargo": "Gerência de Seg. Eletrônica",
@@ -78,16 +82,28 @@
                       "cargo": "Supervisor de Monitoramento",
                       "filhos": [
                         {
-                          "cargo": "Operadores Diurnos",
-                          "nivel": 5,
-                          "nomes": [],
-                          "quantidade": 4
+                          "cargo": "Diurno",
+                          "filhos": [
+                            {
+                              "cargo": "Operadores Diurnos",
+                              "nivel": 5,
+                              "nomes": [],
+                              "quantidade": 2
+                            }
+                          ],
+                          "nivel": 5
                         },
                         {
-                          "cargo": "Operadores Noturnos",
-                          "nivel": 5,
-                          "nomes": [],
-                          "quantidade": 4
+                          "cargo": "Noturno",
+                          "filhos": [
+                            {
+                              "cargo": "Operadores Noturnos",
+                              "nivel": 5,
+                              "nomes": [],
+                              "quantidade": 2
+                            }
+                          ],
+                          "nivel": 5
                         }
                       ],
                       "nivel": 5,
@@ -100,109 +116,109 @@
               "nivel": 4
             },
             {
-              "cargo": "Central Técnica",
-              "filhos": [
-                {
-                  "nivel": 5,
-                  "cargo": "Supervisor Técnico",
-                  "filhos": [
-                    {
-                      "nivel": 5,
-                      "cargo": "Instalação",
-                      "filhos": [
-                        {
-                          "nivel": 5,
-                          "cargo": "Clientes 6x1",
-                          "filhos": [
-                            {
-                              "nivel": 5,
-                              "cargo": "Técnico",
-                              "filhos": [
-                                {
-                                  "nivel": 5,
-                                  "cargo": "Auxiliar Técnico",
-                                  "nomes": []
-                                }
-                              ],
-                              "nomes": []
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "nivel": 5,
-                      "cargo": "Manutenção",
-                      "filhos": [
-                        {
-                          "nivel": 5,
-                          "cargo": "CIPLAN 5x2",
-                          "filhos": [
-                            {
-                              "nivel": 5,
-                              "cargo": "Técnico",
-                              "filhos": [
-                                {
-                                  "nivel": 5,
-                                  "cargo": "Auxiliar Técnico",
-                                  "nomes": []
-                                }
-                              ],
-                              "nomes": []
-                            }
-                          ]
-                        },
-                        {
-                          "nivel": 5,
-                          "cargo": "STF 6x1",
-                          "filhos": [
-                            {
-                              "nivel": 5,
-                              "cargo": "Técnico",
-                              "filhos": [
-                                {
-                                  "nivel": 5,
-                                  "cargo": "Auxiliar Técnico",
-                                  "nomes": []
-                                }
-                              ],
-                              "nomes": []
-                            }
-                          ]
-                        },
-                        {
-                          "nivel": 5,
-                          "cargo": "Clientes 6x1",
-                          "filhos": [
-                            {
-                              "nivel": 5,
-                              "cargo": "Técnico",
-                              "filhos": [
-                                {
-                                  "nivel": 5,
-                                  "cargo": "Auxiliar Técnico",
-                                  "nomes": []
-                                }
-                              ],
-                              "nomes": []
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "nivel": 5,
-                      "cargo": "Tecnico Shield",
-                      "nomes": []
-                    }
-                  ],
-                  "nomes": []
-                }
-              ],
+              "cargo": "Shield",
               "nivel": 4
             },
             {
-              "cargo": "Shield",
+              "cargo": "Central Técnica",
+              "filhos": [
+                {
+                  "cargo": "Supervisor Técnico",
+                  "filhos": [
+                    {
+                      "cargo": "Instalação",
+                      "filhos": [
+                        {
+                          "cargo": "Clientes 6x1",
+                          "filhos": [
+                            {
+                              "cargo": "Técnico",
+                              "filhos": [
+                                {
+                                  "cargo": "Auxiliar Técnico",
+                                  "nivel": 5,
+                                  "nomes": []
+                                }
+                              ],
+                              "nivel": 5,
+                              "nomes": []
+                            }
+                          ],
+                          "nivel": 5
+                        }
+                      ],
+                      "nivel": 5
+                    },
+                    {
+                      "cargo": "Manutenção",
+                      "filhos": [
+                        {
+                          "cargo": "CIPLAN 5x2",
+                          "filhos": [
+                            {
+                              "cargo": "Técnico",
+                              "filhos": [
+                                {
+                                  "cargo": "Auxiliar Técnico",
+                                  "nivel": 5,
+                                  "nomes": []
+                                }
+                              ],
+                              "nivel": 5,
+                              "nomes": []
+                            }
+                          ],
+                          "nivel": 5
+                        },
+                        {
+                          "cargo": "STF 6x1",
+                          "filhos": [
+                            {
+                              "cargo": "Técnico",
+                              "filhos": [
+                                {
+                                  "cargo": "Auxiliar Técnico",
+                                  "nivel": 5,
+                                  "nomes": []
+                                }
+                              ],
+                              "nivel": 5,
+                              "nomes": []
+                            }
+                          ],
+                          "nivel": 5
+                        },
+                        {
+                          "cargo": "Clientes 6x1",
+                          "filhos": [
+                            {
+                              "cargo": "Técnico",
+                              "filhos": [
+                                {
+                                  "cargo": "Auxiliar Técnico",
+                                  "nivel": 5,
+                                  "nomes": []
+                                }
+                              ],
+                              "nivel": 5,
+                              "nomes": []
+                            }
+                          ],
+                          "nivel": 5
+                        }
+                      ],
+                      "nivel": 5
+                    },
+                    {
+                      "cargo": "Tecnico Shield",
+                      "nivel": 5,
+                      "nomes": []
+                    }
+                  ],
+                  "nivel": 5,
+                  "nomes": []
+                }
+              ],
               "nivel": 4
             },
             {

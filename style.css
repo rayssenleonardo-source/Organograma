@@ -1215,6 +1215,14 @@ background: linear-gradient(
   pointer-events: none;
 }
 
+.org2-tech-connector-bridge {
+  position: absolute;
+  height: 2px;
+  background-color: #cbd5e1;
+  z-index: 1;
+  pointer-events: none;
+}
+
 .org2-card-wrap {
   position: relative;
   display: inline-block;
@@ -1264,6 +1272,12 @@ background: linear-gradient(
   width: 220px;
   min-height: 106px;
   cursor: default;
+  justify-content: center;
+  gap: 8px;
+}
+
+.org2-card.org2-person-card {
+  min-height: 178px;
 }
 
 .org2-top-card {
@@ -1275,62 +1289,61 @@ background: linear-gradient(
 }
 
 .org2-card:hover {
-  transform: none;
-  box-shadow: var(--shadow-2);
-  border-color: var(--border);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-3);
+  border-color: #d0d7de;
 }
 
-.org2-card h3 {
-  margin-bottom: 10px;
+.org2-card .org2-card-title {
+  margin: 0;
 }
 
 .org2-card.org2-title-only-card {
   min-height: 68px;
-}
-
-.org2-card.org2-title-only-card h3 {
-  margin-bottom: 0;
+  justify-content: center;
 }
 
 .org2-name-slot {
   width: 100%;
-  min-height: 26px;
-  background: transparent;
-  border: none;
-  border-bottom: 2px dashed #94a3b8;
-  padding: 2px;
-  font-size: 13px;
-  font-weight: 600;
+  min-height: 24px;
+  margin: 0;
+  padding: 0 2px;
+  font-size: 14px;
+  font-weight: 700;
   font-family: inherit;
-  color: inherit;
-  line-height: 1.3;
-  text-align: left;
-  outline: none;
-  appearance: none;
-  -webkit-appearance: none;
+  color: var(--text);
+  line-height: 1.25;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-sizing: border-box;
 }
 
-.org2-name-slot::placeholder {
+.org2-name-slot.is-placeholder {
   color: #94a3b8;
-  font-weight: 500;
-  opacity: 1;
 }
 
-.org2-name-slot:focus {
-  border-bottom-color: #2563eb;
+.org2-avatar {
+  margin-bottom: 0;
+}
+
+.org2-role-tag {
+  margin-top: 0;
 }
 
 .level-1 .org2-card .org2-name-slot {
-  border-bottom-color: rgba(255, 255, 255, 0.55);
+  color: #ffffff;
 }
 
-.level-1 .org2-card .org2-name-slot::placeholder {
+.level-1 .org2-card .org2-name-slot.is-placeholder {
   color: rgba(255, 255, 255, 0.75);
 }
 
-.level-1 .org2-card .org2-name-slot:focus {
-  border-bottom-color: #ffffff;
+.level-1 .org2-card .org2-role-tag {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 @media (max-width: 900px) {

@@ -24,13 +24,29 @@ const ORG2_DEFAULT_ESTRUTURA = {
                                     nivel: 5,
                                     cargo: "Supervisor de Monitoramento",
                                     filhos: [
-                                        { nivel: 5, cargo: "Operadores Diurnos", quantidade: 4 },
-                                        { nivel: 5, cargo: "Operadores Noturnos", quantidade: 4 }
+                                        {
+                                            nivel: 5,
+                                            cargo: "Diurno",
+                                            filhos: [
+                                                { nivel: 5, cargo: "Operadores Diurnos", quantidade: 2 }
+                                            ]
+                                        },
+                                        {
+                                            nivel: 5,
+                                            cargo: "Noturno",
+                                            filhos: [
+                                                { nivel: 5, cargo: "Operadores Noturnos", quantidade: 2 }
+                                            ]
+                                        }
                                     ]
                                 }
                             ]
                         }
                     ]
+                },
+                {
+                    nivel: 4,
+                    cargo: "Shield"
                 },
                 {
                     nivel: 4,
@@ -117,10 +133,6 @@ const ORG2_DEFAULT_ESTRUTURA = {
                 },
                 {
                     nivel: 4,
-                    cargo: "Shield"
-                },
-                {
-                    nivel: 4,
                     cargo: "Tecnologia",
                     filhos: [
                         {
@@ -191,6 +203,31 @@ function normalizeLabel(value) {
         .trim();
 }
 
+function getInitials(name) {
+    const parts = String(name || "")
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean);
+
+    if (parts.length === 0) return "";
+    const first = parts[0].charAt(0);
+    const last = parts.length > 1 ? parts[parts.length - 1].charAt(0) : "";
+    return `${first}${last}`.toUpperCase();
+}
+
+function resolveOrg2PhotoSrc(rawValue) {
+    const src = String(rawValue || "").trim();
+    if (!src) return "";
+
+    if (src.startsWith("http://") || src.startsWith("https://") || src.startsWith("data:")) {
+        return src;
+    }
+
+    if (src.startsWith("/")) return src;
+    if (src.startsWith("uploads/")) return `/${src}`;
+    return src;
+}
+
 function cloneData(value) {
     return JSON.parse(JSON.stringify(value));
 }
@@ -203,6 +240,10 @@ const ORG2_DATA_SOURCES = [
 ];
 
 const ORG2_DATA_KEY = "organograma2";
+const ORG2_OPERADOR_LIDER_TITULO = "Operador N2 Lider Plantão";
+const ORG2_NAME_PLACEHOLDER = "Nome do Funcionário";
+const ORG2_TECNOLOGIA_SHIFT_RIGHT_PX = 36;
+const ORG2_APOIO_LOGISTICA_SHIFT_RIGHT_PX = 36;
 
 let org2Diretorias = cloneData(ORG2_DEFAULT_DIRETORIAS);
 let org2Estrutura = cloneData(ORG2_DEFAULT_ESTRUTURA);
@@ -268,6 +309,7 @@ function syncOrg2StateFromPayload(payload) {
     flattenGestaoSegurancaNodes(org2Estrutura);
     ensureShieldUnderGerenciaSeguranca(org2Estrutura);
     ensureCentralTecnicaSplit(org2Estrutura);
+    ensureMonitoramentoTurnosGroups(org2Estrutura);
 }
 
 function walkOrg2Nodes(nodeData, visitor) {
@@ -292,6 +334,107 @@ function normalizeOrg2LegacyLabels(rootNode) {
         if (cargo === normalizeLabel("Suporte Shield")) {
             node.cargo = "Analista Shield";
         }
+    });
+}
+
+function ensureMonitoramentoTurnosGroups(rootNode) {
+    walkOrg2Nodes(rootNode, (node) => {
+        if (normalizeLabel(node?.cargo) !== normalizeLabel("Supervisor de Monitoramento")) return;
+
+        const filhosOriginais = Array.isArray(node.filhos) ? node.filhos : [];
+        if (filhosOriginais.length === 0) return;
+
+        let hasLegacyTurnoNodes = false;
+        const filhosAgrupados = filhosOriginais.map((filho) => {
+            const cargoFilho = normalizeLabel(filho?.cargo);
+            if (
+                cargoFilho === normalizeLabel("Operadores Diurnos") ||
+                cargoFilho === normalizeLabel("Operadores Noturnos")
+            ) {
+                hasLegacyTurnoNodes = true;
+                const turnoCargo = cargoFilho === normalizeLabel("Operadores Diurnos")
+                    ? "Diurno"
+                    : "Noturno";
+                const levelFromChild = Number.isFinite(filho?.nivel)
+                    ? filho.nivel
+                    : (Number.isFinite(node.nivel) ? node.nivel : 5);
+
+                filho.nivel = levelFromChild;
+                filho.quantidade = 2;
+
+                const names = ensureNodeNames(filho);
+                if (normalizeLabel(names[0]) === normalizeLabel(ORG2_OPERADOR_LIDER_TITULO)) {
+                    names.shift();
+                }
+                while (names.length > 0) {
+                    const lastValue = String(names[names.length - 1] || "").trim();
+                    if (lastValue) break;
+                    names.pop();
+                }
+
+                return {
+                    nivel: levelFromChild,
+                    cargo: turnoCargo,
+                    filhos: [filho]
+                };
+            }
+            return filho;
+        });
+
+        if (hasLegacyTurnoNodes) {
+            node.filhos = filhosAgrupados;
+        }
+
+        const filhosTurno = Array.isArray(node.filhos) ? node.filhos : [];
+        filhosTurno.forEach((turnoNode) => {
+            const cargoTurno = normalizeLabel(turnoNode?.cargo);
+            if (
+                cargoTurno !== normalizeLabel("Diurno") &&
+                cargoTurno !== normalizeLabel("Noturno")
+            ) {
+                return;
+            }
+
+            const turnoChildren = Array.isArray(turnoNode.filhos) ? turnoNode.filhos : [];
+            let operadorNode = turnoChildren.find((item) => {
+                const itemCargo = normalizeLabel(item?.cargo);
+                return (
+                    itemCargo === normalizeLabel("Operadores Diurnos") ||
+                    itemCargo === normalizeLabel("Operadores Noturnos")
+                );
+            });
+
+            if (!operadorNode) {
+                const nivelFallback = Number.isFinite(turnoNode.nivel)
+                    ? turnoNode.nivel
+                    : (Number.isFinite(node.nivel) ? node.nivel : 5);
+                operadorNode = {
+                    nivel: nivelFallback,
+                    cargo: cargoTurno === normalizeLabel("Diurno")
+                        ? "Operadores Diurnos"
+                        : "Operadores Noturnos",
+                    quantidade: 2,
+                    nomes: []
+                };
+            }
+
+            operadorNode.cargo = cargoTurno === normalizeLabel("Diurno")
+                ? "Operadores Diurnos"
+                : "Operadores Noturnos";
+            operadorNode.quantidade = 2;
+
+            const names = ensureNodeNames(operadorNode);
+            if (normalizeLabel(names[0]) === normalizeLabel(ORG2_OPERADOR_LIDER_TITULO)) {
+                names.shift();
+            }
+            while (names.length > 0) {
+                const lastValue = String(names[names.length - 1] || "").trim();
+                if (lastValue) break;
+                names.pop();
+            }
+
+            turnoNode.filhos = [operadorNode];
+        });
     });
 }
 
@@ -349,9 +492,9 @@ function ensureShieldUnderGerenciaSeguranca(rootNode) {
 
         if (idxCentralTecnica >= 0) {
             node.filhos = [
-                ...filhosSemShield.slice(0, idxCentralTecnica + 1),
+                ...filhosSemShield.slice(0, idxCentralTecnica),
                 shieldNode,
-                ...filhosSemShield.slice(idxCentralTecnica + 1)
+                ...filhosSemShield.slice(idxCentralTecnica)
             ];
             return;
         }
@@ -572,6 +715,13 @@ function ensureCentralTecnicaSplit(rootNode) {
 function getCardDisplayCargo(nodeData, nameIndex = 0) {
     const cargo = normalizeLabel(nodeData.cargo);
 
+    if (
+        cargo === normalizeLabel("Operadores Diurnos") ||
+        cargo === normalizeLabel("Operadores Noturnos")
+    ) {
+        return nameIndex === 0 ? ORG2_OPERADOR_LIDER_TITULO : "Operador";
+    }
+
     if (cargo === normalizeLabel("Tecnicos de Suporte")) {
         const limiteTecnicosSuporte =
             Number.isFinite(nodeData.quantidade) && nodeData.quantidade > 0
@@ -600,19 +750,59 @@ function ensureNodeNames(nodeData) {
     return nodeData.nomes;
 }
 
+function isEmptyNameEntry(entry) {
+    if (typeof entry === "string") {
+        return String(entry).trim() === "";
+    }
+
+    if (entry && typeof entry === "object") {
+        return !Object.values(entry).some((value) => String(value || "").trim() !== "");
+    }
+
+    return true;
+}
+
 function getNodeName(nodeData, nameIndex) {
+    return getNodePersonData(nodeData, nameIndex).nome;
+}
+
+function getNodePersonData(nodeData, nameIndex) {
     const names = ensureNodeNames(nodeData);
     const value = names[nameIndex];
-    return typeof value === "string" ? value : "";
+
+    if (typeof value === "string") {
+        return { nome: value };
+    }
+
+    if (value && typeof value === "object") {
+        return {
+            ...value,
+            nome: typeof value.nome === "string" ? value.nome : "",
+            foto: typeof value.foto === "string" ? value.foto : ""
+        };
+    }
+
+    return { nome: "", foto: "" };
 }
 
 function setNodeName(nodeData, nameIndex, rawValue) {
     const names = ensureNodeNames(nodeData);
-    names[nameIndex] = rawValue;
+    const nextValue = String(rawValue || "");
+    const existingEntry = names[nameIndex];
+
+    if (existingEntry && typeof existingEntry === "object") {
+        if (nextValue.trim()) {
+            existingEntry.nome = nextValue;
+        } else {
+            delete existingEntry.nome;
+        }
+        names[nameIndex] = existingEntry;
+    } else {
+        names[nameIndex] = nextValue;
+    }
 
     while (names.length > 0) {
-        const lastValue = String(names[names.length - 1] || "").trim();
-        if (lastValue) break;
+        if (!isEmptyNameEntry(names[names.length - 1])) break;
         names.pop();
     }
 }
@@ -673,6 +863,8 @@ async function persistOrg2Data() {
 const ORG2_CARGOS_TITULO_APENAS = new Set(
     [
         "Segurança Eletrônica",
+        "Diurno",
+        "Noturno",
         "Central de Monitoramento",
         "Central Técnica",
         "Tecnologia",
@@ -710,9 +902,8 @@ function shouldShowCount(cargo) {
 
 function findNodeCardByLabel(label) {
     const target = normalizeLabel(label);
-    const titles = Array.from(document.querySelectorAll(".org2-card h3"));
-    const match = titles.find((el) => normalizeLabel(el.textContent) === target);
-    return match ? match.closest(".org2-card") : null;
+    const cards = Array.from(document.querySelectorAll(".org2-card"));
+    return cards.find((card) => normalizeLabel(getCardCargoLabel(card)) === target) || null;
 }
 
 function findFirstNodeCardByLabels(labels) {
@@ -721,6 +912,16 @@ function findFirstNodeCardByLabels(labels) {
         if (card) return card;
     }
     return null;
+}
+
+function getCardCargoLabel(card) {
+    if (!card) return "";
+
+    const dataCargo = String(card.dataset.org2Cargo || "").trim();
+    if (dataCargo) return dataCargo;
+
+    const title = card.querySelector(".org2-card-title");
+    return title ? String(title.textContent || "") : "";
 }
 
 function alignGerenciaOperacionalWithMonitoramento() {
@@ -859,9 +1060,9 @@ function drawShieldVerticalSegment(layer, segmentId, x, y1, y2) {
 function updateShieldDownstreamConnectors() {
     const layout = document.getElementById("org2-layout");
     const shieldCard = findNodeCardByLabel("Shield");
-    const centralTecnicaCard = findFirstNodeCardByLabels([
-        "Central Técnica",
-        "Central Tecnica"
+    const centralMonitoramentoCard = findFirstNodeCardByLabels([
+        "Central de Monitoramento",
+        "Central de Monitoramento"
     ]);
     const analistaN2Card = findFirstNodeCardByLabels([
         "Analista de Tecnologia N2"
@@ -892,20 +1093,16 @@ function updateShieldDownstreamConnectors() {
 
     const layoutRect = layout.getBoundingClientRect();
     const shieldRect = shieldCard.getBoundingClientRect();
-    const centralTecnicaRect = centralTecnicaCard
-        ? centralTecnicaCard.getBoundingClientRect()
+    const monitoramentoCardBottomY = centralMonitoramentoCard
+        ? (centralMonitoramentoCard.getBoundingClientRect().bottom - layoutRect.top)
         : null;
 
-    const shieldLeftX = shieldRect.left - layoutRect.left;
     const shieldCenterX = (shieldRect.left + (shieldRect.width / 2)) - layoutRect.left;
     const shieldBottomY = shieldRect.bottom - layoutRect.top;
-    const centralBottomY = centralTecnicaRect
-        ? (centralTecnicaRect.bottom - layoutRect.top)
-        : null;
-    // Desvia por baixo da Central Tecnica para nao cruzar o card.
+    // Conector sai por baixo do card Shield e desvia abaixo do card Central de Monitoramento.
     const shieldRouteY = Math.round(Math.max(
         shieldBottomY + 14,
-        Number.isFinite(centralBottomY) ? centralBottomY + 14 : 0
+        Number.isFinite(monitoramentoCardBottomY) ? monitoramentoCardBottomY + 14 : 0
     ));
 
     const targetPositions = targetCards.map((target) => {
@@ -924,16 +1121,12 @@ function updateShieldDownstreamConnectors() {
         };
     });
 
-    // Afasta a espinha lateral para nao encostar nos cards da coluna de monitoramento.
-    const trunkX = Math.max(
-        10,
-        Math.round(Math.min(shieldLeftX, ...targetPositions.map((target) => target.leftX)) - 150)
-    );
-    const trunkTopY = Math.round(Math.min(shieldRouteY, ...targetPositions.map((target) => target.branchY)));
+    // Tronco principal desce reto a partir do Shield.
+    const trunkX = Math.round(shieldCenterX);
+    const trunkTopY = Math.round(shieldRouteY);
     const trunkBottomY = Math.round(Math.max(shieldRouteY, ...targetPositions.map((target) => target.branchY)));
 
     drawShieldVerticalSegment(layer, "shield-to-route", shieldCenterX, shieldBottomY, shieldRouteY);
-    drawShieldHorizontalSegment(layer, "shield-to-trunk", shieldCenterX, trunkX, shieldRouteY);
     drawShieldVerticalSegment(layer, "trunk", trunkX, trunkTopY, trunkBottomY);
 
     // Os conectores entram por baixo de cada card destino.
@@ -1062,9 +1255,9 @@ function updateGerenciasTopConnector() {
 }
 
 function updateSupervisorTecnicoShieldConnector() {
-    const supervisorNodes = Array.from(document.querySelectorAll(".org2-card h3"))
-        .filter((el) => normalizeLabel(el.textContent) === normalizeLabel("Supervisor Técnico"))
-        .map((el) => el.closest(".node"))
+    const supervisorNodes = Array.from(document.querySelectorAll(".org2-card"))
+        .filter((card) => normalizeLabel(getCardCargoLabel(card)) === normalizeLabel("Supervisor Técnico"))
+        .map((card) => card.closest(".node"))
         .filter(Boolean);
 
     supervisorNodes.forEach((supervisorNode) => {
@@ -1099,9 +1292,91 @@ function updateSupervisorTecnicoShieldConnector() {
     });
 }
 
+function alignTecnologiaEApoioLogistica() {
+    const tecnologiaCard = findFirstNodeCardByLabels([
+        "Tecnologia"
+    ]);
+    const apoioLogisticaCard = findFirstNodeCardByLabels([
+        "Apoio e Logística",
+        "Apoio e Logistica"
+    ]);
+
+    if (tecnologiaCard) {
+        const tecnologiaNode = tecnologiaCard.closest(".node");
+        if (tecnologiaNode) {
+            tecnologiaNode.style.transform = `translateX(${ORG2_TECNOLOGIA_SHIFT_RIGHT_PX}px)`;
+        }
+    }
+
+    if (apoioLogisticaCard) {
+        const apoioLogisticaNode = apoioLogisticaCard.closest(".node");
+        if (apoioLogisticaNode) {
+            apoioLogisticaNode.style.transform = `translateX(${ORG2_APOIO_LOGISTICA_SHIFT_RIGHT_PX}px)`;
+        }
+    }
+}
+
+function updateTecnologiaConnectorBridge() {
+    const centralTecnicaCard = findFirstNodeCardByLabels([
+        "Central Técnica",
+        "Central Tecnica"
+    ]);
+    const tecnologiaCard = findFirstNodeCardByLabels([
+        "Tecnologia"
+    ]);
+
+    const existingBridges = Array.from(document.querySelectorAll(".org2-tech-connector-bridge"));
+    if (!centralTecnicaCard || !tecnologiaCard) {
+        existingBridges.forEach((bridge) => bridge.remove());
+        return;
+    }
+
+    const centralNode = centralTecnicaCard.closest(".node");
+    const tecnologiaNode = tecnologiaCard.closest(".node");
+    const row = centralNode?.parentElement;
+
+    if (!centralNode || !tecnologiaNode || !row || row !== tecnologiaNode.parentElement) {
+        existingBridges.forEach((bridge) => bridge.remove());
+        return;
+    }
+
+    const rowStyles = window.getComputedStyle(row);
+    const connectorGap = Number.parseFloat(rowStyles.getPropertyValue("--connector-gap")) || 30;
+    const halfGap = connectorGap / 2;
+
+    const rowRect = row.getBoundingClientRect();
+    const centralRect = centralNode.getBoundingClientRect();
+    const tecnologiaRect = tecnologiaNode.getBoundingClientRect();
+
+    const left = Math.round((centralRect.right - rowRect.left) + halfGap);
+    const right = Math.round((tecnologiaRect.left - rowRect.left) - halfGap);
+    const width = Math.max(0, right - left);
+    const top = Math.round(centralRect.top - rowRect.top);
+
+    let bridge = row.querySelector(".org2-tech-connector-bridge");
+    if (!bridge) {
+        bridge = document.createElement("span");
+        bridge.className = "org2-tech-connector-bridge";
+        bridge.setAttribute("aria-hidden", "true");
+        row.appendChild(bridge);
+    }
+
+    if (width <= 0) {
+        bridge.style.display = "none";
+        return;
+    }
+
+    bridge.style.display = "block";
+    bridge.style.left = `${left}px`;
+    bridge.style.top = `${top}px`;
+    bridge.style.width = `${width}px`;
+}
+
 function refreshGerenciasAlignment() {
     alignGerenciaOperacionalWithMonitoramento();
     alignGerenciaComercialWithApoioLogistica();
+    alignTecnologiaEApoioLogistica();
+    updateTecnologiaConnectorBridge();
     updateSupervisorTecnicoShieldConnector();
     updateShieldDownstreamConnectors();
     updateGerenciasTopConnector();
@@ -1110,46 +1385,61 @@ function refreshGerenciasAlignment() {
 function createCardElement(nodeData, extraClass, isTitleOnly, nameIndex = 0) {
     const card = document.createElement("article");
     card.className = `card org2-card ${extraClass}`.trim();
+    const displayCargo = getCardDisplayCargo(nodeData, nameIndex);
+    card.dataset.org2Cargo = displayCargo;
+
     if (isTitleOnly) {
         card.classList.add("org2-title-only-card");
+        const title = document.createElement("h3");
+        title.className = "org2-card-title";
+        title.textContent = displayCargo;
+        card.appendChild(title);
+        return card;
     }
 
-    const displayCargo = getCardDisplayCargo(nodeData, nameIndex);
-    const cargo = document.createElement("h3");
+    card.classList.add("org2-person-card");
+    const personData = getNodePersonData(nodeData, nameIndex);
+
+    const nome = document.createElement("h3");
+    nome.className = "org2-name-slot";
+    nome.setAttribute("aria-label", `Nome para ${displayCargo}`);
+
+    const rawName = String(personData.nome || "").trim();
+    const avatar = document.createElement("div");
+    avatar.className = "avatar org2-avatar";
+    avatar.setAttribute("aria-hidden", "true");
+
+    const initials = getInitials(rawName) || "NF";
+    const photoSrc = resolveOrg2PhotoSrc(personData.foto);
+    if (photoSrc) {
+        const img = document.createElement("img");
+        img.loading = "eager";
+        img.decoding = "async";
+        img.src = photoSrc;
+        img.alt = rawName ? `Foto de ${rawName}` : "Foto do funcionário";
+        img.onerror = () => {
+            avatar.innerHTML = "";
+            avatar.textContent = initials;
+        };
+        avatar.appendChild(img);
+    } else {
+        avatar.textContent = initials;
+    }
+
+    if (rawName) {
+        nome.textContent = rawName;
+    } else {
+        nome.textContent = ORG2_NAME_PLACEHOLDER;
+        nome.classList.add("is-placeholder");
+    }
+
+    const cargo = document.createElement("div");
+    cargo.className = "role-tag org2-role-tag";
     cargo.textContent = displayCargo;
+
+    card.appendChild(avatar);
+    card.appendChild(nome);
     card.appendChild(cargo);
-
-    if (!isTitleOnly) {
-        const nome = document.createElement("input");
-        nome.type = "text";
-        nome.className = "org2-name-slot";
-        nome.setAttribute("aria-label", `Nome para ${displayCargo}`);
-        nome.placeholder = "Nome";
-        nome.value = getNodeName(nodeData, nameIndex);
-
-        const syncValue = () => {
-            const liveValue = String(nome.value || "");
-            setNodeName(nodeData, nameIndex, liveValue);
-            scheduleOrg2Save();
-        };
-
-        const commitValue = () => {
-            const safeValue = String(nome.value || "")
-                .replace(/\s+/g, " ")
-                .trim();
-
-            if (nome.value !== safeValue) {
-                nome.value = safeValue;
-            }
-
-            setNodeName(nodeData, nameIndex, safeValue);
-            scheduleOrg2Save();
-        };
-
-        nome.addEventListener("input", syncValue);
-        nome.addEventListener("blur", commitValue);
-        card.appendChild(nome);
-    }
 
     return card;
 }
@@ -1174,10 +1464,10 @@ function getExtraCardCopies(nodeData) {
     }
 
     if (cargo === normalizeLabel("Operadores Diurnos")) {
-        return 3;
+        return 1;
     }
     if (cargo === normalizeLabel("Operadores Noturnos")) {
-        return 3;
+        return 1;
     }
     if (cargo === normalizeLabel("Auxiliares Tecnicos")) {
         return 3;
@@ -1213,12 +1503,6 @@ function createCard(nodeData, extraClass = "") {
         for (let index = 0; index < extraCardsCount; index += 1) {
             const extraCard = createCardElement(nodeData, extraClass, isTitleOnly, index + 1);
             extraCard.classList.add("org2-card-secondary");
-
-            const extraNameSlot = extraCard.querySelector(".org2-name-slot");
-            if (extraNameSlot) {
-                const extraCardCargo = getCardDisplayCargo(nodeData, index + 1);
-                extraNameSlot.setAttribute("aria-label", `Nome adicional ${index + 1} para ${extraCardCargo}`);
-            }
 
             wrapper.appendChild(extraCard);
         }

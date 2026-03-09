@@ -5,27 +5,18 @@ services:
     plan: free
     rootDir: backend
     buildCommand: pip install --upgrade pip && pip install -r requirements.txt
-    # Perfil enxuto para instância Free (512 MB)
-    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 120 --max-requests 500 --max-requests-jitter 50 app:app
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 60 app:app
     healthCheckPath: /api/health
     envVars:
       - key: PYTHON_VERSION
-        value: "3.11.11"
+        value: "3.11"
       - key: FLASK_DEBUG
         value: "false"
       - key: DATA_FILE
-        value: /tmp/dados.json
+        value: /var/data/dados.json
       - key: UPLOADS_DIR
-        value: /tmp/uploads
-      - key: SUPABASE_URL
-        sync: false
-      - key: SUPABASE_SERVICE_ROLE_KEY
-        sync: false
-      - key: SUPABASE_DATA_TABLE
-        value: organograma_data
-      - key: SUPABASE_DATA_ROW_ID
-        value: main
-      - key: SUPABASE_STORAGE_BUCKET
-        value: organograma-uploads
-      - key: SUPABASE_STORAGE_PREFIX
-        value: organograma
+        value: /var/data/uploads
+    disk:
+      name: organograma-data
+      mountPath: /var/data
+      sizeGB: 1

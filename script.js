@@ -1,6 +1,6 @@
-
-
-
+// ============================================================================
+// 1. FUNÇÕES UTILITÁRIAS
+// ============================================================================
 function getInitials(name) {
     if (typeof name !== "string") return "";
     const parts = name.trim().split(/\s+/).filter(Boolean);
@@ -19,9 +19,9 @@ function createCardImage(src, onError) {
     return img;
 }
 
-
-
-
+// ============================================================================
+// 2. LÓGICA DO MODAL
+// ============================================================================
 const modalOverlay = document.getElementById('profile-modal');
 const closeModalBtn = document.querySelector('.close-btn');
 const modalAvatar = document.getElementById('modal-avatar');
@@ -37,9 +37,9 @@ function openModal(pessoaDados, cargoTitulo) {
     modalRole.innerText = cargoFinal;
 
     if (pessoaDados.foto) {
-        const img = createCardImage(pessoaDados.foto, () => {
-            modalAvatar.innerText = getInitials(pessoaDados.nome);
-        });
+        const img = document.createElement('img');
+        img.src = pessoaDados.foto;
+        img.onerror = () => { modalAvatar.innerText = getInitials(pessoaDados.nome); };
         modalAvatar.appendChild(img);
     } else {
         modalAvatar.innerText = getInitials(pessoaDados.nome);
@@ -109,9 +109,6 @@ if (modalOverlay) modalOverlay.addEventListener('click', (e) => {
     if (e.target === modalOverlay) closeModal();
 });
 
-
-
-
 function normalizeText(value) {
     return String(value || '')
         .normalize('NFD')
@@ -137,9 +134,9 @@ function isMonitoramentoCargo(cargo) {
     return cargoNormalizado === 'op. monitoramento' || cargoNormalizado === 'op monitoramento';
 }
 
-
-
-
+// ============================================================================
+// 3. RENDERIZAÇÃO DA ÁRVORE PRINCIPAL (COM LINHAS)
+// ============================================================================
 function createNodeElement(data) {
     const nodeDiv = document.createElement('div');
     nodeDiv.className = `node level-${data.nivel}`;
@@ -185,10 +182,8 @@ function createNodeElement(data) {
         const avatarMini = document.createElement('div');
         avatarMini.className = 'avatar';
         if (dados.foto) {
-            const img = createCardImage(dados.foto, () => {
-                avatarMini.innerHTML = '';
-                avatarMini.innerText = getInitials(dados.nome);
-            });
+            const img = document.createElement('img');
+            img.src = dados.foto;
             avatarMini.appendChild(img);
         } else {
             avatarMini.innerText = getInitials(dados.nome);
@@ -465,9 +460,9 @@ function renderMonitoramentoGroups(grupos) {
     section.classList.toggle('active', hasCards);
 }
 
-
-
-
+// ============================================================================
+// 4. NOVA FUNÇÃO: RENDERIZAR GRUPOS DE APOIO (SEM LINHAS)
+// ============================================================================
 function renderSupportGroups(grupos) {
     const container = document.getElementById('support-container');
     if (!container || !grupos) return;
@@ -487,10 +482,8 @@ function renderSupportGroups(grupos) {
                 const avatarMini = document.createElement('div');
                 avatarMini.className = 'avatar';
                 if (dados.foto) {
-                    const img = createCardImage(dados.foto, () => {
-                        avatarMini.innerHTML = '';
-                        avatarMini.innerText = getInitials(dados.nome);
-                    });
+                    const img = document.createElement('img');
+                    img.src = dados.foto;
                     avatarMini.appendChild(img);
                 } else {
                     avatarMini.innerText = getInitials(dados.nome);
@@ -513,9 +506,9 @@ function renderSupportGroups(grupos) {
     });
 }
 
-
-
-
+// ============================================================================
+// 5. CARREGAMENTO DOS DADOS (JSON)
+// ============================================================================
 const mainContainer = document.getElementById('org-container');
 const DATA_SOURCES = [
     '/api/dados',
@@ -570,9 +563,9 @@ loadData()
         if (mainContainer) mainContainer.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar dados.</p>';
     });
 
-
-
-
+// ============================================================================
+// 6. SPLASH SCREEN & ADMIN
+// ============================================================================
 document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
         const splash = document.getElementById('splash-screen');
@@ -583,237 +576,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 3000);
 });
 
-const btnExportPdf = document.getElementById('btn-export-pdf');
 const btnAdmin = document.getElementById('btn-admin-access');
-let imageProxyAvailable = null;
-
-function isHttpUrl(value) {
-    try {
-        const parsed = new URL(value, window.location.href);
-        return parsed.protocol === 'http:' || parsed.protocol === 'https:';
-    } catch (error) {
-        return false;
-    }
-}
-
-function isExternalUrl(value) {
-    if (!isHttpUrl(value)) return false;
-    const parsed = new URL(value, window.location.href);
-    return parsed.origin !== window.location.origin;
-}
-
-async function canUseImageProxy() {
-    if (imageProxyAvailable !== null) return imageProxyAvailable;
-
-    try {
-        const response = await fetchWithTimeout('/api/health', 1200);
-        imageProxyAvailable = response.ok;
-    } catch (error) {
-        imageProxyAvailable = false;
-    }
-
-    return imageProxyAvailable;
-}
-
-function createPdfCaptureClone(target, useProxy) {
-    const clone = target.cloneNode(true);
-    clone.id = 'dashboard-content-export';
-    clone.style.position = 'fixed';
-    clone.style.left = '-100000px';
-    clone.style.top = '0';
-    clone.style.width = `${target.scrollWidth}px`;
-    clone.style.maxWidth = 'none';
-    clone.style.overflow = 'visible';
-    clone.style.background = '#eef1f4';
-    clone.style.pointerEvents = 'none';
-    clone.style.zIndex = '-1';
-    document.body.appendChild(clone);
-
-    if (!useProxy) return clone;
-
-    Array.from(clone.querySelectorAll('img')).forEach((img) => {
-        const rawSrc = img.getAttribute('src') || '';
-        if (!rawSrc || rawSrc.startsWith('data:') || !isExternalUrl(rawSrc)) return;
-        const absoluteSrc = new URL(rawSrc, window.location.href).href;
-        img.src = `/api/image-proxy?url=${encodeURIComponent(absoluteSrc)}`;
-    });
-
-    return clone;
-}
-
-async function waitForImages(scope, timeoutMs = 15000) {
-    const images = Array.from(scope.querySelectorAll('img'));
-    await Promise.all(images.map((img) => new Promise((resolve) => {
-        if (img.complete) {
-            resolve();
-            return;
-        }
-
-        const timer = setTimeout(resolve, timeoutMs);
-        const done = () => {
-            clearTimeout(timer);
-            resolve();
-        };
-
-        img.addEventListener('load', done, { once: true });
-        img.addEventListener('error', done, { once: true });
-    })));
-}
-
-async function exportOrganogramaPdf() {
-    const target = document.getElementById('dashboard-content');
-    if (!target) {
-        alert('Area do organograma nao encontrada.');
-        return;
-    }
-
-    const jsPdfApi = window.jspdf && window.jspdf.jsPDF ? window.jspdf.jsPDF : null;
-    if (!window.html2canvas || !jsPdfApi) {
-        alert('Biblioteca de PDF indisponivel. Recarregue a pagina e tente novamente.');
-        return;
-    }
-
-    const previousLabel = btnExportPdf?.innerHTML || '';
-    if (btnExportPdf) {
-        btnExportPdf.disabled = true;
-        btnExportPdf.innerHTML = '<span class="material-icons-round">hourglass_top</span><span style="font-size:12px; font-weight:700; letter-spacing:.4px;">GERANDO</span>';
-    }
-
-    let exportTarget = null;
-
-    try {
-        const shouldProxyImages = await canUseImageProxy();
-        exportTarget = createPdfCaptureClone(target, shouldProxyImages);
-        await waitForImages(exportTarget, 15000);
-
-        const cards = Array.from(exportTarget.querySelectorAll('.card'));
-
-        const captureScale = 2;
-        const canvas = await window.html2canvas(exportTarget, {
-            scale: captureScale,
-            useCORS: true,
-            allowTaint: false,
-            imageTimeout: 15000,
-            width: exportTarget.scrollWidth,
-            height: exportTarget.scrollHeight,
-            windowWidth: exportTarget.scrollWidth,
-            windowHeight: exportTarget.scrollHeight,
-            backgroundColor: '#eef1f4'
-        });
-
-        const pdf = new jsPdfApi({
-            orientation: 'portrait',
-            unit: 'pt',
-            format: 'a4'
-        });
-
-        const margin = 20;
-        const titleText = 'Organograma Segurança eletronica';
-        const headerHeight = 38;
-        const pageWidth = pdf.internal.pageSize.getWidth();
-        const pageHeight = pdf.internal.pageSize.getHeight();
-        const contentTopPt = margin + headerHeight;
-        const contentWidthPt = pageWidth - (margin * 2);
-        const contentHeightPt = pageHeight - contentTopPt - margin;
-        const pixelsToPt = contentWidthPt / canvas.width;
-        const maxSliceHeightPx = Math.max(1, Math.floor(contentHeightPt / pixelsToPt));
-
-        const drawPageHeader = () => {
-            pdf.setFont('helvetica', 'bold');
-            pdf.setFontSize(16);
-            pdf.setTextColor(15, 23, 42);
-            pdf.text(titleText, pageWidth / 2, margin + 16, { align: 'center' });
-            pdf.setDrawColor(203, 213, 225);
-            pdf.setLineWidth(1);
-            pdf.line(margin, margin + 24, pageWidth - margin, margin + 24);
-        };
-
-        const targetRect = exportTarget.getBoundingClientRect();
-        const cardRanges = cards
-            .map((card) => {
-                const rect = card.getBoundingClientRect();
-                const topPx = Math.max(0, Math.floor((rect.top - targetRect.top) * captureScale));
-                const bottomPx = Math.min(canvas.height, Math.ceil((rect.bottom - targetRect.top) * captureScale));
-                return { topPx, bottomPx };
-            })
-            .filter((range) => range.bottomPx > range.topPx)
-            .sort((a, b) => a.topPx - b.topPx);
-
-        const slices = [];
-        let startY = 0;
-
-        while (startY < canvas.height) {
-            let endY = Math.min(canvas.height, startY + maxSliceHeightPx);
-
-            if (endY < canvas.height) {
-                const crossing = cardRanges.find((range) => range.topPx < endY && range.bottomPx > endY);
-                if (crossing) {
-                    const cutBeforeCard = crossing.topPx - 4;
-                    const hasUsefulSpace = (cutBeforeCard - startY) > Math.floor(maxSliceHeightPx * 0.35);
-                    if (hasUsefulSpace) {
-                        endY = cutBeforeCard;
-                    } else {
-                        endY = Math.min(canvas.height, crossing.bottomPx + 4);
-                    }
-                }
-            }
-
-            if (endY <= startY) {
-                endY = Math.min(canvas.height, startY + maxSliceHeightPx);
-            }
-
-            slices.push({ startY, endY });
-            startY = endY;
-        }
-
-        slices.forEach((slice, index) => {
-            if (index > 0) pdf.addPage();
-            drawPageHeader();
-
-            const sliceHeight = slice.endY - slice.startY;
-            const pageCanvas = document.createElement('canvas');
-            pageCanvas.width = canvas.width;
-            pageCanvas.height = sliceHeight;
-            const pageCtx = pageCanvas.getContext('2d');
-            if (!pageCtx) return;
-
-            pageCtx.drawImage(
-                canvas,
-                0,
-                slice.startY,
-                canvas.width,
-                sliceHeight,
-                0,
-                0,
-                canvas.width,
-                sliceHeight
-            );
-
-            const pageImage = pageCanvas.toDataURL('image/png');
-            const pageImageHeightPt = sliceHeight * pixelsToPt;
-            pdf.addImage(pageImage, 'PNG', margin, contentTopPt, contentWidthPt, pageImageHeightPt, undefined, 'FAST');
-        });
-
-        const timestamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-');
-        pdf.save(`organograma-${timestamp}.pdf`);
-    } catch (error) {
-        console.error('Erro ao gerar PDF:', error);
-        alert('Nao foi possivel gerar o PDF. Tente novamente.');
-    } finally {
-        if (exportTarget && exportTarget.parentNode) {
-            exportTarget.parentNode.removeChild(exportTarget);
-        }
-        if (btnExportPdf) {
-            btnExportPdf.disabled = false;
-            btnExportPdf.innerHTML = previousLabel;
-        }
-    }
-}
-
-if (btnExportPdf) {
-    btnExportPdf.addEventListener('click', exportOrganogramaPdf);
-}
-
 if (btnAdmin) {
     btnAdmin.addEventListener('click', () => {
         window.location.href = "Admin/login.html";

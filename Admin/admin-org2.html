@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - Organograma 2</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+</head>
+<body>
+    <header class="admin-header">
+        <div class="brand">
+            <span class="material-icons-round">admin_panel_settings</span>
+            <h1>Editor do Organograma 2</h1>
+        </div>
+        <div class="actions">
+            <a href="admin.html" class="btn-secondary">Admin ORG 1</a>
+            <button id="btn-org2-logout" class="btn-secondary" type="button">
+                <span class="material-icons-round">logout</span>
+                Sair
+            </button>
+            <a href="../organograma-2.html" class="btn-secondary">Ver ORG 2</a>
+        </div>
+    </header>
+
+    <div class="admin-container">
+        <aside class="sidebar">
+            <h3>Cards Editáveis (ORG 2)</h3>
+            <div class="sidebar-search">
+                <span class="material-icons-round">search</span>
+                <input id="org2-tree-search" type="search" placeholder="Buscar por nome, card ou caminho">
+            </div>
+            <div id="org2-tree-view" class="tree-view"></div>
+        </aside>
+
+        <main class="editor-area">
+            <div id="org2-editor-placeholder" class="editor-placeholder">
+                <span class="material-icons-round">touch_app</span>
+                <p>Selecione um card na lista ao lado para editar nome, foto e descrição.</p>
+            </div>
+
+            <form id="org2-edit-form" class="edit-form hidden">
+                <div class="form-header">
+                    <h2 id="org2-form-title">Editar Card</h2>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Caminho no Organograma</label>
+                        <input id="org2-path" type="text" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cargo do Card</label>
+                        <input id="org2-cargo" type="text" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nome</label>
+                        <input id="org2-nome" type="text" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Foto (URL ou Arquivo)</label>
+                        <input id="org2-foto-url" type="text" placeholder="https://...">
+                        <input id="org2-foto-file" type="file" accept="image/*">
+                        <div class="photo-actions">
+                            <button type="button" id="org2-btn-remove-photo" class="btn-danger btn-mini">
+                                <span class="material-icons-round">delete</span>
+                                Remover Foto
+                            </button>
+                        </div>
+                        <img id="org2-photo-preview" class="photo-preview hidden" alt="Prévia da foto">
+                        <small>Upload usa o endpoint do backend do projeto.</small>
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Descrição Curta</label>
+                    <textarea id="org2-descricao" rows="3"></textarea>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Descrição Detalhada</label>
+                    <textarea id="org2-descricao-detalhada" rows="6"></textarea>
+                    <small>Use &lt;br&gt; para quebrar linha no modal.</small>
+                </div>
+
+                <div class="form-footer">
+                    <button type="submit" class="btn-save">Salvar</button>
+                    <p id="org2-save-status" class="save-status hidden"></p>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <script src="admin-org2.js"></script>
+</body>
+</html>
