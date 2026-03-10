@@ -62,7 +62,7 @@ const ORG2_DEFAULT_ESTRUTURA = {
                                     filhos: [
                                         {
                                             nivel: 5,
-                                            cargo: "Clientes 6x1",
+                                            cargo: "Clientes 6x1A",
                                             filhos: [
                                                 {
                                                     nivel: 5,
@@ -110,7 +110,7 @@ const ORG2_DEFAULT_ESTRUTURA = {
                                         },
                                         {
                                             nivel: 5,
-                                            cargo: "Clientes 6x1",
+                                            cargo: "Clientes 6x1A",
                                             filhos: [
                                                 {
                                                     nivel: 5,
@@ -527,7 +527,7 @@ function ensureShieldUnderGerenciaSeguranca(rootNode) {
     });
 }
 
-const ORG2_TECNICOS_LOCAIS = ["CIPLAN 5x2", "STF 6x1", "Clientes 6x1"];
+const ORG2_TECNICOS_LOCAIS = ["CIPLAN 5x2", "STF 6x1", "Clientes 6x1A"];
 
 function getFirstNodePerson(nodeData) {
     if (!nodeData || typeof nodeData !== "object") return "";
@@ -590,7 +590,7 @@ function buildInstalacaoNode(nivel, tecnicoPerson = "", auxiliarPerson = "") {
         filhos: [
             {
                 nivel,
-                cargo: "Clientes 6x1",
+                cargo: "Clientes 6x1A",
                 filhos: [tecnicoNode]
             }
         ]
@@ -938,7 +938,7 @@ const ORG2_CARGOS_TITULO_APENAS = new Set(
         "Instalação e Manutenção",
         "CIPLAN 5x2",
         "STF 6x1",
-        "Clientes 6x1",
+        "Clientes 6x1A",
         "Projetos, Inovação e Planejamento",
         "Op. Apoio Técnico, ADM e Logístico",
         "Shield"

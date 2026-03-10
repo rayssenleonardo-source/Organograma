@@ -23,7 +23,7 @@ const ORG2_TITLE_ONLY_CARGOS = new Set([
     "Instalação e Manutenção",
     "CIPLAN 5x2",
     "STF 6x1",
-    "Clientes 6x1",
+    "Clientes 6x1A",
     "Projetos, Inovação e Planejamento",
     "Op. Apoio Técnico, ADM e Logístico",
     "Shield",
