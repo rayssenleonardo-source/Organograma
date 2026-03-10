@@ -203,6 +203,47 @@ function normalizeLabel(value) {
         .trim();
 }
 
+function isOrg2BlueHighlightCargo(value) {
+    const cargo = normalizeLabel(value);
+    return (
+        cargo === normalizeLabel("Gerência de Seg. Eletrônica") ||
+        cargo === normalizeLabel("Analista de Tecnologia N1")
+    );
+}
+
+function isOrg2GreenHighlightCargo(value) {
+    return normalizeLabel(value).includes("shield");
+}
+
+function isOrg2YellowHighlightCargo(value) {
+    const cargo = normalizeLabel(value);
+    return (
+        cargo === normalizeLabel(ORG2_OPERADOR_LIDER_TITULO) ||
+        cargo === normalizeLabel("Analista de Tecnologia N2")
+    );
+}
+
+function isOrg2YellowHighlightPerson(value) {
+    const person = normalizeLabel(value);
+    return (
+        person === normalizeLabel("Cauã Carvalho") ||
+        person === normalizeLabel("Thiago Alves")
+    );
+}
+
+function isOrg2RedHighlightPerson(value) {
+    const person = normalizeLabel(value);
+    return (
+        person === normalizeLabel("Silvano Rodrigues") ||
+        person === normalizeLabel("Renier Müller") ||
+        person === normalizeLabel("Renier Müller Cunha")
+    );
+}
+
+function isOrg2PurpleHighlightPerson(value) {
+    return normalizeLabel(value) === normalizeLabel("Cirlei Silva");
+}
+
 function isEmptyPersonEntry(entry) {
     if (typeof entry === "string") {
         return String(entry).trim() === "";
@@ -932,6 +973,8 @@ const ORG2_CARGOS_TITULO_APENAS = new Set(
         "Central Técnica",
         "Tecnologia",
         "Apoio e Logística",
+        "Gerência Operacional",
+        "Gerência Comercial",
         "Operação de Monitoramento",
         "Instalação",
         "Manutenção",
@@ -1453,6 +1496,14 @@ function createCardElement(nodeData, extraClass, isTitleOnly, nameIndex = 0) {
     const scaleLabel = getCardScaleLabel(nodeData, nameIndex);
     card.dataset.org2Cargo = defaultCargo;
 
+    if (isOrg2GreenHighlightCargo(displayCargo)) {
+        card.classList.add("org2-card-highlight-green");
+    }
+
+    if (isOrg2YellowHighlightCargo(defaultCargo)) {
+        card.classList.add("org2-card-highlight-yellow");
+    }
+
     if (isTitleOnly) {
         card.classList.add("org2-title-only-card");
         const title = document.createElement("h3");
@@ -1480,6 +1531,18 @@ function createCardElement(nodeData, extraClass, isTitleOnly, nameIndex = 0) {
     const avatar = document.createElement("div");
     avatar.className = "avatar org2-avatar";
     avatar.setAttribute("aria-hidden", "true");
+
+    if (isOrg2YellowHighlightPerson(rawName)) {
+        card.classList.add("org2-card-highlight-yellow");
+    }
+
+    if (isOrg2RedHighlightPerson(rawName)) {
+        card.classList.add("org2-card-highlight-red");
+    }
+
+    if (isOrg2PurpleHighlightPerson(rawName)) {
+        card.classList.add("org2-card-highlight-purple");
+    }
 
     const initials = getInitials(rawName) || "NF";
     const photoSrc = resolveOrg2PhotoSrc(personData.foto);
@@ -1564,6 +1627,9 @@ function getExtraCardCopies(nodeData) {
 function createCard(nodeData, extraClass = "") {
     const wrapper = document.createElement("div");
     wrapper.className = "org2-card-wrap";
+    if (isOrg2BlueHighlightCargo(nodeData.cargo)) {
+        wrapper.classList.add("org2-card-highlight-blue");
+    }
     const forceTitleOnly = extraClass.split(/\s+/).includes("org2-force-title-only");
     const isTitleOnly = forceTitleOnly || isTitleOnlyCargo(nodeData.cargo);
     const showCount = shouldShowCount(nodeData.cargo);

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Organograma de Cargos</title>
-    <link rel="stylesheet" href="style.css?v=20260309-29">
+    <link rel="stylesheet" href="style.css?v=20260310-41">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 </head>
 <body>
@@ -46,6 +46,16 @@
     </div>
 
     <main id="dashboard-content" class="org2-page">
+        <aside class="org2-color-legend" aria-label="Legenda de cores do organograma">
+            <h2>Legenda</h2>
+            <ul class="org2-color-legend-list">
+                <li><span class="org2-color-legend-swatch org2-color-legend-red" aria-hidden="true"></span>Vermelho: Criação e mudança de cargo</li>
+                <li><span class="org2-color-legend-swatch org2-color-legend-green" aria-hidden="true"></span>Verde: Shield</li>
+                <li><span class="org2-color-legend-swatch org2-color-legend-yellow" aria-hidden="true"></span>Amarelo: Progressão de cargo</li>
+                <li><span class="org2-color-legend-swatch org2-color-legend-blue" aria-hidden="true"></span>Azul: Mudança de cargo</li>
+            </ul>
+        </aside>
+
         <div id="org2-layout">
             <section id="org2-top-directorias" class="org2-top-directorias"></section>
             <div class="org2-top-connector" aria-hidden="true"></div>
@@ -55,6 +65,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-    <script src="organograma-2.js?v=20260309-75"></script>
+    <script src="organograma-2.js?v=20260310-81"></script>
 </body>
 </html>
