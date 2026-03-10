@@ -172,7 +172,7 @@
                       "cargo": "Instalação",
                       "filhos": [
                         {
-                          "cargo": "Clientes 6x1A",
+                          "cargo": "Clientes 6x1",
                           "filhos": [
                             {
                               "cargo": "Técnico",
@@ -261,7 +261,7 @@
                           "nivel": 5
                         },
                         {
-                          "cargo": "Clientes 6x1A",
+                          "cargo": "Clientes 6x1",
                           "filhos": [
                             {
                               "cargo": "Técnico",
