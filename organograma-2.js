@@ -309,6 +309,7 @@ const ORG2_OPERADOR_LIDER_TITULO = "Operador N2 Lider Plantão";
 const ORG2_OPERADOR_TOTAL_CARDS = 4;
 const ORG2_TECNICOS_SUPORTE_CARDS = 1;
 const ORG2_NAME_PLACEHOLDER = "Nome do Funcionário";
+const ORG2_VACANCY_NAME = "vaga disponivel";
 const ORG2_TECNOLOGIA_SHIFT_RIGHT_PX = 36;
 const ORG2_APOIO_LOGISTICA_SHIFT_RIGHT_PX = 36;
 
@@ -599,14 +600,21 @@ function findFirstDescendantByCargo(nodeData, labels) {
     return found;
 }
 
-function buildTecnicosLocalNode(localCargo, nivel, tecnicoPerson = "", auxiliarPerson = "") {
+function createTecnicoAuxiliarNode(nivel, tecnicoPerson = "", auxiliarPerson = "") {
     const tecnicoNode = {
         nivel,
         cargo: "Técnico",
         filhos: [{ nivel, cargo: "Auxiliar Técnico" }]
     };
+
     if (!isEmptyPersonEntry(tecnicoPerson)) tecnicoNode.nomes = [clonePersonEntry(tecnicoPerson)];
     if (!isEmptyPersonEntry(auxiliarPerson)) tecnicoNode.filhos[0].nomes = [clonePersonEntry(auxiliarPerson)];
+
+    return tecnicoNode;
+}
+
+function buildTecnicosLocalNode(localCargo, nivel, tecnicoPerson = "", auxiliarPerson = "") {
+    const tecnicoNode = createTecnicoAuxiliarNode(nivel, tecnicoPerson, auxiliarPerson);
 
     return {
         nivel,
@@ -615,15 +623,76 @@ function buildTecnicosLocalNode(localCargo, nivel, tecnicoPerson = "", auxiliarP
     };
 }
 
-function buildInstalacaoNode(nivel, tecnicoPerson = "", auxiliarPerson = "") {
-    const tecnicoNode = {
-        nivel,
-        cargo: "Técnico",
-        filhos: [{ nivel, cargo: "Auxiliar Técnico" }]
-    };
+function createVacancyPersonEntry() {
+    return { nome: ORG2_VACANCY_NAME };
+}
 
-    if (!isEmptyPersonEntry(tecnicoPerson)) tecnicoNode.nomes = [clonePersonEntry(tecnicoPerson)];
-    if (!isEmptyPersonEntry(auxiliarPerson)) tecnicoNode.filhos[0].nomes = [clonePersonEntry(auxiliarPerson)];
+function extractInstalacaoPairs(instalacaoNode) {
+    if (!instalacaoNode || typeof instalacaoNode !== "object") return [];
+
+    const pairs = [];
+    const localNodes = Array.isArray(instalacaoNode.filhos) ? instalacaoNode.filhos : [];
+
+    localNodes.forEach((localNode) => {
+        const tecnicoNodes = Array.isArray(localNode?.filhos) ? localNode.filhos : [];
+
+        tecnicoNodes.forEach((tecnicoNode) => {
+            const cargo = normalizeLabel(tecnicoNode?.cargo);
+            if (
+                cargo !== normalizeLabel("Técnico") &&
+                cargo !== normalizeLabel("Tecnico") &&
+                cargo !== normalizeLabel("Tecnicos")
+            ) {
+                return;
+            }
+
+            const auxiliarNode = findFirstDescendantByCargo(tecnicoNode, [
+                "Auxiliar Técnico",
+                "Auxiliar Tecnico",
+                "Auxiliares Tecnicos"
+            ]);
+
+            pairs.push({
+                tecnico: getFirstNodePerson(tecnicoNode),
+                auxiliar: getFirstNodePerson(auxiliarNode)
+            });
+        });
+    });
+
+    if (pairs.length > 0) return pairs;
+
+    const tecnicoInstalacaoNode = findFirstDescendantByCargo(instalacaoNode, ["Técnico", "Tecnico", "Tecnicos"]);
+    const auxiliarInstalacaoNode = findFirstDescendantByCargo(instalacaoNode, [
+        "Auxiliar Técnico",
+        "Auxiliar Tecnico",
+        "Auxiliares Tecnicos"
+    ]);
+
+    if (!tecnicoInstalacaoNode && !auxiliarInstalacaoNode) return [];
+
+    return [{
+        tecnico: getFirstNodePerson(tecnicoInstalacaoNode),
+        auxiliar: getFirstNodePerson(auxiliarInstalacaoNode)
+    }];
+}
+
+function buildInstalacaoNode(nivel, pairs = []) {
+    const pairsToRender = Array.isArray(pairs) ? pairs.slice() : [];
+
+    while (pairsToRender.length < 2) {
+        pairsToRender.push({});
+    }
+
+    const tecnicoNodes = pairsToRender.map((pair) => {
+        const tecnicoPerson = isEmptyPersonEntry(pair?.tecnico)
+            ? createVacancyPersonEntry()
+            : clonePersonEntry(pair.tecnico);
+        const auxiliarPerson = isEmptyPersonEntry(pair?.auxiliar)
+            ? createVacancyPersonEntry()
+            : clonePersonEntry(pair.auxiliar);
+
+        return createTecnicoAuxiliarNode(nivel, tecnicoPerson, auxiliarPerson);
+    });
 
     return {
         nivel,
@@ -632,7 +701,7 @@ function buildInstalacaoNode(nivel, tecnicoPerson = "", auxiliarPerson = "") {
             {
                 nivel,
                 cargo: "Clientes 6x1A",
-                filhos: [tecnicoNode]
+                filhos: tecnicoNodes
             }
         ]
     };
@@ -710,11 +779,7 @@ function ensureCentralTecnicaSplit(rootNode) {
         const tecnicoShieldExistenteDesc = findFirstDescendantByCargo(node, ["Tecnico Shield", "Técnico Shield", "Tec. Shield"]);
         const tecnicoShieldPerson = getFirstNodePerson(tecnicoShieldExistenteDesc);
 
-        const tecnicoInstalacaoNode = findFirstDescendantByCargo(instalacaoExistente, ["Técnico", "Tecnico", "Tecnicos"]);
-        const auxiliarInstalacaoNode = findFirstDescendantByCargo(instalacaoExistente, ["Auxiliar Técnico", "Auxiliar Tecnico", "Auxiliares Tecnicos"]);
-
-        const tecnicoInstalacaoPerson = getFirstNodePerson(tecnicoInstalacaoNode);
-        const auxiliarInstalacaoPerson = getFirstNodePerson(auxiliarInstalacaoNode);
+        const instalacaoPairs = extractInstalacaoPairs(instalacaoExistente);
 
         const sourceManutencao = manutencaoExistente || legadoInstalacaoManutencao || null;
         const filhosManutencao = Array.isArray(sourceManutencao?.filhos) ? sourceManutencao.filhos : [];
@@ -772,7 +837,7 @@ function ensureCentralTecnicaSplit(rootNode) {
         node.filhos = [
             buildSupervisorTecnicoNode(
                 baseNivel,
-                buildInstalacaoNode(baseNivel, tecnicoInstalacaoPerson, auxiliarInstalacaoPerson),
+                buildInstalacaoNode(baseNivel, instalacaoPairs),
                 buildManutencaoNode(baseNivel, localNodes),
                 buildTecnicoShieldNode(baseNivel, tecnicoShieldPerson),
                 supervisorPerson
