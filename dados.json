@@ -72,9 +72,6 @@
         },
         {
           "cargo": "Gerência de Seg. Eletrônica",
-          "cargosExibicao": [
-            "Gestor de Seg. Eletrônica"
-          ],
           "filhos": [
             {
               "cargo": "Central de Monitoramento",
@@ -200,8 +197,7 @@
                               ]
                             }
                           ],
-                          "nivel": 5,
-                          "nomes": []
+                          "nivel": 5
                         }
                       ],
                       "nivel": 5
@@ -290,8 +286,7 @@
                               ]
                             }
                           ],
-                          "nivel": 5,
-                          "nomes": []
+                          "nivel": 5
                         }
                       ],
                       "nivel": 5
