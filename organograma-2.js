@@ -679,10 +679,6 @@ function extractInstalacaoPairs(instalacaoNode) {
 function buildInstalacaoNode(nivel, pairs = []) {
     const pairsToRender = Array.isArray(pairs) ? pairs.slice() : [];
 
-    while (pairsToRender.length < 2) {
-        pairsToRender.push({});
-    }
-
     const tecnicoNodes = pairsToRender.map((pair) => {
         const tecnicoPerson = isEmptyPersonEntry(pair?.tecnico)
             ? createVacancyPersonEntry()
@@ -1724,6 +1720,16 @@ function createCard(nodeData, extraClass = "") {
     return wrapper;
 }
 
+function getOrg2NodeObservation(nodeData) {
+    const cargo = normalizeLabel(nodeData?.cargo);
+
+    if (cargo === normalizeLabel("STF 6x1")) {
+        return "Observação: a dupla de reposição do STF permanece aguardando abertura de demanda.";
+    }
+
+    return "";
+}
+
 function createNodeElement(nodeData) {
     const node = document.createElement("div");
     node.className = `node level-${nodeData.nivel}`;
@@ -1770,6 +1776,14 @@ function createNodeElement(nodeData) {
         shieldBranch.className = "org2-supervisor-shield-branch";
         shieldBranch.appendChild(createCard(detachedTecnicoShieldChild, "org2-supervisor-shield-card"));
         node.appendChild(shieldBranch);
+    }
+
+    const observationText = getOrg2NodeObservation(nodeData);
+    if (observationText) {
+        const observation = document.createElement("p");
+        observation.className = "org2-node-note";
+        observation.textContent = observationText;
+        node.appendChild(observation);
     }
 
     return node;

@@ -43,6 +43,9 @@ Se as variaveis do Supabase estiverem configuradas, dados e fotos passam a ser s
 docker compose up -d --build
 ```
 
+Use `--build` sempre que alterar arquivos da interface, como `*.html`, `*.js` e `*.css`.
+No `docker-compose.yml`, apenas `dados.json` e `uploads/` sao montados como volume; o restante do codigo fica dentro da imagem.
+
 ### Logs
 ```bash
 docker compose logs -f
@@ -53,7 +56,7 @@ docker compose logs -f
 docker compose down
 ```
 
-Aplicacao: `http://localhost:5000`
+Aplicacao: `http://localhost:5001`
 
 - O `dados.json` e a pasta `uploads/` ficam montados do host para o container.
 - Alteracoes feitas no Admin com backend ativo sao persistidas sem baixar JSON manualmente.
