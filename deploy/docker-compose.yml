@@ -1,14 +1,14 @@
 services:
   organograma:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: deploy/Dockerfile
     container_name: organograma
     ports:
       - "${HOST_PORT:-5001}:5000"
     volumes:
-      - ./dados.json:/app/dados.json
-      - ./uploads:/app/uploads
+      - ../data/dados.json:/app/data/dados.json
+      - ../uploads:/app/uploads
     environment:
       - PORT=5000
       - FLASK_DEBUG=false

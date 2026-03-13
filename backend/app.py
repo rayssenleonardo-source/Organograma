@@ -13,11 +13,15 @@ from urllib.parse import unquote, urlparse
 import requests
 from flask import Flask, jsonify, request, send_from_directory
 from werkzeug.utils import secure_filename
+from functools import wraps
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
-DEFAULT_DATA_FILE = ROOT_DIR / "dados.json"
+FRONTEND_DIR = ROOT_DIR / "frontend"
+DEFAULT_DATA_FILE = ROOT_DIR / "data" / "dados.json"
 DATA_FILE = Path(os.getenv("DATA_FILE", str(DEFAULT_DATA_FILE))).expanduser()
 UPLOADS_DIR = Path(os.getenv("UPLOADS_DIR", str(ROOT_DIR / "uploads"))).expanduser()
+
+ADMIN_API_KEY = os.getenv("ADMIN_API_KEY", "minha-senha-super-secreta")
 
 SUPABASE_URL = os.getenv("SUPABASE_URL", "").strip().rstrip("/")
 SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "").strip()
@@ -54,7 +58,7 @@ ALLOWED_EXTENSIONS = {
 }
 IMAGE_PROXY_MAX_BYTES = int(os.getenv("IMAGE_PROXY_MAX_BYTES", str(12 * 1024 * 1024)))
 
-app = Flask(__name__, static_folder=str(ROOT_DIR), static_url_path="")
+app = Flask(__name__, static_folder=str(FRONTEND_DIR), static_url_path="")
 app.config["MAX_CONTENT_LENGTH"] = 8 * 1024 * 1024
 
 
@@ -397,12 +401,21 @@ def delete_from_supabase_storage(raw_url: str) -> bool:
 
 initialize_storage()
 
+def require_auth(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        token = request.headers.get("X-Admin-Token")
+        if not token or token != ADMIN_API_KEY:
+            return jsonify({"error": "Nao autorizado"}), 401
+        return f(*args, **kwargs)
+    return decorated_function
 
 @app.after_request
 def add_cors_headers(response):
-    response.headers["Access-Control-Allow-Origin"] = "*"
+    # Em producao, troque '*' pelo dominio real (ex: https://seu-app.onrender.com)
+    response.headers["Access-Control-Allow-Origin"] = os.getenv("CORS_ORIGIN", "*")
     response.headers["Access-Control-Allow-Methods"] = "GET,POST,PUT,DELETE,OPTIONS"
-    response.headers["Access-Control-Allow-Headers"] = "Content-Type"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type, X-Admin-Token"
     return response
 
 
@@ -473,6 +486,7 @@ def get_data():
 
 
 @app.put("/api/dados")
+@require_auth
 def put_data():
     payload = request.get_json(silent=True)
 
@@ -509,6 +523,7 @@ def put_data():
 
 
 @app.post("/api/upload-photo")
+@require_auth
 def upload_photo():
     if "file" not in request.files:
         return jsonify({"error": "Campo file nao enviado."}), 400
@@ -541,6 +556,7 @@ def upload_photo():
 
 
 @app.delete("/api/photo")
+@require_auth
 def delete_photo():
     payload = request.get_json(silent=True) or {}
     raw_url = payload.get("url")
@@ -575,7 +591,7 @@ def get_uploaded_photo(filename: str):
 
 @app.get("/")
 def root_index():
-    return send_from_directory(ROOT_DIR, "index.html")
+    return send_from_directory(FRONTEND_DIR, "index.html")
 
 
 if __name__ == "__main__":

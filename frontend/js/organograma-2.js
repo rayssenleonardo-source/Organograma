@@ -223,25 +223,25 @@ function isOrg2YellowHighlightCargo(value) {
     );
 }
 
-function isOrg2YellowHighlightPerson(value) {
-    const person = normalizeLabel(value);
-    return (
-        person === normalizeLabel("Cauã Carvalho") ||
-        person === normalizeLabel("Thiago Alves")
-    );
+function isOrg2YellowHighlightPerson(entry) {
+    if (entry && typeof entry === "object" && entry.destaque === "amarelo") {
+        return true;
+    }
+    return false;
 }
 
-function isOrg2RedHighlightPerson(value) {
-    const person = normalizeLabel(value);
-    return (
-        person === normalizeLabel("Silvano Rodrigues") ||
-        person === normalizeLabel("Renier Müller") ||
-        person === normalizeLabel("Renier Müller Cunha")
-    );
+function isOrg2RedHighlightPerson(entry) {
+    if (entry && typeof entry === "object" && entry.destaque === "vermelho") {
+        return true;
+    }
+    return false;
 }
 
-function isOrg2PurpleHighlightPerson(value) {
-    return normalizeLabel(value) === normalizeLabel("Cirlei Silva");
+function isOrg2PurpleHighlightPerson(entry) {
+    if (entry && typeof entry === "object" && entry.destaque === "roxo") {
+        return true;
+    }
+    return false;
 }
 
 function isEmptyPersonEntry(entry) {
@@ -301,7 +301,7 @@ const ORG2_DATA_SOURCES = [
     "/api/dados",
     "http://127.0.0.1:5000/api/dados",
     "http://localhost:5000/api/dados",
-    "dados.json"
+    "../data/dados.json"
 ];
 
 const ORG2_DATA_KEY = "organograma2";
@@ -1588,20 +1588,21 @@ function createCardElement(nodeData, extraClass, isTitleOnly, nameIndex = 0) {
     nome.className = "org2-name-slot";
     nome.setAttribute("aria-label", `Nome para ${displayCargo}`);
 
-    const rawName = String(personData.nome || "").trim();
+    const rawName = String(personData.nome || personData || "").trim();
     const avatar = document.createElement("div");
     avatar.className = "avatar org2-avatar";
     avatar.setAttribute("aria-hidden", "true");
 
-    if (isOrg2YellowHighlightPerson(rawName)) {
+    // Passamos o objeto personData completo para verificar a propriedade 'destaque'
+    if (isOrg2YellowHighlightPerson(personData)) {
         card.classList.add("org2-card-highlight-yellow");
     }
 
-    if (isOrg2RedHighlightPerson(rawName)) {
+    if (isOrg2RedHighlightPerson(personData)) {
         card.classList.add("org2-card-highlight-red");
     }
 
-    if (isOrg2PurpleHighlightPerson(rawName)) {
+    if (isOrg2PurpleHighlightPerson(personData)) {
         card.classList.add("org2-card-highlight-purple");
     }
 
@@ -1724,7 +1725,7 @@ function getOrg2NodeObservation(nodeData) {
     const cargo = normalizeLabel(nodeData?.cargo);
 
     if (cargo === normalizeLabel("STF 6x1")) {
-        return "Observação: a dupla de reposição do STF permanece aguardando abertura de demanda.";
+        return "Observação: Aguardando demanda para contratação";
     }
 
     return "";

@@ -1,4 +1,4 @@
-﻿// admin.js - Painel Administrativo com backend opcional
+// admin.js - Painel Administrativo com backend opcional
 
 let globalData = null;
 let selectedNode = null;
@@ -9,7 +9,7 @@ let selectedDuplaRef = null;
 
 const STORAGE_KEY = 'organograma_admin_draft_v3';
 const ADMIN_AUTH_KEY = 'organograma_admin_auth';
-const DATA_SOURCES = ['../dados.json', '/dados.json', 'dados.json'];
+const DATA_SOURCES = ['../../data/dados.json', '/data/dados.json'];
 const API_BASE_CANDIDATES = Array.from(
     new Set([
         `${window.location.origin}/api`,
@@ -495,11 +495,17 @@ async function persistServer(showAlert = false, showStatus = true) {
         if (showStatus) setStatus('Backend nao conectado. Alteracoes mantidas no rascunho local.', 'warning');
         return false;
     }
+    
+    // Recupera o token salvo no login (voce deve salvar isso no login.js)
+    const token = sessionStorage.getItem('admin_token') || 'minha-senha-super-secreta';
 
     try {
         const response = await fetchWithTimeout(`${activeApiBase}/dados`, {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'X-Admin-Token': token 
+            },
             body: JSON.stringify(globalData)
         }, 3000);
 
@@ -1666,10 +1672,15 @@ fotoUrlInput.addEventListener('input', () => {
 async function uploadPhotoToServer(file) {
     const formData = new FormData();
     formData.append('file', file);
+    
+    const token = sessionStorage.getItem('admin_token') || 'minha-senha-super-secreta';
 
     const response = await fetchWithTimeout(`${activeApiBase}/upload-photo`, {
         method: 'POST',
-        body: formData
+        body: formData,
+        headers: {
+            'X-Admin-Token': token
+        }
     }, 8000);
 
     if (!response.ok) {
@@ -1685,10 +1696,15 @@ async function uploadPhotoToServer(file) {
 
 async function removePhotoFromServer(url) {
     if (!activeApiBase) return false;
+    
+    const token = sessionStorage.getItem('admin_token') || 'minha-senha-super-secreta';
 
     const response = await fetchWithTimeout(`${activeApiBase}/photo`, {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+            'Content-Type': 'application/json',
+            'X-Admin-Token': token
+        },
         body: JSON.stringify({ url })
     }, 4000);
 

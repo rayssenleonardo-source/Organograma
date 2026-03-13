@@ -13,7 +13,7 @@ services:
       - key: FLASK_DEBUG
         value: "false"
       - key: DATA_FILE
-        value: /tmp/organograma/dados.json
+        value: /tmp/organograma/data/dados.json
       - key: UPLOADS_DIR
         value: /tmp/organograma/uploads
       # Persistencia opcional (free): configure Supabase (Postgres + Storage)

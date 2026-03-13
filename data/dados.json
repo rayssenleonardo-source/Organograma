@@ -197,7 +197,8 @@
                               ]
                             }
                           ],
-                          "nivel": 5
+                          "nivel": 5,
+                          "nomes": []
                         }
                       ],
                       "nivel": 5
@@ -286,7 +287,8 @@
                               ]
                             }
                           ],
-                          "nivel": 5
+                          "nivel": 5,
+                          "nomes": []
                         }
                       ],
                       "nivel": 5
@@ -421,6 +423,9 @@
               "foto": "https://github.com/user-attachments/assets/98982e04-790a-4fd7-be29-29217af7ca32",
               "nome": "Luciano Nascimento"
             }
+          ],
+          "cargosExibicao": [
+            "Gestão de Seg. Eletrônica"
           ]
         },
         {

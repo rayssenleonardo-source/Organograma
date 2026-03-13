@@ -3,7 +3,7 @@ const DATA_SOURCES = [
     "/api/dados",
     "http://127.0.0.1:5000/api/dados",
     "http://localhost:5000/api/dados",
-    "../dados.json"
+    "../../data/dados.json"
 ];
 
 const ORG2_OPERADOR_LIDER_TITULO = "Operador N2 Lider Plantão";

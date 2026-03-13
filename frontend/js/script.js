@@ -514,7 +514,7 @@ const DATA_SOURCES = [
     '/api/dados',
     'http://127.0.0.1:5000/api/dados',
     'http://localhost:5000/api/dados',
-    'dados.json'
+    '../data/dados.json'
 ];
 
 function fetchWithTimeout(url, timeoutMs = 2000) {
@@ -579,6 +579,6 @@ document.addEventListener("DOMContentLoaded", () => {
 const btnAdmin = document.getElementById('btn-admin-access');
 if (btnAdmin) {
     btnAdmin.addEventListener('click', () => {
-        window.location.href = "Admin/login.html";
+        window.location.href = "admin/login.html";
     });
 }
