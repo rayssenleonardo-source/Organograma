@@ -72,6 +72,9 @@
         },
         {
           "cargo": "Gerência de Seg. Eletrônica",
+          "cargosExibicao": [
+            "Gestão de Seg. Eletrônica"
+          ],
           "filhos": [
             {
               "cargo": "Central de Monitoramento",
@@ -423,9 +426,6 @@
               "foto": "https://github.com/user-attachments/assets/98982e04-790a-4fd7-be29-29217af7ca32",
               "nome": "Luciano Nascimento"
             }
-          ],
-          "cargosExibicao": [
-            "Gestão de Seg. Eletrônica"
           ]
         },
         {
