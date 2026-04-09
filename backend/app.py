@@ -60,6 +60,7 @@ IMAGE_PROXY_MAX_BYTES = int(os.getenv("IMAGE_PROXY_MAX_BYTES", str(12 * 1024 * 1
 
 app = Flask(__name__, static_folder=str(FRONTEND_DIR), static_url_path="")
 app.config["MAX_CONTENT_LENGTH"] = 8 * 1024 * 1024
+app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
 
 
 def default_payload() -> dict:
@@ -416,6 +417,15 @@ def add_cors_headers(response):
     response.headers["Access-Control-Allow-Origin"] = os.getenv("CORS_ORIGIN", "*")
     response.headers["Access-Control-Allow-Methods"] = "GET,POST,PUT,DELETE,OPTIONS"
     response.headers["Access-Control-Allow-Headers"] = "Content-Type, X-Admin-Token"
+
+    # Evita que HTML/JS/CSS e os dados do organograma fiquem presos em cache do navegador.
+    request_path = (request.path or "").lower()
+    is_static_document = request_path.endswith((".html", ".js", ".css"))
+    is_data_endpoint = request_path == "/api/dados"
+    if is_static_document or is_data_endpoint:
+        response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
     return response
 
 

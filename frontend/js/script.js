@@ -351,6 +351,18 @@ function createNodeElement(data) {
             if (childEl instanceof Node) childrenContainer.appendChild(childEl);
         });
         nodeDiv.appendChild(childrenContainer);
+
+        // Botão Collapse/Expand
+        const toggleBtn = document.createElement('button');
+        toggleBtn.className = 'collapse-toggle';
+        toggleBtn.setAttribute('aria-label', 'Expandir ou retrair filhos');
+        toggleBtn.textContent = '−';
+        toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isCollapsed = childrenContainer.classList.toggle('collapsed');
+            toggleBtn.textContent = isCollapsed ? '+' : '−';
+        });
+        groupDiv.appendChild(toggleBtn);
     }
     return nodeDiv;
 }
@@ -557,11 +569,35 @@ loadData()
         if (data.apoio) {
             renderSupportGroups(data.apoio);
         }
+
+        // Inicializar Pan & Zoom
+        initPanzoom();
     })
     .catch(error => {
         console.error('Erro ao carregar o JSON:', error);
         if (mainContainer) mainContainer.innerHTML = '<p style="color:red; text-align:center;">Erro ao carregar dados.</p>';
     });
+
+// ============================================================================
+// 6. PAN & ZOOM (PANZOOM.JS)
+// ============================================================================
+function initPanzoom() {
+    const wrapper = document.getElementById('panzoom-wrapper');
+    const content = document.getElementById('org-container');
+    if (!wrapper || !content || typeof Panzoom !== 'function') return;
+
+    const panzoomInstance = Panzoom(content, {
+        maxScale: 3,
+        minScale: 0.3,
+        contain: 'outside',
+        cursor: 'grab',
+        canvas: true
+    });
+
+    wrapper.addEventListener('wheel', (event) => {
+        panzoomInstance.zoomWithWheel(event);
+    }, { passive: false });
+}
 
 // ============================================================================
 // 6. SPLASH SCREEN & ADMIN

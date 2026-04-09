@@ -138,6 +138,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  min-width: max-content;
 }
 
 .node {
@@ -270,17 +271,16 @@ body {
 }
 
 .role-tag {
-  font-size: 11px;
-  color: var(--muted);
-  background: rgba(255,255,255,0.15);
-  border: 1px solid rgba(255,255,255,0.35);
+  font-size: 10px;
+  color: #475569;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
   box-shadow: none;
-  backdrop-filter: blur(4px);
   padding: 3px 8px;
   border-radius: 999px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-weight: 700; /* Barlow Bold para leitura melhor em tamanho pequeno */
+  letter-spacing: 0.3px;
+  font-weight: 500;
+  line-height: 1.4;
 }
 
 /* ===================== CORES POR NÍVEL ===================== */
@@ -306,6 +306,12 @@ background: linear-gradient(
 .level-1 .card h3,
 .level-1 .role-tag {
   color: #ffffff;
+}
+
+.level-1 .role-tag {
+  background: rgba(255,255,255,0.15);
+  border-color: rgba(255,255,255,0.35);
+  backdrop-filter: blur(4px);
 }
 
 .level-1 .avatar {
@@ -434,9 +440,9 @@ background: linear-gradient(
   display: none;
 }
 
-/* (Opcional) Arredondar os cantos das linhas nas pontas para ficar mais bonito */
-.node:first-child::before { border-top-left-radius: 4px; }
-.node:last-child::before { border-top-right-radius: 4px; }
+/* Arredondar os cantos das linhas nas pontas para conectores fluidos */
+.node:first-child::before { border-top-left-radius: 8px; }
+.node:last-child::before { border-top-right-radius: 8px; }
 
 /* Remove conectores acima do card raiz (Gerencia) */
 .org-chart > .node {
@@ -716,6 +722,34 @@ background: linear-gradient(
   display: none !important;
 }
 
+/* ===================== ANIMAÇÃO STAGGERED SLIDE UP ===================== */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card,
+.org2-card {
+  animation: slideUp 0.4s ease-out both;
+}
+
+.level-1 .card,
+.level-1 .org2-card { animation-delay: 0s; }
+.level-2 .card,
+.level-2 .org2-card { animation-delay: 0.08s; }
+.level-3 .card,
+.level-3 .org2-card { animation-delay: 0.16s; }
+.level-4 .card,
+.level-4 .org2-card { animation-delay: 0.24s; }
+.level-5 .card,
+.level-5 .org2-card { animation-delay: 0.32s; }
+
 /* Responsividade do Modal */
 @media (max-width: 480px) {
   .modal-content {
@@ -749,11 +783,78 @@ background: linear-gradient(
 
 @media (prefers-reduced-motion: reduce) {
   .card,
+  .org2-card,
   .modal-overlay,
   .modal-content,
   .header-logo-right {
     transition: none;
+    animation: none;
   }
+}
+
+/* ===================== COLLAPSE / EXPAND TOGGLE ===================== */
+.collapse-toggle {
+  position: absolute;
+  bottom: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid #cbd5e1;
+  background: #ffffff;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.collapse-toggle:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+  color: #1e293b;
+  transform: translateX(-50%) scale(1.1);
+}
+
+.children.collapsed {
+  display: none !important;
+}
+
+/* ===================== PANZOOM WRAPPER ===================== */
+.panzoom-wrapper {
+  overflow: hidden;
+  cursor: grab;
+  position: relative;
+  flex: 1;
+}
+
+.panzoom-wrapper:active {
+  cursor: grabbing;
+}
+
+.panzoom-wrapper .panzoom-content {
+  transform-origin: 0 0;
+}
+
+#panzoom-wrapper-org2 {
+  overflow: visible;
+  cursor: default;
+  flex: 0 0 auto;
+  width: max-content;
+  min-width: 100%;
+  margin: 0 auto;
+}
+
+#panzoom-wrapper-org2:active {
+  cursor: default;
 }
 
 /* ===================== ÁREA INFERIOR (APOIO) ===================== */
@@ -1194,12 +1295,33 @@ background: linear-gradient(
   padding: 0;
 }
 
+#org2-layout .children:not(.org2-gerencias-row) {
+  --connector-gap: 42px;
+  --parent-children-gap: 40px;
+  padding-top: 24px;
+}
+
+#org2-layout .children:not(.org2-gerencias-row)::before {
+  height: calc(24px + var(--parent-children-gap));
+}
+
+#org2-layout .children:not(.org2-gerencias-row) > .node {
+  padding-top: 24px;
+}
+
+#org2-layout .children:not(.org2-gerencias-row) > .node::after {
+  height: 24px;
+}
+
 .children.org2-gerencias-row {
-  --connector-gap: 12px;
+  --connector-gap: 26px;
   --org2-row-line-left: 0px;
   --org2-row-line-width: 100%;
-  --parent-children-gap: 10px;
+  --org2-detached-shield-gutter: 0px;
+  --parent-children-gap: 18px;
   padding-top: 0;
+  padding-left: var(--org2-detached-shield-gutter);
+  padding-right: var(--org2-detached-shield-gutter);
   margin-top: var(--parent-children-gap);
 }
 
@@ -1225,18 +1347,32 @@ background: linear-gradient(
 }
 
 .children.org2-gerencias-row > .node {
-  padding-top: 12px;
+  padding-top: 18px;
 }
 
 .children.org2-gerencias-row > .node::after {
-  height: 12px;
+  height: 18px;
+}
+
+.org2-detached-top-shield-node {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  padding-top: 12px;
+}
+
+.org2-detached-top-shield-node::before,
+.org2-detached-top-shield-node::after {
+  content: none;
+  display: none;
 }
 
 .org2-supervisor-shield-branch {
   position: relative;
   display: flex;
   justify-content: center;
-  margin-top: 34px;
+  margin-top: 42px;
 }
 
 .org2-supervisor-shield-link {
@@ -1294,106 +1430,53 @@ background: linear-gradient(
   display: inline-block;
 }
 
-.org2-card-wrap.org2-card-highlight-blue::after {
-  content: "";
-  position: absolute;
-  inset: -5px;
-  border: 3px solid #2563eb;
-  border-radius: 4px;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.18);
-  pointer-events: none;
-  z-index: 0;
-}
+/* ===================== SOFT TINT HIGHLIGHTS (ORGANOGRAMA 2) ===================== */
 
 .org2-card-wrap.org2-card-highlight-blue > .org2-card {
-  position: relative;
-  z-index: 1;
+  background: rgba(37, 99, 235, 0.05);
+  border-left: 4px solid #2563eb;
 }
 
-.org2-card.org2-card-highlight-green::after {
-  content: "";
-  position: absolute;
-  inset: -5px;
-  border: 3px solid #16a34a;
-  border-radius: 4px;
-  box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2);
-  pointer-events: none;
-  z-index: 0;
+.org2-card.org2-card-highlight-green {
+  background: rgba(22, 163, 74, 0.05);
+  border-left: 4px solid #16a34a;
 }
 
-.org2-card.org2-card-highlight-green:hover::after {
-  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.24);
+.org2-card.org2-card-highlight-green:hover {
+  background: rgba(22, 163, 74, 0.08);
 }
 
-.org2-card.org2-card-highlight-green > * {
-  position: relative;
-  z-index: 1;
+.org2-card.org2-card-highlight-yellow {
+  background: rgba(234, 179, 8, 0.05);
+  border-left: 4px solid #eab308;
 }
 
-.org2-card.org2-card-highlight-yellow::after {
-  content: "";
-  position: absolute;
-  inset: -5px;
-  border: 3px solid #eab308;
-  border-radius: 4px;
-  box-shadow: 0 0 0 2px rgba(250, 204, 21, 0.2);
-  pointer-events: none;
-  z-index: 0;
+.org2-card.org2-card-highlight-yellow:hover {
+  background: rgba(234, 179, 8, 0.08);
 }
 
-.org2-card.org2-card-highlight-yellow:hover::after {
-  box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.24);
+.org2-card.org2-card-highlight-red {
+  background: rgba(220, 38, 38, 0.05);
+  border-left: 4px solid #dc2626;
 }
 
-.org2-card.org2-card-highlight-yellow > * {
-  position: relative;
-  z-index: 1;
+.org2-card.org2-card-highlight-red:hover {
+  background: rgba(220, 38, 38, 0.08);
 }
 
-.org2-card.org2-card-highlight-red::after {
-  content: "";
-  position: absolute;
-  inset: -5px;
-  border: 3px solid #dc2626;
-  border-radius: 4px;
-  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
-  pointer-events: none;
-  z-index: 0;
+.org2-card.org2-card-highlight-purple {
+  background: rgba(139, 92, 246, 0.05);
+  border-left: 4px solid #8b5cf6;
 }
 
-.org2-card.org2-card-highlight-red:hover::after {
-  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.24);
-}
-
-.org2-card.org2-card-highlight-red > * {
-  position: relative;
-  z-index: 1;
-}
-
-.org2-card.org2-card-highlight-purple::after {
-  content: "";
-  position: absolute;
-  inset: -5px;
-  border: 3px solid #8b5cf6;
-  border-radius: 4px;
-  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
-  pointer-events: none;
-  z-index: 0;
-}
-
-.org2-card.org2-card-highlight-purple:hover::after {
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.24);
-}
-
-.org2-card.org2-card-highlight-purple > * {
-  position: relative;
-  z-index: 1;
+.org2-card.org2-card-highlight-purple:hover {
+  background: rgba(139, 92, 246, 0.08);
 }
 
 .org2-card-wrap.org2-has-multi-card {
   display: inline-flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
 }
 
 .org2-card-wrap.has-count .org2-count {
@@ -1446,7 +1529,7 @@ background: linear-gradient(
   width: 270px;
 }
 
-.level-1 .org2-card {
+#org2-container > .node.level-1 > .group-container > .org2-card-wrap > .org2-card {
   width: 230px;
 }
 
@@ -1520,18 +1603,73 @@ background: linear-gradient(
   margin-top: 2px;
 }
 
-.level-1 .org2-card .org2-name-slot {
+#org2-container > .node.level-1 > .group-container > .org2-card-wrap > .org2-card .org2-name-slot {
   color: #ffffff;
 }
 
-.level-1 .org2-card .org2-name-slot.is-placeholder {
+#org2-container > .node.level-1 > .group-container > .org2-card-wrap > .org2-card .org2-name-slot.is-placeholder {
   color: rgba(255, 255, 255, 0.75);
 }
 
-.level-1 .org2-card .org2-role-tag {
+#org2-container > .node.level-1 > .group-container > .org2-card-wrap > .org2-card .org2-role-tag,
+#org2-container > .node.level-1 > .group-container > .org2-card-wrap > .org2-card .org2-scale-tag {
   color: #ffffff;
   border-color: rgba(255, 255, 255, 0.35);
   background: rgba(255, 255, 255, 0.15);
+}
+
+/* Paleta padronizada do organograma 2: todos os cards em azul com alto contraste. */
+#org2-layout .org2-card,
+#org2-layout .org2-card.org2-card-highlight-green,
+#org2-layout .org2-card.org2-card-highlight-yellow,
+#org2-layout .org2-card.org2-card-highlight-red,
+#org2-layout .org2-card.org2-card-highlight-purple,
+#org2-layout .org2-card-wrap.org2-card-highlight-blue > .org2-card {
+  background: linear-gradient(180deg, #315fa7 0%, #274f8e 62%, #203f73 100%);
+  color: #ffffff;
+  border-color: rgba(191, 219, 254, 0.24);
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.18);
+}
+
+#org2-layout .org2-card .org2-card-title,
+#org2-layout .org2-card .org2-name-slot {
+  color: #ffffff;
+}
+
+#org2-layout .org2-card .org2-name-slot.is-placeholder {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+#org2-layout .org2-card .org2-role-tag,
+#org2-layout .org2-card .org2-scale-tag {
+  color: #eff6ff;
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+#org2-layout .org2-card .org2-avatar {
+  border: 2px solid rgba(255, 255, 255, 0.36);
+  background-color: rgba(255, 255, 255, 0.14);
+}
+
+#org2-layout .org2-card-wrap.org2-card-highlight-blue > .org2-card {
+  border-left: 4px solid #93c5fd;
+}
+
+#org2-layout .org2-card.org2-card-highlight-green {
+  border-left: 4px solid #4ade80;
+}
+
+#org2-layout .org2-card.org2-card-highlight-yellow {
+  border-left: 4px solid #facc15;
+}
+
+#org2-layout .org2-card.org2-card-highlight-red {
+  border-left: 4px solid #f87171;
+}
+
+#org2-layout .org2-card.org2-card-highlight-purple {
+  border-left: 4px solid #c084fc;
 }
 
 @media (max-width: 900px) {

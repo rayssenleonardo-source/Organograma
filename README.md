@@ -29,6 +29,7 @@ https://rayssenleonardo-source.github.io/Organograma/
 ├── backend/
 │   ├── app.py             # API Flask
 │   └── requirements.txt
+├── status-dashboard/      # Painel Vite para acompanhamento
 ├── uploads/               # Fotos enviadas
 ├── deploy/
 │   ├── Dockerfile
@@ -71,6 +72,37 @@ Se as variáveis do Supabase estiverem configuradas, dados e fotos passam a ser 
 - `PUT /api/dados`
 - `POST /api/upload-photo` (multipart `file`)
 - `DELETE /api/photo` (JSON `{ "url": "..." }`)
+
+## Painel Vite de acompanhamento
+
+Foi adicionada a pasta `status-dashboard/` com um painel em Vite para acompanhar:
+- status da API
+- tipo de armazenamento (`local` ou `supabase`)
+- sync com GitHub
+- total de pessoas, vagas abertas e perfis completos
+- cobertura de foto, e-mail, telefone, matricula e descricao
+- contagem de monitoramento, apoio e cargos mapeados
+
+### Rodar localmente
+```bash
+cd status-dashboard
+npm install
+npm run dev
+```
+
+Por padrao, o Vite usa proxy para `http://127.0.0.1:5000/api`.
+
+Se precisar apontar para outro backend, copie `.env.example` para `.env` e ajuste:
+
+```bash
+VITE_API_TARGET=http://127.0.0.1:5000
+```
+
+Ou informe uma base completa para a API:
+
+```bash
+VITE_API_BASE_URL=https://SEU-SERVICO/api
+```
 
 ## Subir com Docker
 

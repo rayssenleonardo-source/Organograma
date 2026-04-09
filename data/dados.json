@@ -83,7 +83,7 @@
                   "cargo": "Operação de Monitoramento",
                   "filhos": [
                     {
-                      "cargo": "Supervisor de Monitoramento",
+                      "cargo": "Técnico de Suporte",
                       "filhos": [
                         {
                           "cargo": "Diurno",
@@ -101,7 +101,8 @@
                                   "nome": "Luiz Gabriel"
                                 },
                                 {
-                                  "nome": "Vaga Disponível"
+                                  "foto": "https://github.com/user-attachments/assets/d957b249-3c96-44d1-a6cd-83745d4e8150",
+                                  "nome": "Renier Müller"
                                 },
                                 {
                                   "foto": "https://github.com/user-attachments/assets/11c70c12-c8ed-4348-a3e4-efd93770b838",
@@ -129,12 +130,11 @@
                                   "nome": "David Alves"
                                 },
                                 {
-                                  "foto": "https://github.com/user-attachments/assets/02a9b9da-918e-49be-8821-00e97e51a206",
-                                  "nome": "Gabriel Oliveira"
+                                  "nome": "Vaga Disponível"
                                 },
                                 {
-                                  "foto": "https://github.com/user-attachments/assets/952337c8-42b4-4436-ae4a-f5d08cd9e33f",
-                                  "nome": "Fabricio Forte"
+                                  "foto": "https://github.com/user-attachments/assets/1119b8fb-a936-46e5-984c-837e33b29b5f",
+                                  "nome": "Lucas Batista"
                                 },
                                 {
                                   "foto": "https://github.com/user-attachments/assets/ff6ffe3e-2167-42ff-82fd-39c3b988bdcd",
@@ -150,8 +150,8 @@
                       "nivel": 5,
                       "nomes": [
                         {
-                          "foto": "https://github.com/user-attachments/assets/d957b249-3c96-44d1-a6cd-83745d4e8150",
-                          "nome": "Renier Müller"
+                          "foto": "https://github.com/user-attachments/assets/ebe60cfd-891d-42f8-8ddf-781a37623491",
+                          "nome": "Marcos Maia"
                         }
                       ]
                     }
@@ -175,7 +175,7 @@
                       "cargo": "Instalação",
                       "filhos": [
                         {
-                          "cargo": "Clientes 6x1",
+                          "cargo": "Clientes 6x1A",
                           "filhos": [
                             {
                               "cargo": "Técnico",
@@ -194,8 +194,7 @@
                               "nivel": 5,
                               "nomes": [
                                 {
-                                  "foto": "https://github.com/user-attachments/assets/3cfeee29-c8b6-470f-8ae0-2088fcd0febb",
-                                  "nome": "Thiago Alves"
+                                  "nome": "Vaga Disponível"
                                 }
                               ]
                             }
@@ -220,8 +219,9 @@
                                   "nivel": 5,
                                   "nomes": [
                                     {
-                                      "foto": "https://github.com/user-attachments/assets/1119b8fb-a936-46e5-984c-837e33b29b5f",
-                                      "nome": "Lucas Batista"
+                                      "escala": "12x36",
+                                      "foto": "https://github.com/user-attachments/assets/952337c8-42b4-4436-ae4a-f5d08cd9e33f",
+                                      "nome": "Fabricio Forte"
                                     }
                                   ]
                                 }
@@ -229,8 +229,8 @@
                               "nivel": 5,
                               "nomes": [
                                 {
-                                  "foto": "https://github.com/user-attachments/assets/1f9adacc-43fc-489c-ab89-5dfe2416c35e",
-                                  "nome": "Cauã Carvalho"
+                                  "foto": "https://github.com/user-attachments/assets/3cfeee29-c8b6-470f-8ae0-2088fcd0febb",
+                                  "nome": "Thiago Alves"
                                 }
                               ]
                             }
@@ -248,7 +248,8 @@
                                   "nivel": 5,
                                   "nomes": [
                                     {
-                                      "nome": "Vaga Disponível"
+                                      "foto": "https://github.com/user-attachments/assets/1f9adacc-43fc-489c-ab89-5dfe2416c35e",
+                                      "nome": "Cauã Carvalho"
                                     }
                                   ]
                                 }
@@ -265,7 +266,7 @@
                           "nivel": 5
                         },
                         {
-                          "cargo": "Clientes 6x1",
+                          "cargo": "Clientes 6x1B",
                           "filhos": [
                             {
                               "cargo": "Técnico",
@@ -345,8 +346,7 @@
                               "nivel": 5,
                               "nomes": [
                                 {
-                                  "foto": "https://github.com/user-attachments/assets/ebe60cfd-891d-42f8-8ddf-781a37623491",
-                                  "nome": "Marcos Maia"
+                                  "nome": "Vaga Disponível"
                                 },
                                 {
                                   "foto": "https://github.com/user-attachments/assets/8593b0fc-76d4-436d-abfc-8fefa5b96a07",
@@ -372,7 +372,8 @@
                       "nivel": 5,
                       "nomes": [
                         {
-                          "nome": "Sugestão"
+                          "foto": "https://github.com/user-attachments/assets/80fbabd9-2df9-4736-b190-10dd79933e59",
+                          "nome": "Marco Ramos"
                         }
                       ]
                     }

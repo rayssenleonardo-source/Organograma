@@ -22,7 +22,7 @@ const ORG2_DEFAULT_ESTRUTURA = {
                             filhos: [
                                 {
                                     nivel: 5,
-                                    cargo: "Supervisor de Monitoramento",
+                                    cargo: "Técnico de Suporte",
                                     filhos: [
                                         {
                                             nivel: 5,
@@ -110,7 +110,7 @@ const ORG2_DEFAULT_ESTRUTURA = {
                                         },
                                         {
                                             nivel: 5,
-                                            cargo: "Clientes 6x1A",
+                                            cargo: "Clientes 6x1B",
                                             filhos: [
                                                 {
                                                     nivel: 5,
@@ -378,6 +378,7 @@ function syncOrg2StateFromPayload(payload) {
     ensureShieldUnderGerenciaSeguranca(org2Estrutura);
     ensureCentralTecnicaSplit(org2Estrutura);
     ensureMonitoramentoTurnosGroups(org2Estrutura);
+    ensureShieldRolesUnderTopShield(org2Estrutura);
 }
 
 function walkOrg2Nodes(nodeData, visitor) {
@@ -405,9 +406,18 @@ function normalizeOrg2LegacyLabels(rootNode) {
     });
 }
 
+function isOrg2MonitoramentoSupervisorCargo(cargo) {
+    const normalized = normalizeLabel(cargo);
+    return (
+        normalized === normalizeLabel("Supervisor de Monitoramento") ||
+        normalized === normalizeLabel("Técnico de Suporte") ||
+        normalized === normalizeLabel("Tecnico de Suporte")
+    );
+}
+
 function ensureMonitoramentoTurnosGroups(rootNode) {
     walkOrg2Nodes(rootNode, (node) => {
-        if (normalizeLabel(node?.cargo) !== normalizeLabel("Supervisor de Monitoramento")) return;
+        if (!isOrg2MonitoramentoSupervisorCargo(node?.cargo)) return;
 
         const filhosOriginais = Array.isArray(node.filhos) ? node.filhos : [];
         if (filhosOriginais.length === 0) return;
@@ -569,7 +579,130 @@ function ensureShieldUnderGerenciaSeguranca(rootNode) {
     });
 }
 
-const ORG2_TECNICOS_LOCAIS = ["CIPLAN 5x2", "STF 6x1", "Clientes 6x1A"];
+function getShieldRoleKey(cargo) {
+    const label = normalizeLabel(cargo);
+
+    if (
+        label === normalizeLabel("Tecnico Shield") ||
+        label === normalizeLabel("Técnico Shield") ||
+        label === normalizeLabel("Tec. Shield")
+    ) {
+        return "tecnico-shield";
+    }
+
+    if (
+        label === normalizeLabel("Analista Shield") ||
+        label === normalizeLabel("Suporte Shield")
+    ) {
+        return "analista-shield";
+    }
+
+    return "";
+}
+
+function ensureShieldRolesUnderTopShield(rootNode) {
+    let gerenciaSegNode = null;
+
+    walkOrg2Nodes(rootNode, (node) => {
+        if (gerenciaSegNode) return;
+        if (normalizeLabel(node?.cargo) === normalizeLabel("Gerência de Seg. Eletrônica")) {
+            gerenciaSegNode = node;
+        }
+    });
+
+    if (!gerenciaSegNode) return;
+
+    const gerenciaChildren = Array.isArray(gerenciaSegNode.filhos) ? gerenciaSegNode.filhos : [];
+    let shieldNode = gerenciaChildren.find((child) => (
+        normalizeLabel(child?.cargo) === normalizeLabel("Shield")
+    ));
+
+    if (!shieldNode) {
+        shieldNode = {
+            cargo: "Shield",
+            nivel: Number.isFinite(gerenciaSegNode.nivel) ? gerenciaSegNode.nivel + 2 : 4
+        };
+        gerenciaSegNode.filhos = [...gerenciaChildren, shieldNode];
+    }
+
+    const collectedShieldRoles = new Map();
+
+    function detachShieldRoles(node) {
+        if (!node || typeof node !== "object") return;
+
+        const children = Array.isArray(node.filhos) ? node.filhos : [];
+        if (children.length === 0) return;
+
+        const remainingChildren = [];
+        children.forEach((child) => {
+            const roleKey = getShieldRoleKey(child?.cargo);
+            if (roleKey) {
+                if (!collectedShieldRoles.has(roleKey)) {
+                    collectedShieldRoles.set(roleKey, child);
+                }
+                return;
+            }
+
+            detachShieldRoles(child);
+            remainingChildren.push(child);
+        });
+
+        node.filhos = remainingChildren;
+    }
+
+    detachShieldRoles(rootNode);
+
+    const preservedShieldChildren = Array.isArray(shieldNode.filhos) ? shieldNode.filhos : [];
+    const baseRoleLevel = Number.isFinite(shieldNode.nivel) ? shieldNode.nivel + 1 : 5;
+    const orderedShieldRoles = ["tecnico-shield", "analista-shield"]
+        .map((roleKey) => collectedShieldRoles.get(roleKey))
+        .filter(Boolean)
+        .map((child) => {
+            child.nivel = Number.isFinite(child.nivel)
+                ? Math.max(child.nivel, baseRoleLevel)
+                : baseRoleLevel;
+            return child;
+        });
+
+    shieldNode.filhos = [...orderedShieldRoles, ...preservedShieldChildren];
+}
+
+function detachTopShieldBranch(children) {
+    if (!Array.isArray(children) || children.length === 0) {
+        return { childrenToRender: Array.isArray(children) ? children : [], detachedShieldNode: null };
+    }
+
+    let detachedShieldNode = null;
+    const childrenToRender = children.map((child) => {
+        if (normalizeLabel(child?.cargo) !== normalizeLabel("Gerência de Seg. Eletrônica")) {
+            return child;
+        }
+
+        const childClone = cloneData(child);
+        const grandChildren = Array.isArray(childClone.filhos) ? childClone.filhos : [];
+        const remainingGrandChildren = [];
+
+        grandChildren.forEach((grandChild) => {
+            if (
+                !detachedShieldNode &&
+                normalizeLabel(grandChild?.cargo) === normalizeLabel("Shield")
+            ) {
+                detachedShieldNode = cloneData(grandChild);
+                return;
+            }
+
+            remainingGrandChildren.push(grandChild);
+        });
+
+        childClone.filhos = remainingGrandChildren;
+        return childClone;
+    });
+
+    return { childrenToRender, detachedShieldNode };
+}
+
+const ORG2_TOP_SHIELD_GAP_PX = 28;
+const ORG2_TECNICOS_LOCAIS = ["CIPLAN 5x2", "STF 6x1", "Clientes 6x1B"];
 
 function getFirstNodePerson(nodeData) {
     if (!nodeData || typeof nodeData !== "object") return "";
@@ -886,34 +1019,75 @@ function getCustomCardDisplayCargo(nodeData, nameIndex) {
     return typeof rawValue === "string" ? rawValue.trim() : "";
 }
 
-function getCardScaleLabel(nodeData, nameIndex = 0) {
+function getCardScaleLabel(nodeData, nameIndex = 0, options = {}) {
+    const isTitleOnly = Boolean(options?.isTitleOnly);
+    const ancestry = Array.isArray(options?.ancestry) ? options.ancestry : [];
+    const personData = getNodePersonData(nodeData, nameIndex);
+    const explicitScale = String(personData?.escala || "").trim();
     const nodeCargo = normalizeLabel(nodeData?.cargo);
-    const cardCargo = normalizeLabel(getDefaultCardDisplayCargo(nodeData, nameIndex));
+    const defaultCargo = getDefaultCardDisplayCargo(nodeData, nameIndex);
+    const displayCargo = getCardDisplayCargo(nodeData, nameIndex);
+    const cardCargo = normalizeLabel(defaultCargo);
+    const displayCargoNormalized = normalizeLabel(displayCargo);
+    const ancestryLabels = ancestry.map((value) => normalizeLabel(value)).filter(Boolean);
+    const contextLabels = [nodeCargo, cardCargo, displayCargoNormalized, ...ancestryLabels].filter(Boolean);
+
+    if (contextLabels.some((label) => label.includes("shield"))) {
+        return "";
+    }
+
+    if (explicitScale) {
+        return explicitScale;
+    }
+
+    if (
+        contextLabels.includes(normalizeLabel("CIPLAN 5x2")) ||
+        contextLabels.includes(normalizeLabel("Analista de Tecnologia N2")) ||
+        contextLabels.includes(normalizeLabel("Analista de Tecnologia N1"))
+    ) {
+        return "5x2";
+    }
+
+    if (
+        contextLabels.includes(normalizeLabel("STF 6x1")) ||
+        contextLabels.includes(normalizeLabel("Clientes 6x1A")) ||
+        contextLabels.includes(normalizeLabel("Clientes 6x1B"))
+    ) {
+        return "6x1";
+    }
 
     if (nodeCargo === normalizeLabel("Diurno") || nodeCargo === normalizeLabel("Noturno")) {
+        return "12x36";
+    }
+
+    if (isTitleOnly) {
+        return "";
+    }
+
+    if (
+        nodeCargo === normalizeLabel("Operadores Diurnos") ||
+        nodeCargo === normalizeLabel("Operadores Noturnos") ||
+        ancestryLabels.includes(normalizeLabel("Diurno")) ||
+        ancestryLabels.includes(normalizeLabel("Noturno")) ||
+        displayCargoNormalized === normalizeLabel(ORG2_OPERADOR_LIDER_TITULO) ||
+        displayCargoNormalized === normalizeLabel("Operador") ||
+        displayCargoNormalized === normalizeLabel("Operador (PCD)")
+    ) {
         return "12x36";
     }
 
     if (
         cardCargo === normalizeLabel("Supervisor Técnico") ||
         cardCargo === normalizeLabel("Supervisor Tecnico") ||
-        cardCargo === normalizeLabel("Supervisor de Monitoramento")
+        cardCargo === normalizeLabel("Supervisor de Monitoramento") ||
+        cardCargo === normalizeLabel("Técnico de Suporte") ||
+        cardCargo === normalizeLabel("Tecnico de Suporte") ||
+        cardCargo === normalizeLabel("Tecnicos de Suporte")
     ) {
         return "6x1";
     }
 
-    if (
-        cardCargo === normalizeLabel("Analista de Tecnologia N2") ||
-        cardCargo === normalizeLabel("Analista de Tecnologia N1")
-    ) {
-        return "5x2";
-    }
-
-    if (cardCargo === normalizeLabel("Tecnicos de Suporte")) {
-        return "6x1";
-    }
-
-    return "";
+    return "5x2";
 }
 
 function ensureNodeNames(nodeData) {
@@ -1043,6 +1217,7 @@ const ORG2_CARGOS_TITULO_APENAS = new Set(
         "CIPLAN 5x2",
         "STF 6x1",
         "Clientes 6x1A",
+        "Clientes 6x1B",
         "Projetos, Inovação e Planejamento",
         "Op. Apoio Técnico, ADM e Logístico",
         "Shield"
@@ -1225,135 +1400,52 @@ function drawShieldVerticalSegment(layer, segmentId, x, y1, y2) {
 }
 
 function updateShieldDownstreamConnectors() {
-    const layout = document.getElementById("org2-layout");
-    const shieldCard = findNodeCardByLabel("Shield");
-    const centralMonitoramentoCard = findFirstNodeCardByLabels([
-        "Central de Monitoramento",
-        "Central de Monitoramento"
-    ]);
-    const analistaN2Card = findFirstNodeCardByLabels([
-        "Analista de Tecnologia N2"
-    ]);
-    const analistaShieldCard = findFirstNodeCardByLabels([
-        "Analista Shield",
-        "Suporte Shield"
-    ]);
-    const tecnicoShieldCard = findFirstNodeCardByLabels([
-        "Tecnico Shield",
-        "Técnico Shield",
-        "Tec. Shield"
-    ]);
+    removeShieldNetworkLayer();
+}
 
-    const targetCards = [
-        { id: "analista-shield", card: analistaShieldCard },
-        { id: "tecnico-shield", card: tecnicoShieldCard }
-    ].filter((target) => Boolean(target.card));
+function updateDetachedTopShieldPosition() {
+    const row = document.querySelector(".children.org2-gerencias-row");
+    if (!row) return;
 
-    if (!layout || !shieldCard || targetCards.length === 0) {
-        removeShieldNetworkLayer();
+    const shieldNode = row.querySelector(":scope > .org2-detached-top-shield-node");
+    if (!shieldNode) {
+        row.style.removeProperty("--org2-detached-shield-gutter");
+        row.style.minHeight = "";
         return;
     }
 
-    const layer = getOrCreateShieldNetworkLayer();
-    if (!layer) return;
-    layer.innerHTML = "";
-
-    const layoutRect = layout.getBoundingClientRect();
-    const shieldRect = shieldCard.getBoundingClientRect();
-    const monitoramentoCardBottomY = centralMonitoramentoCard
-        ? (centralMonitoramentoCard.getBoundingClientRect().bottom - layoutRect.top)
-        : null;
-
-    const shieldCenterX = (shieldRect.left + (shieldRect.width / 2)) - layoutRect.left;
-    const shieldBottomY = shieldRect.bottom - layoutRect.top;
-    // Conector sai por baixo do card Shield e desvia abaixo do card Central de Monitoramento.
-    const shieldRouteY = Math.round(Math.max(
-        shieldBottomY + 14,
-        Number.isFinite(monitoramentoCardBottomY) ? monitoramentoCardBottomY + 14 : 0
+    const connectedNodes = Array.from(row.children).filter((el) => (
+        el.classList.contains("node") &&
+        !el.classList.contains("org2-detached-top-shield-node")
     ));
 
-    const targetPositions = targetCards.map((target) => {
-        const rect = target.card.getBoundingClientRect();
-        const leftX = rect.left - layoutRect.left;
-        const centerX = (rect.left + (rect.width / 2)) - layoutRect.left;
-        const bottomY = rect.bottom - layoutRect.top;
-        const branchY = bottomY + 14;
+    const shieldRect = shieldNode.getBoundingClientRect();
+    const shieldWidth = Math.ceil(shieldRect.width || shieldNode.offsetWidth || 0);
+    const shieldHeight = Math.ceil(shieldRect.height || shieldNode.offsetHeight || 0);
+    const maxConnectedHeight = connectedNodes
+        .map((node) => {
+            const rect = node.getBoundingClientRect();
+            return Math.ceil(rect.height || node.offsetHeight || 0);
+        })
+        .filter((value) => Number.isFinite(value) && value > 0)
+        .reduce((maxHeight, value) => Math.max(maxHeight, value), 0);
 
-        return {
-            id: target.id,
-            leftX,
-            centerX,
-            bottomY,
-            branchY
-        };
-    });
+    const gutter = Math.max(0, shieldWidth + ORG2_TOP_SHIELD_GAP_PX);
+    row.style.setProperty("--org2-detached-shield-gutter", `${gutter}px`);
+    row.style.minHeight = `${Math.max(maxConnectedHeight, shieldHeight)}px`;
 
-    // Tronco principal desce reto a partir do Shield.
-    const trunkX = Math.round(shieldCenterX);
-    const trunkTopY = Math.round(shieldRouteY);
-    const trunkBottomY = Math.round(Math.max(shieldRouteY, ...targetPositions.map((target) => target.branchY)));
-
-    drawShieldVerticalSegment(layer, "shield-to-route", shieldCenterX, shieldBottomY, shieldRouteY);
-    drawShieldVerticalSegment(layer, "trunk", trunkX, trunkTopY, trunkBottomY);
-
-    // Os conectores entram por baixo de cada card destino.
-    targetPositions.forEach((target) => {
-        drawShieldHorizontalSegment(
-            layer,
-            `trunk-to-${target.id}-branch`,
-            trunkX,
-            target.centerX,
-            target.branchY
-        );
-        drawShieldVerticalSegment(
-            layer,
-            `${target.id}-branch-up`,
-            target.centerX,
-            target.branchY,
-            target.bottomY
-        );
-    });
-
-    if (analistaN2Card && analistaShieldCard) {
-        const analistaRect = analistaN2Card.getBoundingClientRect();
-        const analistaShieldRect = analistaShieldCard.getBoundingClientRect();
-
-        const analistaLeftX = analistaRect.left - layoutRect.left;
-        const analistaCenterY = (analistaRect.top + (analistaRect.height / 2)) - layoutRect.top;
-        const analistaShieldLeftX = analistaShieldRect.left - layoutRect.left;
-        const analistaShieldCenterY = (analistaShieldRect.top + (analistaShieldRect.height / 2)) - layoutRect.top;
-
-        const bridgeX = Math.max(10, Math.round(Math.min(analistaLeftX, analistaShieldLeftX) - 26));
-
-        drawShieldHorizontalSegment(
-            layer,
-            "analista-n2-to-analista-shield-start",
-            analistaLeftX,
-            bridgeX,
-            analistaCenterY
-        );
-        drawShieldVerticalSegment(
-            layer,
-            "analista-n2-to-analista-shield-vertical",
-            bridgeX,
-            analistaCenterY,
-            analistaShieldCenterY
-        );
-        drawShieldHorizontalSegment(
-            layer,
-            "analista-n2-to-analista-shield-end",
-            bridgeX,
-            analistaShieldLeftX,
-            analistaShieldCenterY
-        );
-    }
+    shieldNode.style.left = "0px";
+    shieldNode.style.top = "0px";
 }
 
 function updateGerenciasTopConnector() {
     const row = document.querySelector(".children.org2-gerencias-row");
     if (!row) return;
 
-    const directNodes = Array.from(row.children).filter((el) => el.classList.contains("node"));
+    const directNodes = Array.from(row.children).filter((el) => (
+        el.classList.contains("node") &&
+        !el.classList.contains("org2-detached-top-shield-node")
+    ));
     if (directNodes.length < 2) return;
 
     const centers = directNodes
@@ -1540,6 +1632,7 @@ function updateTecnologiaConnectorBridge() {
 }
 
 function refreshGerenciasAlignment() {
+    updateDetachedTopShieldPosition();
     alignGerenciaOperacionalWithMonitoramento();
     alignGerenciaComercialWithApoioLogistica();
     alignTecnologiaEApoioLogistica();
@@ -1549,12 +1642,12 @@ function refreshGerenciasAlignment() {
     updateGerenciasTopConnector();
 }
 
-function createCardElement(nodeData, extraClass, isTitleOnly, nameIndex = 0) {
+function createCardElement(nodeData, extraClass, isTitleOnly, nameIndex = 0, ancestry = []) {
     const card = document.createElement("article");
     card.className = `card org2-card ${extraClass}`.trim();
     const defaultCargo = getDefaultCardDisplayCargo(nodeData, nameIndex);
     const displayCargo = getCardDisplayCargo(nodeData, nameIndex);
-    const scaleLabel = getCardScaleLabel(nodeData, nameIndex);
+    const scaleLabel = getCardScaleLabel(nodeData, nameIndex, { isTitleOnly, ancestry });
     card.dataset.org2Cargo = defaultCargo;
 
     if (isOrg2GreenHighlightCargo(displayCargo)) {
@@ -1686,7 +1779,7 @@ function getExtraCardCopies(nodeData) {
     return 1;
 }
 
-function createCard(nodeData, extraClass = "") {
+function createCard(nodeData, extraClass = "", ancestry = []) {
     const wrapper = document.createElement("div");
     wrapper.className = "org2-card-wrap";
     if (isOrg2BlueHighlightCargo(nodeData.cargo)) {
@@ -1704,14 +1797,14 @@ function createCard(nodeData, extraClass = "") {
         wrapper.appendChild(count);
     }
 
-    const card = createCardElement(nodeData, extraClass, isTitleOnly, 0);
+    const card = createCardElement(nodeData, extraClass, isTitleOnly, 0, ancestry);
     wrapper.appendChild(card);
 
     const extraCardsCount = getExtraCardCopies(nodeData);
     if (extraCardsCount > 0) {
         wrapper.classList.add("org2-has-multi-card");
         for (let index = 0; index < extraCardsCount; index += 1) {
-            const extraCard = createCardElement(nodeData, extraClass, isTitleOnly, index + 1);
+            const extraCard = createCardElement(nodeData, extraClass, isTitleOnly, index + 1, ancestry);
             extraCard.classList.add("org2-card-secondary");
 
             wrapper.appendChild(extraCard);
@@ -1722,30 +1815,25 @@ function createCard(nodeData, extraClass = "") {
 }
 
 function getOrg2NodeObservation(nodeData) {
-    const cargo = normalizeLabel(nodeData?.cargo);
-
-    if (cargo === normalizeLabel("STF 6x1")) {
-        return "Observação: Aguardando demanda para contratação";
-    }
-
     return "";
 }
 
-function createNodeElement(nodeData) {
+function createNodeElement(nodeData, ancestry = []) {
     const node = document.createElement("div");
     node.className = `node level-${nodeData.nivel}`;
 
     const group = document.createElement("div");
     group.className = "group-container";
 
-    group.appendChild(createCard(nodeData));
+    group.appendChild(createCard(nodeData, "", ancestry));
     node.appendChild(group);
 
     const isSupervisorTecnicoNode =
         normalizeLabel(nodeData.cargo) === normalizeLabel("Supervisor Técnico");
     const children = Array.isArray(nodeData.filhos) ? nodeData.filhos : [];
-    const childrenToRender = [];
+    let childrenToRender = [];
     let detachedTecnicoShieldChild = null;
+    let detachedTopShieldChild = null;
 
     children.forEach((child) => {
         const isTecnicoShieldChild =
@@ -1760,22 +1848,49 @@ function createNodeElement(nodeData) {
         childrenToRender.push(child);
     });
 
+    if (nodeData.nivel === 1) {
+        const detachedResult = detachTopShieldBranch(childrenToRender);
+        childrenToRender = detachedResult.childrenToRender;
+        detachedTopShieldChild = detachedResult.detachedShieldNode;
+    }
+
     if (childrenToRender.length > 0) {
         const childrenContainer = document.createElement("div");
         childrenContainer.className = "children";
         if (nodeData.nivel === 1) {
             childrenContainer.classList.add("org2-gerencias-row");
         }
+
+        if (nodeData.nivel === 1 && detachedTopShieldChild) {
+            const detachedShieldNode = createNodeElement(detachedTopShieldChild, [...ancestry, nodeData.cargo]);
+            detachedShieldNode.classList.add("org2-detached-top-shield-node");
+            childrenContainer.appendChild(detachedShieldNode);
+        }
+
         childrenToRender.forEach((child) => {
-            childrenContainer.appendChild(createNodeElement(child));
+            childrenContainer.appendChild(createNodeElement(child, [...ancestry, nodeData.cargo]));
         });
         node.appendChild(childrenContainer);
+
+        // Botão Collapse/Expand
+        const toggleBtn = document.createElement("button");
+        toggleBtn.className = "collapse-toggle";
+        toggleBtn.setAttribute("aria-label", "Expandir ou retrair filhos");
+        toggleBtn.textContent = "−";
+        toggleBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const isCollapsed = childrenContainer.classList.toggle("collapsed");
+            toggleBtn.textContent = isCollapsed ? "+" : "−";
+            // Recalcular alinhamentos após colapsar
+            setTimeout(() => refreshGerenciasAlignment(), 50);
+        });
+        group.appendChild(toggleBtn);
     }
 
     if (detachedTecnicoShieldChild) {
         const shieldBranch = document.createElement("div");
         shieldBranch.className = "org2-supervisor-shield-branch";
-        shieldBranch.appendChild(createCard(detachedTecnicoShieldChild, "org2-supervisor-shield-card"));
+        shieldBranch.appendChild(createCard(detachedTecnicoShieldChild, "org2-supervisor-shield-card", [...ancestry, nodeData.cargo]));
         node.appendChild(shieldBranch);
     }
 
@@ -1805,7 +1920,7 @@ function renderOrganograma() {
     if (!container) return;
 
     container.innerHTML = "";
-    container.appendChild(createNodeElement(org2Estrutura));
+        container.appendChild(createNodeElement(org2Estrutura));
 }
 
 function syncTopScrollMetrics() {
@@ -2120,6 +2235,12 @@ async function initializeOrg2State() {
     syncOrg2StateFromPayload(org2PayloadCache);
 }
 
+function initOrg2Panzoom() {
+    // O organograma 2 ficou mais estável com scroll nativo.
+    // Mantemos a função para compatibilidade, mas sem ativar pan/zoom.
+    return;
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
     try {
         await initializeOrg2State();
@@ -2133,6 +2254,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderOrganograma();
     setupTopHorizontalScroll();
     refreshGerenciasAlignment();
+    initOrg2Panzoom();
 
     if (btnExportPdfOrg2) {
         btnExportPdfOrg2.addEventListener("click", exportOrganogramaPdf);
